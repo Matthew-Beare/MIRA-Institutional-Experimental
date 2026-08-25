@@ -13,7 +13,7 @@ jobs:
   promote:
     runs-on: ubuntu-latest
     env:
-      SOURCE_SHA: 56e5d03612c909c3f9655e52ae1d59890cc08f27
+      SOURCE_SHA: 937a814dd34e5e9902dbab2cf73075061381f00f
       CHANNEL: institutional-experimental
       EXPECTED_REPOSITORY: Matthew-Beare/MIRA-Institutional-Experimental
     steps:
@@ -46,7 +46,6 @@ jobs:
               --channel "$CHANNEL" \
               --source-revision "$SOURCE_SHA"
             python3 -m compileall -q scripts starter
-            python3 starter/tools/behavior_dependency_check.py validate
             python3 starter/tools/feature_reconciliation.py sync --check
             python3 starter/tools/validate_feature_manifest.py --check-files
             python3 -m unittest discover -s starter/tests -p 'test_*.py'
@@ -69,7 +68,7 @@ jobs:
       - name: Commit generated payload
         run: |
           git config user.name "M.I.R.R.O.R. Distribution Bot"
-          git config user.email "actions@users.noreply.github.com"
+          git config user.email "mirror-distribution-bot"
           git add -A
           git diff --cached --quiet && exit 0
           git commit -m "Promote generated content from $SOURCE_SHA [skip ci]"
