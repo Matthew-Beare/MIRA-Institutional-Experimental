@@ -1,14 +1,13 @@
-name: CI
+name: Distribution CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: distribution-ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -21,12 +20,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python3 -m compileall -q scripts skill starter tests
-      - run: python3 scripts/audit_public_source.py . --history
+      - run: python3 -m compileall -q scripts starter
+      - run: python3 scripts/audit_public_source.py .
       - run: python3 scripts/audit_starter_privacy.py starter
-      - run: python3 scripts/validate_repo.py .
-      - run: python3 scripts/feature_catalog.py --check
-      - run: python3 -m unittest discover -s tests -p 'test_*.py'
-      - run: python3 -m unittest discover -s skill/ops-brief-policy/scripts -p 'test_*.py'
+      - run: python3 scripts/validate_distribution.py . --repository "${{ github.repository }}"
       - run: python3 starter/tools/validate_feature_manifest.py --check-files
       - run: python3 -m unittest discover -s starter/tests -p 'test_*.py'
