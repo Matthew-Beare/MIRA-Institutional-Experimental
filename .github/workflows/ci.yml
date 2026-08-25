@@ -24,5 +24,6 @@ jobs:
       - run: python3 scripts/audit_public_source.py .
       - run: python3 scripts/audit_starter_privacy.py starter
       - run: python3 scripts/validate_distribution.py . --repository "${{ github.repository }}"
+      - run: python3 starter/tools/feature_reconciliation.py sync --check
       - run: python3 starter/tools/validate_feature_manifest.py --check-files
       - run: python3 -m unittest discover -s starter/tests -p 'test_*.py'
