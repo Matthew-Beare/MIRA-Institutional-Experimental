@@ -1,0 +1,243 @@
+{
+  "version": 9,
+  "instructions": "Create and maintain the Interview Ledger described in INTERVIEW_LEDGER.md. Ask only unresolved applicable questions after the four-question kickoff. Ask no more than four related questions at a time. Factual evidence may resolve a question; preference, consent, sharing, and destructive-action questions require the user. If the conversation detours, answer the immediate request and later resume the next useful unresolved question. Mutable life state uses one selected canonical structured authority, such as Google Sheets or Microsoft Lists/Excel, plus an optional evidence store such as Google Drive or OneDrive/SharePoint. Apple/iCloud and portable files use deliberate import/export unless a verified adapter proves more. Personal or organization Git, or managed central source, versions behavior/config/schema/features rather than routine personal records. Runtime/provider names never prove capabilities, data approval, writes, scheduling, or readback.",
+  "sections": [
+    {
+      "id": "identity_time",
+      "title": "Identity, time, and source lineage",
+      "questions": [
+        {"id":"system_name","required":true,"prompt":"What should this personal-ops system be called?"},
+        {"id":"deployment_lane","required":true,"prompt":"Which deployment lane applies: personal browser, enterprise-managed, or portable manual? Do not create a personal account to bypass workplace policy."},
+        {"id":"ai_runtime","required":true,"prompt":"Which exact AI runtime and deployment will operate the system: ChatGPT/Codex, Claude, an organization-approved Microsoft/VA AI, Gemini, or another runtime? Record the workspace or tenant when applicable."},
+        {"id":"data_classification","required":true,"prompt":"Which data classes may this deployment handle: public, personal, non-sensitive work, or regulated-sensitive?"},
+        {"id":"organization_approval","required":true,"prompt":"Is the exact AI runtime, storage, purpose, identity, connector and action set organization-approved for those data classes? Record approval evidence or not applicable; a reachable website is not approval."},
+        {"id":"source_control_mode","required":true,"prompt":"Which durable source mode applies: personal Git, approved organization Git, managed central source, or no-Git portable mode?"},
+        {"id":"provider_capability_readback","required":true,"prompt":"For every selected runtime, source, state, evidence, calendar and scheduler capability, what exact read, bounded write, readback and observed-firing evidence is available? Provider names and connection buttons are not proof."},
+        {"id":"canonical_timezone","required":true,"prompt":"Which IANA timezone is permanently authoritative for scheduled routines even while you travel?"},
+        {"id":"day_boundary","required":false,"prompt":"Does your operational day use a non-midnight boundary because of night work or another schedule?"},
+        {"id":"brief_slots","required":false,"prompt":"Which recurring briefs or updates do you want, if any, and at what exact local times?"},
+        {"id":"slot_names","required":false,"prompt":"Do AM/PM labels fit your sleep schedule, or should recurring slots have custom names?"},
+        {"id":"timezone_travel_rule","required":true,"prompt":"Confirm that travel/device timezone must never silently replace the canonical scheduling timezone."},
+        {"id":"canonical_clock_guard","required":true,"prompt":"Should every scheduled runtime convert the current instant into the canonical IANA timezone and verify that canonical local clock against the intended slot instead of trusting device time or a static UTC offset?"},
+        {"id":"repository_visibility","required":true,"prompt":"Confirm the observed Personal Ops Planner repository visibility. The non-technical installer defaults to private; any different visibility requires an explicit owner decision. Mutable personal state remains outside portable Git source."},
+        {"id":"upstream_provenance","required":true,"prompt":"Should setup pin and record the exact public Personal Ops Planner release/commit/tree your deployment descends from?"},
+        {"id":"git_state_commit_policy","required":true,"prompt":"After standing Git authorization, may lasting behavior/config/schema/feature changes validate, commit and push automatically while routine mutable state stays in the canonical state authority?"}
+      ]
+    },
+    {
+      "id":"state_authorities",
+      "title":"State, evidence, sharing, and interview continuity",
+      "questions":[
+        {"id":"canonical_store","required":true,"prompt":"Which structured store should be canonical for mutable tasks, plans, appointments, routines and progress: Google Sheets, Microsoft Lists/Excel, or another verified provider?"},
+        {"id":"drive_evidence","required":false,"prompt":"Should Google Drive, OneDrive/SharePoint, or another verified evidence store hold retained documents/images/receipts/manuals/recipe bodies? Apple/iCloud and portable files remain manual unless an exact adapter is proven."},
+        {"id":"existing_store","required":false,"prompt":"Does an existing Sheet, List, Excel table, database, Drive/OneDrive/SharePoint folder, iCloud export, or app already contain state/evidence that should be reused instead of replaced?"},
+        {"id":"authority_registry","required":true,"prompt":"Should setup create an Authority Registry recording each data class, provider resource, owner, scope and last verification?"},
+        {"id":"interview_ledger","required":true,"prompt":"Should setup create a durable Interview Ledger so onboarding can survive topic changes and future conversations?"},
+        {"id":"interview_resume_policy","required":true,"prompt":"When onboarding is incomplete and you ask about something else, should Personal Ops Planner answer that first and then resume with the next useful unresolved interview question when reasonable?"},
+        {"id":"shared_authority","required":false,"prompt":"Do any life domains need to be shared with another person through either a whole shared workbook/folder or a separate scoped shared authority?"},
+        {"id":"shared_authority_scope","required":false,"prompt":"Which exact data should be shared, with whom, and read-only or read/write?","applies_when":"shared_authority is true"},
+        {"id":"history_rule","required":true,"prompt":"Which completed/removed/event history should be retained instead of overwritten or deleted?"},
+        {"id":"retention","required":false,"prompt":"How long should logs, receipts, evidence and archived records be retained?"},
+        {"id":"recovery_expectation","required":true,"prompt":"Should a fresh conversation be able to recover entirely from canonical authorities and versioned source after old chats are deleted?"}
+      ]
+    },
+    {
+      "id":"life_pattern",
+      "title":"Current life pattern and friction",
+      "questions":[
+        {"id":"employment_status","required":true,"prompt":"Which best describes your current pattern: working, retired, studying, caregiving, between jobs, self-employed, mixed, or something else?"},
+        {"id":"weekly_shape","required":false,"prompt":"What does a normal week actually look like, including sleep, recurring commitments, and flexible periods?"},
+        {"id":"retired_support","required":false,"prompt":"If retired or not working, what would be useful to keep track of: appointments, household/admin, hobbies, travel, family commitments, volunteering, routines, projects, documents, or something else?","applies_when":"employment_status includes retired or not working"},
+        {"id":"caregiving_duties","required":false,"prompt":"Do you regularly coordinate care, rides, appointments, paperwork, or responsibilities for another person?"},
+        {"id":"household_pattern","required":false,"prompt":"Do you live alone, with a partner/family/roommates, or across more than one household?"},
+        {"id":"forgotten_items","required":true,"prompt":"What repeatedly gets forgotten, delayed, misplaced, or done at the last minute?"},
+        {"id":"repeated_decisions","required":false,"prompt":"What decisions do you keep remaking that could use a stable rule or prioritized next action?"},
+        {"id":"scattered_information","required":false,"prompt":"What important information is scattered across email, calendar, notes, photos, documents, apps, chats, or memory?"},
+        {"id":"top_three_outcomes","required":true,"prompt":"If this system worked well, which three outcomes would save the most time, stress, or forgotten work?"},
+        {"id":"notification_tolerance","required":false,"prompt":"What kinds of reminders help, and what kinds make you ignore the system?"},
+        {"id":"decision_support","required":false,"prompt":"Which recurring choices would benefit from a checklist, rule, comparison, or recommended next action?"},
+        {"id":"review_frequency","required":false,"prompt":"How often should the system review whether its routines and rules are still useful?"}
+      ]
+    },
+    {
+      "id":"work_context",
+      "title":"Work and context modes",
+      "questions":[
+        {"id":"works_away_from_home","required":true,"prompt":"Do you regularly work away from home, sleep away for work, rotate worksites, or live/work from a vehicle or field location?"},
+        {"id":"job_title","required":false,"prompt":"What is your exact job title and what do you actually do?","applies_when":"employment_status includes working or self-employed"},
+        {"id":"job_pattern","required":false,"prompt":"What is your shift, normal workweek, sleep pattern, and recurring work-travel or overnight pattern?","applies_when":"employment_status includes working or self-employed"},
+        {"id":"work_tools","required":false,"prompt":"Which tools, apps, documents, equipment, or systems are part of your work and repeatedly need coordination?","applies_when":"employment_status includes working or self-employed"},
+        {"id":"team_or_solo","required":false,"prompt":"Do you work solo, with a partner/team, or switch between both?","applies_when":"works_away_from_home is true"},
+        {"id":"departure_return_triggers","required":false,"prompt":"What reliable facts or statements prove you left home for work or returned home?","applies_when":"works_away_from_home is true"},
+        {"id":"mode_names","required":false,"prompt":"What names should home/away contexts use, such as HOME/ROAD, HOME/TRUCK, HOME/FIELD, or custom labels?","applies_when":"works_away_from_home is true"},
+        {"id":"away_devices_connectivity","required":false,"prompt":"What devices, connectivity, storage, space, or equipment are normally available while away?","applies_when":"works_away_from_home is true"},
+        {"id":"mode_task_split","required":false,"prompt":"Which tasks/routines work anywhere, only at home, only away, or need different versions?","applies_when":"works_away_from_home is true"},
+        {"id":"mode_visibility","required":false,"prompt":"Which tasks, appointments, weather, routes, school work, routines, and notifications should appear in each mode?","applies_when":"works_away_from_home is true"},
+        {"id":"mode_overrides","required":false,"prompt":"Which vacation, early-return, pause, or temporary overrides are needed, and when do they expire?","applies_when":"works_away_from_home is true"},
+        {"id":"paid_work_units","required":false,"prompt":"Does work pay by miles, route, commission, per diem, load, stop, hour, or another unit that should be reconciled?","applies_when":"employment_status includes working or self-employed"},
+        {"id":"paid_pair_directionality","required":false,"prompt":"If terminal or route mileage is used, is the paid value symmetric by pair or directional?","applies_when":"paid_work_units includes route or mileage"}
+      ]
+    },
+    {
+      "id":"hobbies_travel",
+      "title":"Hobbies, recreation, trips, and vacations",
+      "questions":[
+        {"id":"hobbies_goals","required":false,"prompt":"What hobbies, recreation, creative interests, or long-term personal interests matter to you?"},
+        {"id":"hiking_outdoors","required":false,"prompt":"Do hiking, camping, cycling, fishing, paddling, skiing, or other outdoor activities need planning or preparation?"},
+        {"id":"hobby_preparation","required":false,"prompt":"Do any hobbies repeatedly need packing lists, permits, reservations, equipment, maintenance, consumables, or preparation?","applies_when":"hobbies_goals is not empty"},
+        {"id":"hobby_progression","required":false,"prompt":"Do you want skill/progression tracking for any hobby, or should it stay intentionally unstructured?","applies_when":"hobbies_goals is not empty"},
+        {"id":"vacation_planning","required":false,"prompt":"Do you want help collecting vacation ideas, comparing options, building itineraries, booking checklists, or tracking committed trips?"},
+        {"id":"travel_preferences","required":false,"prompt":"What matters most when planning personal travel: cost, pace, food, outdoors, accessibility, family, driving time, points, lodging style, or something else?","applies_when":"vacation_planning is true"},
+        {"id":"travel_tools","required":false,"prompt":"Would Calendar, maps, weather, reservation, or document tools materially help your trips?","applies_when":"vacation_planning is true or hiking_outdoors is true"},
+        {"id":"trip_documents","required":false,"prompt":"Which travel documents, confirmations, permits, passes, or references are worth organizing?","applies_when":"vacation_planning is true or hiking_outdoors is true"}
+      ]
+    },
+    {
+      "id":"routines_accountability",
+      "title":"Routines, exercise, and accountability",
+      "questions":[
+        {"id":"accountability_domains","required":false,"prompt":"Which recurring habits or routines, if any, would benefit from accountability?"},
+        {"id":"routine_frequency","required":false,"prompt":"For each selected routine, what frequency and preferred days/windows are realistic?","applies_when":"accountability_domains is not empty"},
+        {"id":"routine_time_budget","required":false,"prompt":"How much time should a normal session take, and does it have separate component blocks?","applies_when":"accountability_domains is not empty"},
+        {"id":"routine_context","required":false,"prompt":"Can the routine happen at home and away, or should each context have a different version?","applies_when":"accountability_domains is not empty"},
+        {"id":"routine_resources","required":false,"prompt":"What equipment, space, materials, or other resources does the routine require?","applies_when":"accountability_domains is not empty"},
+        {"id":"routine_minimum_version","required":false,"prompt":"What is the minimum viable version on a difficult day?","applies_when":"accountability_domains is not empty"},
+        {"id":"routine_completion","required":false,"prompt":"What counts as complete, partial, skipped, or intentionally rescheduled?","applies_when":"accountability_domains is not empty"},
+        {"id":"routine_checkin","required":false,"prompt":"When and how should the system check in without becoming annoying?","applies_when":"accountability_domains is not empty"},
+        {"id":"routine_miss_policy","required":false,"prompt":"After a miss, should it reschedule, reduce scope, ask what blocked you, or simply continue next cycle?","applies_when":"accountability_domains is not empty"},
+        {"id":"routine_progression","required":false,"prompt":"What evidence should drive progression or review, such as consistency, duration, sets/reps, load, skill, distance, elevation, or another measure?","applies_when":"accountability_domains is not empty"},
+        {"id":"exercise_components","required":false,"prompt":"If exercise is selected, which components belong in a session: cardio, strength, mobility/stretching, yoga, hiking, warm-up/cool-down, or something else?","applies_when":"accountability_domains includes exercise or fitness"},
+        {"id":"fitness_wearable","required":false,"prompt":"If a fitness/wearable/activity integration is already connected, do you want supported activity metrics used as optional evidence?","applies_when":"accountability_domains includes exercise or fitness"}
+      ]
+    },
+    {
+      "id":"education_study",
+      "title":"School and study",
+      "questions":[
+        {"id":"education_active","required":false,"prompt":"Are you currently in school, certification training, professional development, language learning, or another structured learning track?"},
+        {"id":"education_program","required":false,"prompt":"What institution, program, course, certification, or learning goal is active?","applies_when":"education_active is true"},
+        {"id":"education_sources","required":false,"prompt":"Where do syllabi, assignment lists, deadlines, notes, readings, and course files live?","applies_when":"education_active is true"},
+        {"id":"education_current_state","required":false,"prompt":"What is complete, in progress, blocked, or not started right now?","applies_when":"education_active is true"},
+        {"id":"education_deadlines","required":false,"prompt":"Which exams, assignments, projects, or milestones have verified deadlines?","applies_when":"education_active is true"},
+        {"id":"study_weekly_target","required":false,"prompt":"What weekly study target and session lengths are realistic?","applies_when":"education_active is true"},
+        {"id":"study_methods","required":false,"prompt":"Which study methods work best for you?","applies_when":"education_active is true"},
+        {"id":"study_home_away","required":false,"prompt":"What school work can be done at home versus away/on the road, and what must wait for a particular environment?","applies_when":"education_active is true"},
+        {"id":"study_offline_resources","required":false,"prompt":"Which materials need to be downloaded/prepared for weak connectivity?","applies_when":"education_active is true and works_away_from_home is true"},
+        {"id":"study_next_action_rule","required":false,"prompt":"When you ask what to do next, should the system prioritize deadlines, prerequisites, weakest subject, short windows, or another rule?","applies_when":"education_active is true"},
+        {"id":"study_accountability","required":false,"prompt":"How often should the system check study progress, and what should happen after a missed session?","applies_when":"education_active is true"},
+        {"id":"study_calendar","required":false,"prompt":"Should verified school deadlines or selected study sessions appear on Calendar Projection?","applies_when":"education_active is true"}
+      ]
+    },
+    {
+      "id":"food_meal_planning",
+      "title":"Food, recipes, and meal planning",
+      "questions":[
+        {"id":"meal_planning_help","required":true,"prompt":"Do you want help with meal planning?"},
+        {"id":"existing_meal_plans","required":false,"prompt":"Do you already have recipes or meal plans in accessible chats, files, File Library, Drive, notes, or another connected source that should be imported instead of recreated?","applies_when":"meal_planning_help is true"},
+        {"id":"recipe_library","required":false,"prompt":"Do you want one searchable canonical recipe library with provenance and tags?","applies_when":"meal_planning_help is true"},
+        {"id":"serving_pattern","required":false,"prompt":"How many people do you normally cook for, and does that vary?","applies_when":"meal_planning_help is true"},
+        {"id":"food_preferences","required":false,"prompt":"What foods/cuisines do you especially like or dislike?","applies_when":"meal_planning_help is true"},
+        {"id":"dietary_preferences","required":false,"prompt":"Which dietary preferences or constraints do you explicitly want the system to honor?","applies_when":"meal_planning_help is true"},
+        {"id":"cooking_time_equipment","required":false,"prompt":"What cooking time/effort and equipment are realistically available?","applies_when":"meal_planning_help is true"},
+        {"id":"leftovers_batch_freezer","required":false,"prompt":"How should leftovers, batch cooking, pantry/freezer use, and food waste affect planning?","applies_when":"meal_planning_help is true"},
+        {"id":"grocery_cadence","required":false,"prompt":"How often do you shop for groceries and should accepted meal plans generate active shopping intent?","applies_when":"meal_planning_help is true"},
+        {"id":"meal_state_sharing","required":false,"prompt":"Should meal planning/recipes be personal or shared with another person/household through a shared authority?","applies_when":"meal_planning_help is true"}
+      ]
+    },
+    {
+      "id":"household_projects_admin",
+      "title":"Household, projects, and administration",
+      "questions":[
+        {"id":"recurring_responsibilities","required":false,"prompt":"Which recurring household, administrative, maintenance, or personal responsibilities are easy to forget?"},
+        {"id":"household_routine_help","required":false,"prompt":"Do you want reminders or accountability for recurring household routines such as laundry, cleaning, bins, mail, or putting things away?"},
+        {"id":"laundry_workflow","required":false,"prompt":"For laundry, which stages actually need help—start, move washer to dryer, hang/dry, fold, put away—and what timing, owner, completion evidence, and miss/reschedule rule should apply?","applies_when":"household_routine_help is true or recurring_responsibilities includes laundry"},
+        {"id":"dropoff_pickup_reminders","required":false,"prompt":"Do you want due-date or next-errand reminders to pick up clothes or other items from dry-cleaning, tailoring, repair, storage, or another drop-off service? Location-aware reminders are offered only when an approved capability exists.","applies_when":"household_routine_help is true or recurring_responsibilities is not empty"},
+        {"id":"errand_grouping","required":false,"prompt":"Would errands benefit from grouping by location, context, person, or next trip?"},
+        {"id":"active_projects","required":false,"prompt":"Which active projects should have milestones and next actions rather than living as vague backlog items?"},
+        {"id":"project_context","required":false,"prompt":"Which projects are home-only, away-friendly, device-dependent, or equipment-dependent?","applies_when":"active_projects is not empty"},
+        {"id":"project_review","required":false,"prompt":"How often should active projects be reviewed so stale items leave daily attention?","applies_when":"active_projects is not empty"},
+        {"id":"household_members","required":false,"prompt":"Which household members affect shared purchases, calendars, tasks, reimbursements, or responsibility ownership?"},
+        {"id":"renewals_documents","required":false,"prompt":"Which renewals, registrations, licenses, warranties, or documents should be tracked?"},
+        {"id":"subscriptions_trials","required":false,"prompt":"Should subscriptions, price changes, renewal dates, and trial-conversion risks be tracked?"}
+      ]
+    },
+    {
+      "id":"appointments_calendar",
+      "title":"Appointments, providers, Calendar, and reminders",
+      "questions":[
+        {"id":"appointments_renewals","required":false,"prompt":"Do you want appointments/reservations tracked?"},
+        {"id":"medical_event_tracking","required":false,"prompt":"Do you want medical appointment dates/reminders organized, without diagnosis or treatment inference?"},
+        {"id":"appointment_email_auto_update","required":false,"prompt":"Should approved classes of appointment email automatically reconcile into canonical appointment state and a linked Calendar event?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
+        {"id":"appointment_evidence_classes","required":false,"prompt":"Which senders/domains or appointment classes may be reconciled automatically?","applies_when":"appointment_email_auto_update is true"},
+        {"id":"appointment_provider_type_research","required":false,"prompt":"If an appointment identifies a provider but not the provider type, may Personal Ops Planner research official/reliable public sources to label the appointment as cardiology, endocrinology, audiology, primary care, dental, or another supported specialty?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
+        {"id":"appointment_reminder_day_before","required":false,"prompt":"Do you want a day-before reminder by default, and should it vary by person or appointment class?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
+        {"id":"appointment_reminder_morning_of","required":false,"prompt":"Do you want a morning-of reminder? If yes, what local clock time should count as morning, and what should happen for appointments earlier than that?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
+        {"id":"appointment_reminder_relative","required":false,"prompt":"Do you want a relative reminder such as 60 minutes before, and should the interval vary by person or appointment class?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
+        {"id":"medication_reminders","required":false,"prompt":"Do you want medication reminders? This is separate from appointments and defaults off; Personal Ops Planner never infers dose or timing."},
+        {"id":"medication_schedule_evidence","required":false,"prompt":"Which explicit owner, prescription-label, pharmacy, or clinician evidence may establish each medication schedule, and who must confirm it?","applies_when":"medication_reminders is true"},
+        {"id":"medication_sensitive_details","required":false,"prompt":"How much medication detail may appear in reminder text and on lock-screen/provider notifications?","applies_when":"medication_reminders is true"},
+        {"id":"caregiver_reminder_sharing","required":false,"prompt":"Should any appointment or medication reminders be shared with an exact caregiver identity? Default is no, and this does not grant broader health access.","applies_when":"medication_reminders is true or medical_event_tracking is true"},
+        {"id":"calendar_target","required":false,"prompt":"Which target Calendar should projected appointments/events use?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
+        {"id":"calendar_attendees","required":false,"prompt":"Should projections ever invite attendees, or remain private unless separately approved?"},
+        {"id":"calendar_classes","required":false,"prompt":"Which other verified event classes should appear on Calendar Projection: work travel, deadlines, deliveries, routines, bills, maintenance, or selected tasks?"},
+        {"id":"calendar_revision","required":false,"prompt":"How should tentative dates, revisions, completion, and cancellations update projected events?","applies_when":"calendar_classes is not empty or appointments_renewals is true"}
+      ]
+    },
+    {
+      "id":"information_purchases_assets",
+      "title":"Documents, purchases, assets, and knowledge",
+      "questions":[
+        {"id":"receipt_tracking","required":false,"prompt":"Do you want searchable receipt/order history from email, files, screenshots, or photos?"},
+        {"id":"shopping_list","required":false,"prompt":"Do you want an active shopping/procurement list where fulfilled intents disappear after purchase evidence is preserved?"},
+        {"id":"assets","required":false,"prompt":"Which vehicles, tools, electronics, appliances, equipment, or other assets need searchable identity, receipts, warranty, or maintenance records?"},
+        {"id":"asset_identifier_capture","required":false,"prompt":"Should receipt, product, barcode, model/serial-label, and Gmail evidence enrich namespaced UPC/GTIN/SKU/part/model/serial identifiers for those assets?","applies_when":"assets is not empty or receipt_tracking is true"},
+        {"id":"manuals","required":false,"prompt":"Should manuals, service documents, datasheets, and references be retained and linked to assets/models/parts?"},
+        {"id":"manual_discovery","required":false,"prompt":"When an exact asset or part is identified, may Personal Ops Planner search authoritative manufacturer/OEM sources for its manual, retain the file in Drive, and link it to the asset?","applies_when":"manuals is true"},
+        {"id":"technical_specifications","required":false,"prompt":"Which authoritative specifications—such as torque, tire pressure, capacities, alignment, dimensions, or load limits—should be indexed with exact applicability and page/section provenance?","applies_when":"assets is not empty or manuals is true"},
+        {"id":"knowledge_search","required":false,"prompt":"What facts, procedures, specs, or documents do you repeatedly need to find again?"},
+        {"id":"document_retention","required":false,"prompt":"Which documents need durable retention, searchable metadata, or expiration/renewal tracking?"},
+        {"id":"finance_coverage","required":false,"prompt":"Is spending analysis receipt/email-detected only, or are account-level financial sources connected?"},
+        {"id":"charge_reconciliation","required":false,"prompt":"Should expected purchase charges be reconciled against connected financial transactions and variances surfaced?"},
+        {"id":"reimbursements","required":false,"prompt":"Do purchases ever belong to another person/asset where reimbursement should be tracked separately from merchant refunds?"},
+        {"id":"financial_reports","required":false,"prompt":"Which spending or household reports would actually be useful?"},
+        {"id":"budget_goals","required":false,"prompt":"Are there budgets, savings targets, debt goals, or spending limits the system should surface when supported by connected data?"}
+      ]
+    },
+    {
+      "id":"calendar_notifications",
+      "title":"Priorities, notifications, and brief behavior",
+      "questions":[
+        {"id":"priority_model","required":true,"prompt":"Which priorities or tiers should tasks and next actions use?"},
+        {"id":"persistent_items","required":false,"prompt":"Which items remain visible until explicitly completed?"},
+        {"id":"nag_rules","required":false,"prompt":"What must never be repeated after acknowledgement or confirmation?"},
+        {"id":"degraded_output","required":false,"prompt":"How should a brief report an unavailable dependency without hiding healthy sections?"},
+        {"id":"tone","required":false,"prompt":"What tone, terminology, or filler should briefs and accountability check-ins use or avoid?"},
+        {"id":"notification_silence","required":false,"prompt":"Which condition watches should stay silent when nothing changed?"}
+      ]
+    },
+    {
+      "id":"integrations_safety_scheduler",
+      "title":"Apps, safety, scheduling, and recovery",
+      "questions":[
+        {"id":"email","required":false,"prompt":"Which email account supplies actionable messages, appointments, shipments, receipts, school, or other selected evidence?"},
+        {"id":"calendar","required":false,"prompt":"Which approved calendar provider/account is available for selected projections/reminders, and are read/write/readback actions verified?"},
+        {"id":"drive","required":false,"prompt":"Which verified evidence store should hold retained evidence/documents: Google Drive, OneDrive/SharePoint, another approved provider, or deliberate manual import/export?"},
+        {"id":"github","required":true,"prompt":"Which personal/organization Git repository or managed central release should store durable source/version lineage? Use no-Git only as an explicit degraded portable mode."},
+        {"id":"financial_accounts","required":false,"prompt":"Are account-level finance connections wanted for selected money modules?"},
+        {"id":"task_apps","required":false,"prompt":"Which existing task apps or automations must be inspected before creating duplicates?"},
+        {"id":"scheduled_tasks","required":false,"prompt":"Will Scheduled Tasks be used for recurring briefs/check-ins/condition watches?"},
+        {"id":"scheduler_timezone_integrity","required":true,"prompt":"After every schedule write, should setup verify recurrence/local time/TZID, timing mode, notifications, duplicate count, canonical-clock conversion, and an observed firing?"},
+        {"id":"existing_tasks","required":true,"prompt":"Which scheduled tasks already exist, including paused duplicates?"},
+        {"id":"git_standing_authorization","required":true,"prompt":"After repository read/write verification, may lasting policy/schema/feature changes commit and push automatically without asking again?"},
+        {"id":"git_merge_policy","required":true,"prompt":"Should verified source changes stop at a branch/PR, or is a bounded merge policy separately authorized?"},
+        {"id":"public_source_policy","required":true,"prompt":"If source is public, should source audit block secrets, credentials, mutable operational exports, message/receipt bodies, and unintended personal data?"},
+        {"id":"sensitive_fields","required":false,"prompt":"Which data must never enter prompts, repositories, shared files, or broadly shared authorities?"},
+        {"id":"least_privilege","required":true,"prompt":"What is the narrowest permission each selected integration needs?"},
+        {"id":"destructive_actions","required":true,"prompt":"Which deletes, archives, sends, invites, shares, or overwrites require confirmation?"},
+        {"id":"failure_policy","required":true,"prompt":"What should happen if a required connector, scheduler, or state authority is unavailable?"},
+        {"id":"rollback","required":true,"prompt":"Which scheduled-task or non-atomic mutations require snapshot, readback, or rollback?"},
+        {"id":"success_metrics","required":false,"prompt":"How will you judge whether Personal Ops Planner is saving time, improving consistency, and catching the right things?"}
+      ]
+    }
+  ]
+}

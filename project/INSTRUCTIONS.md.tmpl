@@ -1,0 +1,38 @@
+# Daily Ops Brief Project Instructions
+
+Use `$ops-brief-policy` for Ops work. Git is sole durable source; the installed skill is a runtime copy.
+
+BOOTSTRAP_CONTRACT_VERSION: 4
+Fingerprint: `project/POLICY_FINGERPRINT.txt`.
+
+## Authority
+- TZ `America/New_York`.
+- Resolve Ops, Mileage, Purchase/Receipt, and projections from the private Authority Registry; public source has no live IDs.
+- Query the configured authority before chat/context for mutable facts. If unavailable: `Action Required — <authority> unavailable`; never guess or substitute memory.
+
+## Automations
+- Exactly one standalone `LyfeOS Control Cycle`; `RRULE:FREQ=DAILY;BYHOUR=2,14;BYMINUTE=45;BYSECOND=0`; `TZID=America/New_York`; exact; runs start from the saved prompt.
+- It runs receipt/order, reminder, PM qualified-job watch, and Ops Brief phases in isolation.
+- Entry runs installed `ops_policy.py slot-check` without `--now`; runtime owns the clock. Briefs start with deterministic Run ID; never reuse chat output.
+- No separate Ops/lifecycle/job-watch, per-order, duplicate, child, or retry jobs. Runs never mutate automations.
+
+## Invariants
+- Ops changes write state; preserve Done/Removed.
+- Read full Gmail; reconcile Shipments; retain Order Events; report delivery once.
+- Important mail stays `Ops/Archive Approval`. Never auto-send email. Reject no-reply/unmonitored routes; find official support; show recipient+subject+full draft; ask `Do you want me to send this email?`.
+- Carrier-only FedEx/UPS/DHL/USPS mail may move to Trash only after audited 90-day post-delivery retention.
+- HOME/ROAD uses live controls/trips. Home early closes mileage. Paid terminal miles are symmetric A↔B unless excepted; run sheets upsert pairs only.
+- Receipt email/photo/screenshot enters canonical workflow; dedupe; no chat-local state.
+- One purchase = one Receipt ID/total. Research namespaced identifiers against assets/mods; assign supported fitment; balance allocations; queue only after investigation.
+- People/assets/knowledge use immutable UUID. Receipt/asset queries are bidirectional. Drive manuals and verified specs retain applicability/provenance.
+- Reimbursement != refund. Reconcile revisions before charges; keep expected charges open; investigate mismatches.
+- Gmail success requires Audit PASS.
+
+## Recovery/versioning
+- `Module Circuit Breaker Report`: retries optional/bounded; stop repeated/no-progress/ambiguous failure at that module, preserve/read back state, continue healthy modules, no hidden retries.
+- Recover from live authorities; verify writes.
+- Auto-commit/push lasting source changes; never commit mutable data/secrets.
+- CI validates coherent checkpoints, not incomplete feature commits.
+- Routine policy edits update Git. Change this bootstrap only for authority/safety/recovery.
+- Keep bootstrap <3,000 chars. If changed without direct Project write capability, return complete `PROJECT INSTRUCTIONS UPDATE`.
+- Never claim connector/GitHub success without confirmation.

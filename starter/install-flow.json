@@ -1,0 +1,128 @@
+{
+  "version": 2,
+  "audience": "nontechnical-browser-only",
+  "entry_document": "INSTALL.md",
+  "portability_document": "PLATFORM_PORTABILITY.md",
+  "enterprise_document": "ENTERPRISE_PILOT.md",
+  "capability_manifest": "platform-capabilities.json",
+  "capability_router": "tools/provider_capability_router.py",
+  "upstream": "Matthew-Beare/Daily-Ops-Brief",
+  "copy_method": "github-template",
+  "default_personal_visibility": "private",
+  "deployment_lanes": {
+    "personal_browser": {
+      "user_git": "github-template",
+      "allowed_data": ["personal", "public", "non-sensitive"],
+      "local_install_required": false
+    },
+    "enterprise_managed": {
+      "user_git": "optional",
+      "source_options": ["organization-git", "managed-central"],
+      "approval_required": true,
+      "local_install_required": false
+    },
+    "portable_manual": {
+      "user_git": "optional",
+      "source_options": ["managed-central", "none"],
+      "unattended_automation_claimed": false,
+      "local_install_required": false
+    }
+  },
+  "first_repository_creation": {
+    "default_actor": "user",
+    "surface": "github-web",
+    "assistant_creation_allowed_when": "an exact approved repository-creation action exists and owner, visibility, default branch and commit are read back",
+    "reason": "the browser template path is portable and does not assume an AI runtime can create repositories",
+    "include_all_branches": false
+  },
+  "capability_gates": [
+    {
+      "id": "github-account",
+      "pass_evidence": ["signed-in personal account", "verified email"],
+      "blocked_action": "open GitHub sign-up and complete it in the browser"
+    },
+    {
+      "id": "personal-repository",
+      "pass_evidence": ["observed owner/name", "private visibility", "observed default branch", "observed head commit"],
+      "blocked_action": "use the upstream GitHub template to create one private repository"
+    },
+    {
+      "id": "chatgpt-github-read",
+      "pass_evidence": ["exact personal repository readable through the ChatGPT GitHub app"],
+      "blocked_action": "configure the exact repository under ChatGPT Settings > Apps > GitHub"
+    },
+    {
+      "id": "codex-github-write",
+      "pass_evidence": ["exact personal repository authorized in Codex", "remote write and readback succeed during bounded provisioning"],
+      "blocked_action": "connect or authorize the repository in Codex; do not substitute the read-only ChatGPT GitHub app"
+    },
+    {
+      "id": "runtime-and-data-approval",
+      "pass_evidence": ["observed exact AI runtime/deployment", "recorded data classification", "current organization approval-evidence reference when regulated-sensitive"],
+      "blocked_action": "use synthetic/non-sensitive data until the exact runtime, purpose and data class are organization-approved"
+    },
+    {
+      "id": "structured-state-provider",
+      "pass_evidence": ["observed provider/resource", "bounded read", "bounded write", "provider readback"],
+      "blocked_action": "select and verify Google Sheets, Microsoft Lists/Excel, or another approved structured authority"
+    },
+    {
+      "id": "evidence-provider",
+      "pass_evidence": ["observed provider/resource", "bounded read", "bounded write", "provider readback"],
+      "blocked_action": "verify Google Drive, OneDrive/SharePoint, or use explicit manual import/export without an automation claim"
+    }
+  ],
+  "assistant_readback_fields": [
+    "repository",
+    "visibility",
+    "default_branch",
+    "starter_commit",
+    "chatgpt_read",
+    "codex_write",
+    "local_command_line_required",
+    "deployment_lane",
+    "ai_runtime",
+    "data_classification",
+    "source_mode",
+    "structured_state_provider",
+    "evidence_provider",
+    "organization_approval",
+    "organization_approval_reference"
+  ],
+  "nontechnical_forbidden_actions": [
+    "open-command-prompt",
+    "open-powershell",
+    "open-terminal",
+    "install-git",
+    "install-github-cli",
+    "git-clone",
+    "use-codespace-as-installer",
+    "request-password",
+    "request-one-time-code",
+    "request-token",
+    "request-ssh-key",
+    "claim-read-access-proves-write-access",
+    "claim-provider-name-proves-capability",
+    "claim-ai-runtime-feature-parity",
+    "create-personal-account-to-bypass-organization-policy",
+    "put-regulated-sensitive-data-in-unapproved-runtime",
+    "claim-success-before-remote-readback"
+  ],
+  "blocked_states": {
+    "template_missing": "Starter blocked — upstream is not enabled as a GitHub template.",
+    "read_missing": "Source setup blocked — the exact personal repository is not readable through the ChatGPT GitHub app.",
+    "write_missing": "Source setup blocked — ChatGPT can read the repository, but no verified Codex GitHub write capability is available.",
+    "organization_approval": "Source setup blocked — the GitHub organization administrator must approve repository access.",
+    "regulated_data_approval": "Enterprise setup blocked — use synthetic/non-sensitive data until the exact AI runtime, storage, purpose and connector actions have a current organization approval-evidence reference.",
+    "state_write_missing": "State setup blocked — no verified structured-state write and provider readback capability is available.",
+    "manual_only": "Portable manual mode — import/export is available, but unattended synchronization and write automation are not installed."
+  },
+  "selected_workflow_discovery": {
+    "meal_planning_question_id": "meal_planning_help",
+    "household_routine_question_ids": [
+      "household_routine_help",
+      "laundry_workflow",
+      "dropoff_pickup_reminders"
+    ]
+  }
+}

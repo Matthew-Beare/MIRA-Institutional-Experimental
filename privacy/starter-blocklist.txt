@@ -1,0 +1,6 @@
+# Optional literal markers that must never enter the portable starter.
+#
+# Keep real deployment markers in an untracked local blocklist and pass it with
+# --blocklist during private release review. Never publish the values here merely
+# to prove the scanner knows them. Generic email and Google-resource checks are
+# built into audit_starter_privacy.py and audit_public_source.py.

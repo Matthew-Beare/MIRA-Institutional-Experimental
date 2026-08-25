@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://life-ops.invalid/starter/schemas/feature-manifest.schema.json",
+  "title": "Portable Life-Ops Feature Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest_version",
+    "id",
+    "version",
+    "summary",
+    "portable",
+    "delivery_status",
+    "compatibility",
+    "dependencies",
+    "entrypoints",
+    "permissions",
+    "data_boundary",
+    "runtime_contract",
+    "config_schema",
+    "tests"
+  ],
+  "properties": {
+    "manifest_version": {"const": 3},
+    "id": {"$ref": "#/$defs/id"},
+    "version": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?$"},
+    "summary": {"type": "string", "minLength": 1, "maxLength": 200},
+    "portable": {"const": true},
+    "delivery_status": {"enum": ["contract-only", "implemented"]},
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["core"],
+      "properties": {"core": {"type": "string", "minLength": 1}}
+    },
+    "dependencies": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "version_range"],
+        "properties": {
+          "id": {"$ref": "#/$defs/id"},
+          "version_range": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "entrypoints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["references", "scripts", "schemas", "migrations"],
+      "properties": {
+        "references": {"$ref": "#/$defs/pathList"},
+        "scripts": {"$ref": "#/$defs/pathList"},
+        "schemas": {"$ref": "#/$defs/pathList"},
+        "migrations": {"$ref": "#/$defs/pathList"}
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["connectors", "network_domains", "writes", "approval_required"],
+      "properties": {
+        "connectors": {"$ref": "#/$defs/stringList"},
+        "network_domains": {"$ref": "#/$defs/stringList"},
+        "writes": {"$ref": "#/$defs/stringList"},
+        "approval_required": {"$ref": "#/$defs/stringList"}
+      }
+    },
+    "data_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_contains_personal_data", "shared_logs_contain_personal_data", "runtime_state", "forbidden_source_data"],
+      "properties": {
+        "source_contains_personal_data": {"const": false},
+        "shared_logs_contain_personal_data": {"const": false},
+        "runtime_state": {"enum": ["none", "deployment-local", "external-authority"]},
+        "forbidden_source_data": {"allOf": [{"$ref": "#/$defs/stringList"}, {"minItems": 1}]}
+      }
+    },
+    "runtime_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "failure_domain",
+        "required_capabilities",
+        "optional_capabilities",
+        "conditional_capabilities",
+        "canonical_state_classes",
+        "idempotency_scope",
+        "on_required_failure",
+        "on_optional_failure",
+        "cross_module_writes"
+      ],
+      "properties": {
+        "failure_domain": {"$ref": "#/$defs/id"},
+        "required_capabilities": {"allOf": [{"$ref": "#/$defs/idList"}, {"minItems": 1}]},
+        "optional_capabilities": {"$ref": "#/$defs/idList"},
+        "conditional_capabilities": {
+          "type": "object",
+          "propertyNames": {"$ref": "#/$defs/id"},
+          "additionalProperties": {"type": "string", "minLength": 1}
+        },
+        "canonical_state_classes": {"$ref": "#/$defs/idList"},
+        "idempotency_scope": {"type": "string", "minLength": 1, "maxLength": 160},
+        "on_required_failure": {"const": "block-module-only"},
+        "on_optional_failure": {"const": "degrade-capability-and-continue"},
+        "cross_module_writes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$"}
+        }
+      }
+    },
+    "config_schema": {"$ref": "#/$defs/configSchemaObject"},
+    "tests": {"allOf": [{"$ref": "#/$defs/pathList"}, {"minItems": 1}]}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+    "stringList": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "idList": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "pathList": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"}},
+    "configSchemaObject": {
+      "allOf": [
+        {"$ref": "#/$defs/configSchemaNode"},
+        {
+          "properties": {
+            "type": {"const": "object"},
+            "additionalProperties": {"const": false}
+          },
+          "required": ["type", "additionalProperties"]
+        }
+      ]
+    },
+    "configSchemaNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {"enum": ["boolean", "integer", "number", "string", "array", "object", "null"]},
+        "description": {"type": "string"},
+        "default": true,
+        "enum": {"type": "array", "minItems": 1, "uniqueItems": true},
+        "const": true,
+        "minimum": {"type": "number"},
+        "maximum": {"type": "number"},
+        "minLength": {"type": "integer", "minimum": 0},
+        "maxLength": {"type": "integer", "minimum": 0},
+        "pattern": {"type": "string"},
+        "items": {"$ref": "#/$defs/configSchemaNode"},
+        "properties": {
+          "type": "object",
+          "propertyNames": {"pattern": "^[a-z][a-z0-9_]*$"},
+          "additionalProperties": {"$ref": "#/$defs/configSchemaNode"}
+        },
+        "required": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "additionalProperties": {"type": "boolean"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"type": {"const": "array"}}, "required": ["type"]},
+          "then": {"required": ["items"]}
+        },
+        {
+          "if": {"properties": {"type": {"const": "object"}}, "required": ["type"]},
+          "then": {
+            "required": ["additionalProperties"],
+            "properties": {"additionalProperties": {"const": false}}
+          }
+        }
+      ]
+    }
+  }
+}

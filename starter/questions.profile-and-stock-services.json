@@ -1,0 +1,121 @@
+{
+  "version": 4,
+  "extends": "questions.json",
+  "instructions": "Merge these IDs into the same durable Interview Ledger as questions.json. Preference and activation questions require explicit user answers; do not infer consent from evidence.",
+  "sections": [
+    {
+      "id": "profile_ai_discovery",
+      "title": "Person profile and AI-use discovery",
+      "questions": [
+        {
+          "id": "profile_roles",
+          "required": true,
+          "prompt": "Which roles apply to this person now: working, self-employed, retired, nonworking/between jobs, parent/guardian, caregiver, household manager, student, dependent minor, or custom? More than one may apply."
+        },
+        {
+          "id": "profile_primary_role",
+          "required": true,
+          "prompt": "If more than one role applies, which should be the primary routing role? A dependent minor remains primary when applicable."
+        },
+        {
+          "id": "parent_guardian_support",
+          "required": false,
+          "prompt": "For a parent/guardian role, which family, school, appointment, household, shopping, or coordination workflows would actually help?",
+          "applies_when": "profile_roles contains parent_guardian"
+        },
+        {
+          "id": "retiree_support",
+          "required": false,
+          "prompt": "For a retired role, would the Personal Schedule & Wellbeing template help with appointments, household/admin, family, hobbies, travel, routines, projects, volunteering, documents, or separately opt-in reminders?",
+          "applies_when": "profile_roles contains retired"
+        },
+        {
+          "id": "profile_alias",
+          "required": false,
+          "prompt": "Do you want a private friendly name or alias for this person's profile? It stays in mutable private state and is never published upstream."
+        },
+        {
+          "id": "ai_usage_pattern",
+          "required": true,
+          "prompt": "How do you currently use AI, if at all, and what repetitive remembering, organizing, researching, deciding, or follow-through do you wish an assistant handled better?"
+        },
+        {
+          "id": "automation_opportunities",
+          "required": false,
+          "prompt": "Which repeated workflows would be worth automating or partially automating if the required apps, evidence, and permissions are actually available?"
+        }
+      ]
+    },
+    {
+      "id": "stock_services",
+      "title": "Stock service activation and delivery",
+      "questions": [
+        {
+          "id": "briefs_enabled",
+          "required": true,
+          "prompt": "The starter includes the brief/action-digest service. Enable it, disable it, or leave it unresolved for later?"
+        },
+        {
+          "id": "brief_notification_mode",
+          "required": false,
+          "prompt": "If briefs are enabled, how should they be delivered or notified, and which changes deserve interruption versus digest?",
+          "applies_when": "briefs_enabled is true"
+        },
+        {
+          "id": "order_lifecycle_enabled",
+          "required": true,
+          "prompt": "The starter includes receipt and order lifecycle handling. Enable it, disable it, or leave it unresolved for later?"
+        },
+        {
+          "id": "order_update_slots",
+          "required": false,
+          "prompt": "If receipt/order lifecycle is enabled, how often or at what exact canonical-local slots should it reconcile updates?",
+          "applies_when": "order_lifecycle_enabled is true"
+        },
+        {
+          "id": "order_notification_mode",
+          "required": false,
+          "prompt": "Which order/receipt changes should notify immediately and which should wait for a brief?",
+          "applies_when": "order_lifecycle_enabled is true"
+        },
+        {
+          "id": "recipe_library_enabled",
+          "required": true,
+          "prompt": "The starter includes recipe-library intake and search. Enable it, disable it, or leave it unresolved for later?"
+        },
+        {
+          "id": "recipe_sources",
+          "required": false,
+          "prompt": "If the recipe library is enabled, which accessible chats, files, File Library, Drive folders, notes, or other sources should be reconciled instead of starting over?",
+          "applies_when": "recipe_library_enabled is true"
+        },
+        {
+          "id": "household_routines_enabled",
+          "required": false,
+          "prompt": "Enable household routine and pickup/drop-off tracking? If yes, keep it in canonical routine/task state with consolidated brief or Calendar projection rather than one ChatGPT Scheduled Task per chore."
+        },
+        {
+          "id": "appointment_reminders_enabled",
+          "required": false,
+          "prompt": "Enable appointment reminders? If yes, confirm or change the day-before, morning-of local time, and 60-minute-before defaults. This does not create one automation per appointment."
+        },
+        {
+          "id": "medication_reminders_enabled",
+          "required": false,
+          "prompt": "Enable medication reminders? If yes, each schedule must come from explicit owner, prescription-label, pharmacy, or clinician evidence and be confirmed; the system never infers dose or timing."
+        },
+        {
+          "id": "caregiver_reminder_sharing",
+          "required": false,
+          "prompt": "Should any reminders be shared with a caregiver? Default is no; if yes, identify the exact person and allowed reminder classes without granting broader health access.",
+          "applies_when": "appointment_reminders_enabled is true or medication_reminders_enabled is true"
+        },
+        {
+          "id": "service_activation_states",
+          "required": true,
+          "prompt": "For each applicable catalogued service, record enabled, disabled, unresolved, not applicable, or deferred. Do not treat a recommendation as activation."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "verified_on": "2026-08-25",
+  "claim_policy": {
+    "provider_name_is_not_capability_proof": true,
+    "live_read_required": true,
+    "live_write_and_readback_required_for_write_claims": true,
+    "organization_approval_required_for_regulated_sensitive_data": true,
+    "organization_approval_evidence_required_for_regulated_sensitive_data": true,
+    "recheck_at_onboarding": true
+  },
+  "capability_ids": [
+    "source_read",
+    "source_write",
+    "source_remote_readback",
+    "managed_release_read",
+    "structured_state_read",
+    "structured_state_write",
+    "structured_state_readback",
+    "evidence_read",
+    "evidence_write",
+    "evidence_readback",
+    "email_read",
+    "calendar_read",
+    "calendar_write",
+    "calendar_readback",
+    "scheduled_dispatch",
+    "canonical_clock_gate",
+    "observed_scheduled_firing"
+  ],
+  "ai_runtimes": [
+    {
+      "id": "chatgpt",
+      "family": "openai",
+      "delivery": "adapter-capability-gated",
+      "documented_connections": ["plugins-and-connected-apps", "github-read", "codex-source-write-separate"],
+      "notes": "Workspace policy, plan, surface, connector actions, and source-system authorization are independent gates."
+    },
+    {
+      "id": "claude",
+      "family": "anthropic",
+      "delivery": "adapter-capability-gated",
+      "documented_connections": ["github", "google-drive", "remote-mcp"],
+      "notes": "A readable integration does not prove write actions or scheduled execution. Organization owners control custom connectors on Team and Enterprise plans."
+    },
+    {
+      "id": "microsoft-copilot-or-approved-organizational-ai",
+      "family": "microsoft-or-organization",
+      "delivery": "organization-capability-gated",
+      "documented_connections": ["organization-defined"],
+      "notes": "Use only the exact tenant-approved product, identity, data classes, connectors, and actions."
+    },
+    {
+      "id": "google-gemini",
+      "family": "google",
+      "delivery": "adapter-capability-gated",
+      "documented_connections": ["organization-or-account-defined"],
+      "notes": "No feature parity is assumed; discover the exact runtime and Workspace permissions."
+    },
+    {
+      "id": "generic-mcp-capable-ai",
+      "family": "portable",
+      "delivery": "contract-only-until-proven",
+      "documented_connections": ["remote-mcp-or-approved-equivalent"],
+      "notes": "The portable policy/data contracts may be reused, but each action remains blocked until capability and readback are proven."
+    }
+  ],
+  "storage_backends": [
+    {
+      "id": "google-workspace",
+      "structured_candidates": ["google-sheets"],
+      "evidence_candidates": ["google-drive"],
+      "projection_candidates": ["google-calendar"],
+      "automation_tier": "connector-or-api",
+      "approval_boundary": "account-oauth-and-optional-workspace-admin-control"
+    },
+    {
+      "id": "microsoft-365",
+      "structured_candidates": ["microsoft-lists", "excel-table-in-onedrive-or-sharepoint"],
+      "evidence_candidates": ["onedrive", "sharepoint-document-library"],
+      "projection_candidates": ["outlook-calendar"],
+      "automation_tier": "approved-connector-or-microsoft-graph",
+      "approval_boundary": "entra-consent-resource-permission-and-tenant-policy"
+    },
+    {
+      "id": "apple-icloud",
+      "structured_candidates": [],
+      "evidence_candidates": ["icloud-drive-manual-import-export"],
+      "projection_candidates": ["ics-import-export"],
+      "automation_tier": "manual-bridge",
+      "approval_boundary": "user-mediated-file-exchange",
+      "notes": "Do not claim general automated access to a user's iCloud Drive. CloudKit is app-container scoped."
+    },
+    {
+      "id": "portable-files",
+      "structured_candidates": ["csv-or-json-import-export"],
+      "evidence_candidates": ["user-upload-and-download"],
+      "projection_candidates": ["ics-import-export"],
+      "automation_tier": "manual",
+      "approval_boundary": "user-mediated-file-exchange"
+    }
+  ],
+  "source_backends": [
+    {
+      "id": "github-personal",
+      "user_git_required": true,
+      "browser_onboarding": true,
+      "organization_managed": false
+    },
+    {
+      "id": "github-enterprise",
+      "user_git_required": false,
+      "browser_onboarding": true,
+      "organization_managed": true
+    },
+    {
+      "id": "gitlab",
+      "user_git_required": false,
+      "browser_onboarding": true,
+      "organization_managed": "possible"
+    },
+    {
+      "id": "azure-repos",
+      "user_git_required": false,
+      "browser_onboarding": true,
+      "organization_managed": true
+    },
+    {
+      "id": "managed-central-source",
+      "user_git_required": false,
+      "browser_onboarding": true,
+      "organization_managed": true,
+      "notes": "End users consume a pinned, administrator-maintained release. Personal behavior changes remain blocked or enter an approved change process."
+    }
+  ],
+  "deployment_lanes": [
+    {
+      "id": "personal-browser",
+      "source_modes": ["user-git"],
+      "data_classes": ["personal", "public", "non-sensitive"]
+    },
+    {
+      "id": "enterprise-managed",
+      "source_modes": ["organization-git", "managed-central"],
+      "data_classes": ["organization-policy-defined"]
+    },
+    {
+      "id": "portable-manual",
+      "source_modes": ["managed-central", "none"],
+      "data_classes": ["personal", "public", "non-sensitive"],
+      "notes": "Manual import/export is supported; unattended automation and write claims remain disabled."
+    }
+  ]
+}

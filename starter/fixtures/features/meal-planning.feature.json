@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "id": "meal-planning",
+  "version": "0.1.0",
+  "summary": "Build an adherence-focused meal plan and consolidated grocery list from deployment-local preferences.",
+  "portable": true,
+  "delivery_status": "implemented",
+  "compatibility": {"core": ">=0.1.0,<1.0.0"},
+  "dependencies": [],
+  "entrypoints": {
+    "references": ["references/meal-planning.md"],
+    "scripts": ["scripts/plan_meals.py"],
+    "schemas": ["schemas/meal-profile.schema.json"],
+    "migrations": []
+  },
+  "permissions": {
+    "connectors": [],
+    "network_domains": [],
+    "writes": ["deployment-local-output"],
+    "approval_required": ["external-purchase", "external-message"]
+  },
+  "data_boundary": {
+    "source_contains_personal_data": false,
+    "shared_logs_contain_personal_data": false,
+    "runtime_state": "deployment-local",
+    "forbidden_source_data": ["credentials", "medical records", "employer-protected data", "real personal configuration"]
+  },
+  "runtime_contract": {
+    "failure_domain": "meal-planning",
+    "required_capabilities": ["deployment-local-state"],
+    "optional_capabilities": [],
+    "conditional_capabilities": {},
+    "canonical_state_classes": ["meal-profile", "meal-plan-output"],
+    "idempotency_scope": "fixture meal profile plus planning window",
+    "on_required_failure": "block-module-only",
+    "on_optional_failure": "degrade-capability-and-continue",
+    "cross_module_writes": []
+  },
+  "config_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["servings", "meals_per_day"],
+    "properties": {
+      "servings": {"type": "integer", "minimum": 1},
+      "meals_per_day": {"type": "integer", "minimum": 1},
+      "dietary_exclusions": {"type": "array", "items": {"type": "string"}},
+      "weekly_budget": {"type": "number", "minimum": 0}
+    }
+  },
+  "tests": ["tests/test_meal_planning.py"]
+}

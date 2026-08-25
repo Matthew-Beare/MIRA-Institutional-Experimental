@@ -1,0 +1,34 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+*.log
+
+# Local/environment secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+credentials.json
+secrets.json
+
+# Starter/deployment local configuration
+starter/config.local.json
+starter/INSTRUCTIONS.rendered.md
+**/config.local.json
+**/INSTRUCTIONS.rendered.md
+
+# Local data exports and databases
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.bak
+*.csv.local
+*.json.local
+exports/
+backups/

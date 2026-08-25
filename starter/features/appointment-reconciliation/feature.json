@@ -1,0 +1,59 @@
+{
+  "manifest_version": 3,
+  "id": "appointment-reconciliation",
+  "version": "0.4.0-beta.1",
+  "summary": "Evidence-backed appointment reconciliation with structured canonical state, provider-type enrichment, configurable reminders, and verified Calendar projection.",
+  "portable": true,
+  "delivery_status": "contract-only",
+  "compatibility": {"core": ">=0.1.0-beta.1"},
+  "dependencies": [],
+  "entrypoints": {
+    "references": ["FEATURE.md"],
+    "scripts": [],
+    "schemas": [],
+    "migrations": []
+  },
+  "permissions": {
+    "connectors": ["structured state authority", "email evidence source when enabled", "calendar projection target when enabled", "public provider research when enabled"],
+    "network_domains": [],
+    "writes": ["canonical appointment/reconciliation state", "calendar event create/update/cancel when enabled"],
+    "approval_required": ["appointment class policy enablement", "provider research policy", "attendee invitations", "external messages", "public feature contribution"]
+  },
+  "data_boundary": {
+    "source_contains_personal_data": false,
+    "shared_logs_contain_personal_data": false,
+    "runtime_state": "external-authority",
+    "forbidden_source_data": ["credentials", "private state exports", "private email bodies", "medical details", "personal appointment history", "private evidence references"]
+  },
+  "runtime_contract": {
+    "failure_domain": "appointments",
+    "required_capabilities": ["structured-state-authority"],
+    "optional_capabilities": ["email-evidence", "calendar-projection", "public-provider-research"],
+    "conditional_capabilities": {
+      "email-evidence": "required only for email-driven ingestion; manual appointment state remains available without it",
+      "calendar-projection": "required only for transactions whose selected policy enables Calendar projection",
+      "public-provider-research": "best-effort enrichment when selected; unresolved provider type asks or remains unresolved"
+    },
+    "canonical_state_classes": ["appointments", "calendar-projection"],
+    "idempotency_scope": "canonical appointment/source identity plus linked calendar event id",
+    "on_required_failure": "block-module-only",
+    "on_optional_failure": "degrade-capability-and-continue",
+    "cross_module_writes": []
+  },
+  "config_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": {"type": "boolean"},
+      "canonical_appointment_store": {"type": "string"},
+      "appointment_classes": {"type": "string"},
+      "calendar_target": {"type": "string"},
+      "confidence_policy": {"type": "string"},
+      "provider_specialty_research": {"type": "string"},
+      "reminder_policy": {"type": "string"},
+      "morning_of_local_time": {"type": "string"},
+      "sensitive_detail_policy": {"type": "string"}
+    }
+  },
+  "tests": ["tests/contract.md"]
+}

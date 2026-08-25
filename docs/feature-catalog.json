@@ -1,0 +1,1469 @@
+{
+  "schema_version": 1,
+  "catalog_version": "2026-08-25.1",
+  "source": "docs/feature-ledger-2026-08-24.md",
+  "source_sha256": "28a6e1e5aa4cf9fbfedbadb36c7f2e2053d06b2dca59636e255cbb597c3c188d",
+  "maintenance_rule": "Update the forensic ledger, regenerate this catalog, and commit tests/evidence for every delivery claim.",
+  "status_warning": "CI evidence verifies repository behavior only; live provider deployment, permissions, scheduler firing, and mutable-state readback are separate gates.",
+  "categories": [
+    {
+      "id": "a",
+      "title": "Brief engine, time, tasking, and operational state",
+      "features": [
+        {
+          "id": "a-01",
+          "title": "Exactly two briefs at 2:45 AM and 2:45 PM `America/New_York`",
+          "decision": "REQUIRED",
+          "delivery": "unproven",
+          "verification": "ci_evidence",
+          "current_status": "One schedule remains; chat-bound delivery and model-supplied entry time were diagnosed after the PM run; replacement firing still unproven",
+          "required_disposition": "Keep one standalone schedule, named TZID, provider readback, runtime-owned clock, Run Log proof.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy_entry.py"
+          ]
+        },
+        {
+          "id": "a-02",
+          "title": "No UTC-shifted, relative, duplicate, 3:00, noon/midnight, or extra diagnostic schedules",
+          "decision": "REQUIRED / supersedes old states",
+          "delivery": "documented",
+          "verification": "documented",
+          "current_status": "Historical paused jobs exist",
+          "required_disposition": "Keep prohibited; diagnostics must not become permanent schedules.",
+          "evidence_paths": []
+        },
+        {
+          "id": "a-03",
+          "title": "Canonical-clock guard with DST-safe slot matching and bounded dispatch grace",
+          "decision": "REQUIRED by failure evidence",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable now owns the production system clock, waits out at most 60 seconds of early handoff, and tests Eastern/Central/Mountain/Pacific/UTC summer+winter equivalence",
+          "required_disposition": "Never accept a model-guessed production timestamp; retain actual-firing proof as a separate live scheduler gate.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy_entry.py"
+          ]
+        },
+        {
+          "id": "a-04",
+          "title": "Standalone scheduled delivery with deterministic Run ID header",
+          "decision": "REQUIRED by stale-response incident",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Policy/runtime contract repaired; provider migration and first live firing remain evidence gates",
+          "required_disposition": "Each run starts from saved prompt, never a long-lived chat; first line identifies `OPS-YYYY-MM-DD-AM|PM`.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy_entry.py"
+          ]
+        },
+        {
+          "id": "a-05",
+          "title": "Deterministic HOME/ROAD context with explicit overrides",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Repaired single executable engine; installed private copy fingerprint-matched and retested",
+          "required_disposition": "Keep config-driven transitions and authority readback.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy_entry.py"
+          ]
+        },
+        {
+          "id": "a-06",
+          "title": "Generic context pairs: HOME/ROAD, HOME/TRUCK, HOME/FIELD, HOME/CAMPUS, HOME/OFFICE, HOME/AWAY, custom",
+          "decision": "ACCEPTED direction",
+          "delivery": "rejected",
+          "verification": "documented",
+          "current_status": "Candidate router supports safe custom labels and explicit activation state; v2 branch remains rejected",
+          "required_disposition": "Keep lean, opt-in, user-confirmed context routing.",
+          "evidence_paths": []
+        },
+        {
+          "id": "a-07",
+          "title": "Job title/duties inform context recommendation but never silently enable it",
+          "decision": "REQUIRED",
+          "delivery": "mixed",
+          "verification": "documented",
+          "current_status": "Candidate router recommends with word-boundary matching and never auto-enables",
+          "required_disposition": "Ask confirmation; permit bypass/rename.",
+          "evidence_paths": []
+        },
+        {
+          "id": "a-08",
+          "title": "Active trip tracking separate from context and paid-work tracking",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable",
+          "required_disposition": "Preserve independent states/history and validate trip identity.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy_entry.py"
+          ]
+        },
+        {
+          "id": "a-09",
+          "title": "Multi-leg routes, learned runtime, current location, ETA, ahead/behind inference",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable/skill workflow, partly personal-hardcoded",
+          "required_disposition": "Keep; move mutable route/schedule facts out of public source.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy_entry.py"
+          ]
+        },
+        {
+          "id": "a-10",
+          "title": "ROAD severe-weather/route-condition watch; HOME local weather only",
+          "decision": "REQUIRED",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow",
+          "required_disposition": "Keep optional and failure-isolated.",
+          "evidence_paths": []
+        },
+        {
+          "id": "a-11",
+          "title": "Company-paid mileage and estimated gross pay; both Thursday briefs",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Repaired executable with section-scoped failure isolation",
+          "required_disposition": "Retain finite/nonnegative validation and deterministic totals.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy_entry.py"
+          ]
+        },
+        {
+          "id": "a-12",
+          "title": "Separate accessible Miles & Pay tracker",
+          "decision": "REQUIRED",
+          "delivery": "live_external",
+          "verification": "live_readback_required",
+          "current_status": "Live external authority",
+          "required_disposition": "Keep as mutable authority, never duplicate live rows in Git.",
+          "evidence_paths": []
+        },
+        {
+          "id": "a-13",
+          "title": "Task hierarchy High/Medium/Low → classification → subsystem → one task per bullet",
+          "decision": "REQUIRED",
+          "delivery": "documented",
+          "verification": "documented",
+          "current_status": "Skill/state contract",
+          "required_disposition": "Keep; ask only for materially missing classification.",
+          "evidence_paths": []
+        },
+        {
+          "id": "a-14",
+          "title": "Next-action coaching and honest completion evidence",
+          "decision": "ACCEPTED",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow",
+          "required_disposition": "Keep; never mark completion from weak inference.",
+          "evidence_paths": []
+        },
+        {
+          "id": "a-15",
+          "title": "Phase-aware Run Log, last-good checkpoint, resumable recovery, circuit breaker",
+          "decision": "REQUIRED by repeated stalls",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Run Log schema/phase evidence repaired; professional Module Circuit Breaker artifact installed and private deployment synced",
+          "required_disposition": "Prove the next live Run Log entry at an actual scheduled firing.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy_entry.py"
+          ]
+        },
+        {
+          "id": "a-16",
+          "title": "Optional module failure isolation",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Repaired and adversarially tested for mileage, appointments, routes/settings, and unavailable adapters",
+          "required_disposition": "Preserve core/optional failure boundaries in every new module.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy_entry.py"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "title": "Calendar, appointments, mail, and communication safety",
+      "features": [
+        {
+          "id": "b-01",
+          "title": "Saturday 2:45 AM ROAD appointment lookahead for the next week",
+          "decision": "REQUIRED",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Policy/skill behavior",
+          "required_disposition": "Keep and test calendar boundary.",
+          "evidence_paths": []
+        },
+        {
+          "id": "b-02",
+          "title": "Appointment reminder day before and morning of",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable deterministic planner + skill behavior",
+          "required_disposition": "Project through the single control cycle, dedupe deterministic reminder identities, and require provider readback.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/reminder_policy.py",
+            "skill/ops-brief-policy/scripts/test_reminder_policy.py"
+          ]
+        },
+        {
+          "id": "b-03",
+          "title": "Appointment reminder one hour before",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable deterministic planner + skill behavior",
+          "required_disposition": "Keep the relative interval configurable; suppress rather than emit a reminder at/after event start.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/reminder_policy.py",
+            "skill/ops-brief-policy/scripts/test_reminder_policy.py"
+          ]
+        },
+        {
+          "id": "b-04",
+          "title": "Medication reminders from explicit owner, prescription-label, pharmacy, or clinician evidence",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable deterministic planner",
+          "required_disposition": "Never infer dose/schedule or give missed-dose advice; activation remains explicit and mutable.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/reminder_policy.py",
+            "skill/ops-brief-policy/scripts/test_reminder_policy.py"
+          ]
+        },
+        {
+          "id": "b-05",
+          "title": "Caregiver reminder sharing",
+          "decision": "REQUIRED safety boundary",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable opt-in gate",
+          "required_disposition": "Default to the user only; require explicit sharing consent and an exact private recipient identity.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/reminder_policy.py",
+            "skill/ops-brief-policy/scripts/test_reminder_policy.py"
+          ]
+        },
+        {
+          "id": "b-06",
+          "title": "Context-aware appointment windows without exposing misleading confirmation state",
+          "decision": "REQUIRED",
+          "delivery": "mixed",
+          "verification": "documented",
+          "current_status": "Partial code/contract",
+          "required_disposition": "Keep; isolate malformed/unavailable appointment data.",
+          "evidence_paths": []
+        },
+        {
+          "id": "b-07",
+          "title": "Important email triage across school, employer, jobs, financial, medical, vendors, fraud/security",
+          "decision": "REQUIRED",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow",
+          "required_disposition": "Keep, evidence-grounded, compact.",
+          "evidence_paths": []
+        },
+        {
+          "id": "b-08",
+          "title": "No automatic outbound email or vendor contact",
+          "decision": "REQUIRED safety invariant",
+          "delivery": "documented",
+          "verification": "documented",
+          "current_status": "Skill contract",
+          "required_disposition": "Hard gate: draft/prompt only until explicit per-action approval.",
+          "evidence_paths": []
+        },
+        {
+          "id": "b-09",
+          "title": "Archive-approval prompt using exact user-facing question and repeat-on-silence behavior",
+          "decision": "REQUIRED",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow",
+          "required_disposition": "Keep; no silent archive.",
+          "evidence_paths": []
+        },
+        {
+          "id": "b-10",
+          "title": "Career/VA job watch with realistic qualification filtering",
+          "decision": "REQUIRED personal service",
+          "delivery": "documented",
+          "verification": "documented",
+          "current_status": "Consolidated PM control-cycle phase with canonical `Job Watch` dedupe/report state; no separate active task",
+          "required_disposition": "Treat as optional per-user service, not universal default; reject senior/developer roles that exceed the configured baseline.",
+          "evidence_paths": []
+        }
+      ]
+    },
+    {
+      "id": "c",
+      "title": "Orders, shipments, receipts, payments, and spending",
+      "features": [
+        {
+          "id": "c-01",
+          "title": "Gmail evidence ingestion and carrier/vendor correlation",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "documented",
+          "current_status": "Skill workflow + shipment executable",
+          "required_disposition": "Keep; newer carrier evidence outranks stale vendor state.",
+          "evidence_paths": []
+        },
+        {
+          "id": "c-02",
+          "title": "Ordered→shipped→delivered lifecycle with dedupe",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable/skill workflow",
+          "required_disposition": "Keep; validate deterministic timestamps and output invariants.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/reconcile_shipments.py",
+            "skill/ops-brief-policy/scripts/test_reconcile_shipments.py",
+            "skill/ops-brief-policy/scripts/test_reconcile_shipments_ordering.py"
+          ]
+        },
+        {
+          "id": "c-03",
+          "title": "Cancelled, replaced, returned, refunded, and no-settlement states",
+          "decision": "REQUIRED",
+          "delivery": "mixed",
+          "verification": "documented",
+          "current_status": "Partial/broken",
+          "required_disposition": "Fix replacement linking and payment/refund contradictions.",
+          "evidence_paths": []
+        },
+        {
+          "id": "c-04",
+          "title": "Replacement updates superseded purchase state without duplicate spend",
+          "decision": "REQUIRED",
+          "delivery": "mixed",
+          "verification": "documented",
+          "current_status": "Partial workflow",
+          "required_disposition": "Stable purchase/case IDs; append-only events; canonical current record.",
+          "evidence_paths": []
+        },
+        {
+          "id": "c-05",
+          "title": "Active undelivered-only brief output; five-business-day no-progress action",
+          "decision": "REQUIRED",
+          "delivery": "workflow",
+          "verification": "ci_evidence",
+          "current_status": "Skill workflow",
+          "required_disposition": "Keep and regression-test.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/reconcile_shipments.py",
+            "skill/ops-brief-policy/scripts/test_reconcile_shipments.py",
+            "skill/ops-brief-policy/scripts/test_reconcile_shipments_ordering.py"
+          ]
+        },
+        {
+          "id": "c-06",
+          "title": "Receipt intake from email, files, photos/screenshots, and manual entry",
+          "decision": "REQUIRED/ACCEPTED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable normalized evidence core + skill/provider workflow",
+          "required_disposition": "OCR/connector adapters collect evidence; validate source identity, provenance, entity/receipt/line links, and provider readback.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/asset_evidence.py",
+            "skill/ops-brief-policy/scripts/test_asset_evidence.py",
+            "skill/ops-brief-policy/references/receipt-photo-intake.md"
+          ]
+        },
+        {
+          "id": "c-07",
+          "title": "Searchable expandable receipt/purchase history",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Live external state + executable receipt/asset graph query",
+          "required_disposition": "Preserve provenance and return the same connected purchase/asset records from either direction.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/asset_evidence.py",
+            "skill/ops-brief-policy/scripts/test_inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_asset_evidence.py"
+          ]
+        },
+        {
+          "id": "c-08",
+          "title": "Monthly email-detected spending sheet with dedupe/category totals",
+          "decision": "REQUIRED",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow",
+          "required_disposition": "Keep clearly labelled incomplete/email-grounded spending.",
+          "evidence_paths": []
+        },
+        {
+          "id": "c-09",
+          "title": "General receipt taxonomy: automotive, tools, house, bills, education, personal/medical records, warranties, etc.",
+          "decision": "ACCEPTED backlog",
+          "delivery": "specification",
+          "verification": "documented",
+          "current_status": "Spec-only",
+          "required_disposition": "Implement generic taxonomy without current-user defaults.",
+          "evidence_paths": []
+        },
+        {
+          "id": "c-10",
+          "title": "Expected-charge, refund, reimbursement, and household-beneficiary reconciliation",
+          "decision": "ACCEPTED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable + skill workflow, defects found",
+          "required_disposition": "Harden IDs, money validation, settlement semantics, and audit evidence.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/financial_resolution.py",
+            "skill/ops-brief-policy/scripts/payment_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_financial_resolution.py",
+            "skill/ops-brief-policy/scripts/test_payment_reconciliation.py"
+          ]
+        },
+        {
+          "id": "c-11",
+          "title": "Subscription/free-trial tracking",
+          "decision": "PROPOSED/previous automation",
+          "delivery": "not_present",
+          "verification": "documented",
+          "current_status": "Paused historical automation",
+          "required_disposition": "Offer as optional service; do not resurrect silently.",
+          "evidence_paths": []
+        },
+        {
+          "id": "c-12",
+          "title": "Credit-card linkage/complete financial ingestion",
+          "decision": "PROPOSED/INFRA",
+          "delivery": "not_present",
+          "verification": "documented",
+          "current_status": "Not present",
+          "required_disposition": "Requires explicit connector, scope, privacy, and reconciliation design.",
+          "evidence_paths": []
+        }
+      ]
+    },
+    {
+      "id": "d",
+      "title": "Assets, fitment, inventory, shopping, and household storage",
+      "features": [
+        {
+          "id": "d-01",
+          "title": "Stable asset identity and item-to-vehicle/equipment fitment",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable + skill workflow/data model",
+          "required_disposition": "Receipt-line reconciler enforces immutable asset/relationship UUIDs, exact source identity, explicit endpoints, set/lot quantity and idempotent replay; provider adapters still require target readback.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/asset_evidence.py",
+            "skill/ops-brief-policy/scripts/test_inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_asset_evidence.py"
+          ]
+        },
+        {
+          "id": "d-02",
+          "title": "Asset purchase evidence, manuals, warranties, maintenance, and verified specifications",
+          "decision": "ACCEPTED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable normalized evidence/knowledge/specification core + skill/provider workflows",
+          "required_disposition": "Keep provenance and exact model/part/revision/applicability evidence; live adapter writes require readback.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/asset_evidence.py",
+            "skill/ops-brief-policy/scripts/test_inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_asset_evidence.py"
+          ]
+        },
+        {
+          "id": "d-03",
+          "title": "Bidirectional receipt/order ↔ asset/vehicle/tool queries",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable graph query core",
+          "required_disposition": "Traverse explicit assignment/installation/use relationships but exclude household ownership edges that would contaminate results with unrelated assets.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/asset_evidence.py",
+            "skill/ops-brief-policy/scripts/test_inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_asset_evidence.py"
+          ]
+        },
+        {
+          "id": "d-04",
+          "title": "Namespaced UPC/GTIN, merchant SKU, manufacturer part/model, serial, IMEI, and MAC identities",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable normalized identifier core",
+          "required_disposition": "Preserve exact values and leading zeroes, validate global check digits, namespace local identifiers, and reject serial-level collisions.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/asset_evidence.py",
+            "skill/ops-brief-policy/scripts/test_inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_asset_evidence.py"
+          ]
+        },
+        {
+          "id": "d-05",
+          "title": "Product/serial/barcode photo and Gmail evidence enrichment",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable evidence core + skill/provider workflow",
+          "required_disposition": "Treat OCR as candidate extraction, retain the source, corroborate identity, and enrich the same UUID rather than duplicating the asset.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/asset_evidence.py",
+            "skill/ops-brief-policy/scripts/test_inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_asset_evidence.py"
+          ]
+        },
+        {
+          "id": "d-06",
+          "title": "Manual discovery, canonical Drive retention, and asset linkage",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable knowledge/index core + skill/provider workflow",
+          "required_disposition": "Search authoritative manufacturer/OEM sources first, record blocked/no-match states honestly, retain the file in Drive, and link it with a Knowledge UUID.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/asset_evidence.py",
+            "skill/ops-brief-policy/scripts/test_inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_asset_evidence.py"
+          ]
+        },
+        {
+          "id": "d-07",
+          "title": "Vehicle/equipment technical specifications with exact applicability and provenance",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable specification core",
+          "required_disposition": "Verified torque, pressure, capacity, alignment, and load values require authoritative source tier plus page/section and exact subject UUID; never promote owner memory to verified.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/asset_evidence.py",
+            "skill/ops-brief-policy/scripts/test_inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_asset_evidence.py"
+          ]
+        },
+        {
+          "id": "d-08",
+          "title": "Shopping intent separate from purchase history",
+          "decision": "ACCEPTED",
+          "delivery": "mixed",
+          "verification": "documented",
+          "current_status": "Branch/catalog proposal",
+          "required_disposition": "Implement only as distinct state to prevent duplicate spend/history.",
+          "evidence_paths": []
+        },
+        {
+          "id": "d-09",
+          "title": "Immutable inventory/item IDs",
+          "decision": "ACCEPTED backlog",
+          "delivery": "specification",
+          "verification": "ci_evidence",
+          "current_status": "Executable beta core",
+          "required_disposition": "UUID-backed asset and relationship reconciliation is implemented/tested; live specialized inventory migration is deployment state, while QR/mobile events remain later work.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/asset_evidence.py",
+            "skill/ops-brief-policy/scripts/test_inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_asset_evidence.py"
+          ]
+        },
+        {
+          "id": "d-10",
+          "title": "Hierarchical locations and intended-location versus last-moved-location",
+          "decision": "REQUIRED/under exploration",
+          "delivery": "specification",
+          "verification": "documented",
+          "current_status": "Spec-only",
+          "required_disposition": "Implement minimally; avoid burdensome per-cut lumber tracking.",
+          "evidence_paths": []
+        },
+        {
+          "id": "d-11",
+          "title": "QR/barcode scan-in and scan-out",
+          "decision": "ACCEPTED backlog",
+          "delivery": "specification",
+          "verification": "documented",
+          "current_status": "Spec-only",
+          "required_disposition": "Defer until stable IDs/location/event schema exists.",
+          "evidence_paths": []
+        },
+        {
+          "id": "d-12",
+          "title": "Queryable household/loft/shop inventory",
+          "decision": "REQUIRED direction",
+          "delivery": "specification",
+          "verification": "documented",
+          "current_status": "Spec-only",
+          "required_disposition": "Generic location/category/search model; no personal inventory in public source.",
+          "evidence_paths": []
+        },
+        {
+          "id": "d-13",
+          "title": "Consumable/grocery par levels and under-level notification",
+          "decision": "REQUIRED",
+          "delivery": "specification",
+          "verification": "documented",
+          "current_status": "Spec-only",
+          "required_disposition": "Support manual counts first; notifications opt-in.",
+          "evidence_paths": []
+        },
+        {
+          "id": "d-14",
+          "title": "Scale-based par sensing",
+          "decision": "PROPOSED",
+          "delivery": "specification",
+          "verification": "documented",
+          "current_status": "Spec-only",
+          "required_disposition": "Optional Home Assistant hardware integration; not beta-core.",
+          "evidence_paths": []
+        },
+        {
+          "id": "d-15",
+          "title": "Grocery list/pantry/freezer flows",
+          "decision": "PROPOSED/ACCEPTED direction",
+          "delivery": "specification",
+          "verification": "documented",
+          "current_status": "Contract/spec-only",
+          "required_disposition": "Keep separate from receipt history and par state.",
+          "evidence_paths": []
+        },
+        {
+          "id": "d-16",
+          "title": "Recipes, meal planning, shopping linkage",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "contract",
+          "verification": "documented",
+          "current_status": "Contract-only manifest",
+          "required_disposition": "Keep onboarding/configuration available, but do not call the planner implemented until executable behavior and tests exist.",
+          "evidence_paths": []
+        }
+      ]
+    },
+    {
+      "id": "e",
+      "title": "Profiles, onboarding, family, and per-user customization",
+      "features": [
+        {
+          "id": "e-01",
+          "title": "Generic quarantined starter with no inherited personal data",
+          "decision": "REQUIRED",
+          "delivery": "mixed",
+          "verification": "ci_evidence",
+          "current_status": "Candidate tree and clean reachable history are sanitized; scanners strengthened; legacy history was not imported",
+          "required_disposition": "Release only from this clean lineage; handle the separate legacy repository under explicit owner authority.",
+          "evidence_paths": [
+            "scripts/audit_starter_privacy.py",
+            "tests/test_starter_privacy_audit.py",
+            "tests/test_public_source_audit.py"
+          ]
+        },
+        {
+          "id": "e-02",
+          "title": "Adaptive first boot: four kickoff questions, then bounded follow-ups",
+          "decision": "REQUIRED",
+          "delivery": "documented",
+          "verification": "ci_evidence",
+          "current_status": "Starter present",
+          "required_disposition": "Preserve ≤4 initial questions and Minimum Useful Setup.",
+          "evidence_paths": [
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py"
+          ]
+        },
+        {
+          "id": "e-03",
+          "title": "Ask AI use, pain points, job/duties, desired automation, apps/services, and constraints",
+          "decision": "REQUIRED",
+          "delivery": "documented",
+          "verification": "documented",
+          "current_status": "Starter present",
+          "required_disposition": "Keep capability-aware and avoid promising unavailable integrations.",
+          "evidence_paths": []
+        },
+        {
+          "id": "e-04",
+          "title": "Ask preferred brief cadence/timezone for new users",
+          "decision": "REQUIRED",
+          "delivery": "documented",
+          "verification": "documented",
+          "current_status": "Starter present",
+          "required_disposition": "Store named IANA TZ; user’s personal deployment remains fixed Eastern/twice daily.",
+          "evidence_paths": []
+        },
+        {
+          "id": "e-05",
+          "title": "Explicit service activation states: unresolved/enabled/disabled/not-applicable/deferred",
+          "decision": "REQUIRED for honest onboarding",
+          "delivery": "rejected",
+          "verification": "ci_evidence",
+          "current_status": "Implemented and tested in candidate; unsafe branch implementation rejected",
+          "required_disposition": "Keep finite-state activation and exclude disabled/not-applicable services from recommendations.",
+          "evidence_paths": [
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py"
+          ]
+        },
+        {
+          "id": "e-06",
+          "title": "Working and self-employed profiles",
+          "decision": "ACCEPTED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Implemented as composable candidate roles",
+          "required_disposition": "Keep as composable roles.",
+          "evidence_paths": [
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py"
+          ]
+        },
+        {
+          "id": "e-07",
+          "title": "Retired/retiree profile distinct from nonworking/between-jobs",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable first-class composable role with appointment/medication reminder recommendations",
+          "required_disposition": "Public label is `Retired`; use the respectful `Personal Schedule & Wellbeing` support template, keep retirement distinct from employment status, and never infer age/ability.",
+          "evidence_paths": [
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py"
+          ]
+        },
+        {
+          "id": "e-08",
+          "title": "Nonworking/between-jobs profile",
+          "decision": "ACCEPTED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Implemented as a composable candidate role",
+          "required_disposition": "Keep distinct from retirement.",
+          "evidence_paths": [
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py"
+          ]
+        },
+        {
+          "id": "e-09",
+          "title": "Parent/guardian profile",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Implemented as first-class composable role; recommendations never auto-enable services",
+          "required_disposition": "Keep family/calendar/household modules explicit and permission-scoped.",
+          "evidence_paths": [
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py"
+          ]
+        },
+        {
+          "id": "e-10",
+          "title": "Child/dependent profiles and family-school coordination",
+          "decision": "ACCEPTED direction",
+          "delivery": "documented",
+          "verification": "ci_evidence",
+          "current_status": "Dependent-minor role/router implemented; dedicated family-school service remains spec/skill-level",
+          "required_disposition": "Minimum necessary private data; explicit calendar/school/activity/sharing scopes.",
+          "evidence_paths": [
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py"
+          ]
+        },
+        {
+          "id": "e-11",
+          "title": "Caregiver and household-manager profiles",
+          "decision": "PROPOSED/ACCEPTED direction",
+          "delivery": "documented",
+          "verification": "ci_evidence",
+          "current_status": "Composable router roles implemented; dedicated services remain spec/skill-level",
+          "required_disposition": "No capability or permission assumptions.",
+          "evidence_paths": [
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py"
+          ]
+        },
+        {
+          "id": "e-12",
+          "title": "Student profile and HOME/CAMPUS option",
+          "decision": "ACCEPTED",
+          "delivery": "mixed",
+          "verification": "ci_evidence",
+          "current_status": "Student role and safe custom context are implemented in the candidate",
+          "required_disposition": "Keep context separate from role.",
+          "evidence_paths": [
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py"
+          ]
+        },
+        {
+          "id": "e-13",
+          "title": "Mixed/custom roles",
+          "decision": "REQUIRED for generality",
+          "delivery": "documented",
+          "verification": "ci_evidence",
+          "current_status": "Composable/custom roles implemented; underlying roles preserved",
+          "required_disposition": "Preserve underlying roles; `mixed` only a summary.",
+          "evidence_paths": [
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py"
+          ]
+        },
+        {
+          "id": "e-14",
+          "title": "Older-adult usability/profile recommendations",
+          "decision": "ACCEPTED direction",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable role/template core; broader accessibility preferences remain discovery-driven",
+          "required_disposition": "Never use an insulting public label or infer disability, medication, finance, age, or competence; services remain opt-in.",
+          "evidence_paths": [
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py"
+          ]
+        },
+        {
+          "id": "e-15",
+          "title": "“Boomer mode”",
+          "decision": "PROPOSED nickname; exact older wording only partly recoverable",
+          "delivery": "documented",
+          "verification": "documented",
+          "current_status": "Deliberately not a public mode",
+          "required_disposition": "Map supported needs to retired/older-adult/accessibility configuration; allow only an optional private alias.",
+          "evidence_paths": []
+        },
+        {
+          "id": "e-16",
+          "title": "Per-person identity, household/beneficiary relationships, and permission scopes",
+          "decision": "ACCEPTED",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Data model/skill workflow",
+          "required_disposition": "Private immutable IDs; relationship labels do not grant custody/health/finance access.",
+          "evidence_paths": []
+        },
+        {
+          "id": "e-17",
+          "title": "Personal fork plus reviewed upstream feature sharing",
+          "decision": "REQUIRED",
+          "delivery": "documented",
+          "verification": "ci_evidence",
+          "current_status": "Starter workflow present",
+          "required_disposition": "Keep isolation tests and controlled propagation.",
+          "evidence_paths": [
+            "starter/tests/test_personal_fork_lifecycle.py",
+            "starter/tests/test_feature_isolation_contracts.py"
+          ]
+        },
+        {
+          "id": "e-18",
+          "title": "Standalone clean starter repository",
+          "decision": "ACCEPTED release boundary",
+          "delivery": "mixed",
+          "verification": "ci_evidence",
+          "current_status": "Clean-history distribution lineage created from the audited candidate tree",
+          "required_disposition": "Keep one sanitized root history and reject imports from the contaminated legacy lineage.",
+          "evidence_paths": [
+            "scripts/audit_starter_privacy.py",
+            "tests/test_starter_privacy_audit.py",
+            "tests/test_public_source_audit.py"
+          ]
+        },
+        {
+          "id": "e-19",
+          "title": "Self-improving/custom skill builder from repeated friction",
+          "decision": "PROPOSED/ACCEPTED direction",
+          "delivery": "mixed",
+          "verification": "documented",
+          "current_status": "Branch spec + generic starter workflow",
+          "required_disposition": "Only create versioned private modules with declared capabilities, permissions, state, failures, and tests.",
+          "evidence_paths": []
+        },
+        {
+          "id": "e-20",
+          "title": "Automatic instruction updates",
+          "decision": "USER ASKED; technically constrained",
+          "delivery": "mixed",
+          "verification": "documented",
+          "current_status": "Partial template/process",
+          "required_disposition": "Move durable behavior to policy-as-code; emit copy-ready instruction changes where UI cannot be mutated safely.",
+          "evidence_paths": []
+        },
+        {
+          "id": "e-21",
+          "title": "Browser-only non-technical installation with no terminal fallback",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "documented",
+          "verification": "ci_evidence",
+          "current_status": "Machine-readable browser workflow + CI contract; upstream template setting still requires live GitHub readback",
+          "required_disposition": "Create a private repository from the web template, block on missing capability, and never substitute Command Prompt, PowerShell, local Git, GitHub CLI, Codespaces, tokens, or SSH keys.",
+          "evidence_paths": [
+            "starter/INSTALL.md",
+            "starter/install-flow.json",
+            "starter/tests/test_nontechnical_installation.py"
+          ]
+        },
+        {
+          "id": "e-22",
+          "title": "Independent ChatGPT GitHub read and Codex GitHub write gates",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "documented",
+          "verification": "ci_evidence",
+          "current_status": "Machine-readable capability/readback contract with CI coverage",
+          "required_disposition": "Never infer write access from the read-only ChatGPT GitHub app; verify the exact personal repository and remote commit readback.",
+          "evidence_paths": [
+            "starter/INSTALL.md",
+            "starter/install-flow.json",
+            "starter/tests/test_nontechnical_installation.py"
+          ]
+        },
+        {
+          "id": "e-23",
+          "title": "Provider-neutral AI runtime capability routing",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable fail-closed onboarding router + machine-readable contract/tests",
+          "required_disposition": "Support ChatGPT, Claude, approved Microsoft/VA AI, Gemini, and generic MCP-capable runtimes only from observed actions and readback; never infer feature parity from brand.",
+          "evidence_paths": [
+            "starter/platform-capabilities.json",
+            "starter/tools/provider_capability_router.py",
+            "starter/tests/test_platform_portability.py",
+            "starter/PLATFORM_PORTABILITY.md",
+            "starter/ENTERPRISE_PILOT.md"
+          ]
+        },
+        {
+          "id": "e-24",
+          "title": "Personal Git, organization Git, managed-central source, and explicit no-Git lanes",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable capability routing + browser/managed-source contracts/tests",
+          "required_disposition": "Personal users may create GitHub in the browser; enterprise users may use approved GitHub Enterprise/GitLab/Azure Repos or a pinned managed release without a personal account.",
+          "evidence_paths": [
+            "starter/platform-capabilities.json",
+            "starter/tools/provider_capability_router.py",
+            "starter/tests/test_platform_portability.py",
+            "starter/PLATFORM_PORTABILITY.md",
+            "starter/ENTERPRISE_PILOT.md"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f",
+      "title": "Life-service modules discussed or catalogued",
+      "features": [
+        {
+          "id": "f-01",
+          "title": "Briefs/action digest",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable + skill workflow.",
+          "required_disposition": "",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy_entry.py"
+          ]
+        },
+        {
+          "id": "f-02",
+          "title": "Next-action planner",
+          "decision": "REQUIRED/ACCEPTED",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-03",
+          "title": "Email triage",
+          "decision": "REQUIRED",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-04",
+          "title": "Orders/shipments",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "documented",
+          "current_status": "Executable + skill workflow.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-05",
+          "title": "Receipt archive",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "documented",
+          "current_status": "Skill workflow + partial executables.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-06",
+          "title": "Personal finance organization",
+          "decision": "ACCEPTED direction",
+          "delivery": "specification",
+          "verification": "ci_evidence",
+          "current_status": "Partial reconciliation executables; broader service spec-only.",
+          "required_disposition": "",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/financial_resolution.py",
+            "skill/ops-brief-policy/scripts/payment_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_financial_resolution.py",
+            "skill/ops-brief-policy/scripts/test_payment_reconciliation.py"
+          ]
+        },
+        {
+          "id": "f-07",
+          "title": "Appointments/calendar/reminders",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable reminder planner + calendar/skill workflow; provider projection requires readback.",
+          "required_disposition": "",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/reminder_policy.py",
+            "skill/ops-brief-policy/scripts/test_reminder_policy.py"
+          ]
+        },
+        {
+          "id": "f-08",
+          "title": "Administrative health organization",
+          "decision": "PROPOSED/ACCEPTED direction",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Medication-reminder safety core executable; broader service remains specification-only and must exclude diagnosis/dosing.",
+          "required_disposition": "",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/reminder_policy.py",
+            "skill/ops-brief-policy/scripts/test_reminder_policy.py"
+          ]
+        },
+        {
+          "id": "f-09",
+          "title": "Shopping/procurement",
+          "decision": "ACCEPTED direction",
+          "delivery": "specification",
+          "verification": "documented",
+          "current_status": "Spec-only.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-10",
+          "title": "Recipes/meals/groceries",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "contract",
+          "verification": "documented",
+          "current_status": "Contract-only; onboarding selection and storage/projection contracts exist, executable planner remains absent.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-11",
+          "title": "Household/errands/admin/maintenance",
+          "decision": "CURRENT REQUIRED direction",
+          "delivery": "documented",
+          "verification": "documented",
+          "current_status": "Generic task system plus machine-readable household-routine service/onboarding contract; live reminder projection remains capability-gated.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-12",
+          "title": "Laundry stages and drop-off/pickup reminders",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "documented",
+          "verification": "ci_evidence",
+          "current_status": "Machine-readable router/reminder contract with tests; live brief/Calendar delivery requires provider capability and readback.",
+          "required_disposition": "",
+          "evidence_paths": [
+            "starter/questions.json",
+            "starter/tools/onboarding_profile_router.py",
+            "starter/tests/test_onboarding_profile_router.py",
+            "starter/tests/test_nontechnical_installation.py"
+          ]
+        },
+        {
+          "id": "f-13",
+          "title": "Routines/fitness/accountability",
+          "decision": "REQUIRED for user; optional stock service",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-14",
+          "title": "Education/study/deadlines/offline road preparation",
+          "decision": "REQUIRED for user; optional stock service",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-15",
+          "title": "Parent/child school coordination",
+          "decision": "CURRENT REQUIRED direction",
+          "delivery": "documented",
+          "verification": "documented",
+          "current_status": "Parent/dependent role routing implemented; dedicated service remains spec/skill-level.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-16",
+          "title": "Travel/vacation/outdoor planning",
+          "decision": "ACCEPTED direction",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Partial trip/route skill workflows.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-17",
+          "title": "Work-trip/route/paid-work tracking",
+          "decision": "REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable + skill workflow.",
+          "required_disposition": "",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy.py",
+            "skill/ops-brief-policy/scripts/test_ops_policy_entry.py"
+          ]
+        },
+        {
+          "id": "f-18",
+          "title": "Assets/maintenance/warranties/manuals",
+          "decision": "ACCEPTED",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow/contracts.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-19",
+          "title": "Personal knowledge/reference library",
+          "decision": "ACCEPTED",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow/spec.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-20",
+          "title": "Backup/disaster recovery",
+          "decision": "REQUIRED backlog",
+          "delivery": "specification",
+          "verification": "documented",
+          "current_status": "Spec-only.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-21",
+          "title": "Custom skill/automation builder",
+          "decision": "PROPOSED/ACCEPTED direction",
+          "delivery": "documented",
+          "verification": "documented",
+          "current_status": "Workflow/spec only.",
+          "required_disposition": "",
+          "evidence_paths": []
+        },
+        {
+          "id": "f-22",
+          "title": "Activity trackers/wearable data",
+          "decision": "PROPOSED",
+          "delivery": "not_present",
+          "verification": "documented",
+          "current_status": "Not present; connector/infrastructure dependent.",
+          "required_disposition": "",
+          "evidence_paths": []
+        }
+      ]
+    },
+    {
+      "id": "g",
+      "title": "Data platform, integrations, recovery, and future infrastructure",
+      "features": [
+        {
+          "id": "g-01",
+          "title": "Sheets/Drive as current mutable authority with Git for policy/schema/tests",
+          "decision": "REQUIRED current architecture",
+          "delivery": "live_external",
+          "verification": "live_readback_required",
+          "current_status": "In use",
+          "required_disposition": "Clarify authority registry; query live authority before memory/chat.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-02",
+          "title": "Google Workspace and Microsoft 365 state/evidence portability",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable capability contract/router + documentation/tests; live tenant adapters remain capability- and readback-gated",
+          "required_disposition": "Permit Sheets/Drive or Lists/Excel plus OneDrive/SharePoint only after exact identity, scope, bounded write, and provider readback.",
+          "evidence_paths": [
+            "starter/platform-capabilities.json",
+            "starter/tools/provider_capability_router.py",
+            "starter/tests/test_platform_portability.py",
+            "starter/PLATFORM_PORTABILITY.md",
+            "starter/ENTERPRISE_PILOT.md"
+          ]
+        },
+        {
+          "id": "g-03",
+          "title": "Apple/iCloud and portable-file manual bridge",
+          "decision": "CURRENT REQUIRED portability boundary",
+          "delivery": "contract",
+          "verification": "ci_evidence",
+          "current_status": "Contract-only, machine-validated manual lane",
+          "required_disposition": "Support deliberate browser/mobile CSV/JSON/ICS/document import/export; do not advertise arbitrary automated iCloud Drive access.",
+          "evidence_paths": [
+            "starter/platform-capabilities.json",
+            "starter/tools/provider_capability_router.py",
+            "starter/tests/test_platform_portability.py",
+            "starter/PLATFORM_PORTABILITY.md",
+            "starter/ENTERPRISE_PILOT.md"
+          ]
+        },
+        {
+          "id": "g-04",
+          "title": "Locked-down and regulated enterprise/VA pilot lane",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable fail-closed approval/capability gate + tested pilot contract; live tenant authorization remains unproven",
+          "required_disposition": "Use synthetic/public data first, forbid personal-account workarounds, pin approved source, verify least-privilege read/write/readback, and require exact current organization approval for regulated-sensitive data.",
+          "evidence_paths": [
+            "starter/platform-capabilities.json",
+            "starter/tools/provider_capability_router.py",
+            "starter/tests/test_platform_portability.py",
+            "starter/PLATFORM_PORTABILITY.md",
+            "starter/ENTERPRISE_PILOT.md"
+          ]
+        },
+        {
+          "id": "g-05",
+          "title": "Eventual PostgreSQL/private SQL canonical service",
+          "decision": "USER DIRECTION / INFRA",
+          "delivery": "infrastructure",
+          "verification": "documented",
+          "current_status": "Architecture docs only",
+          "required_disposition": "Stage migration behind API/schema/tests; no pretend bridge.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-06",
+          "title": "Policy/data API",
+          "decision": "PROPOSED/INFRA",
+          "delivery": "infrastructure",
+          "verification": "documented",
+          "current_status": "Architecture spec",
+          "required_disposition": "Needed before companion app/remote consumers; authenticated and scoped.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-07",
+          "title": "Grafana/observability dashboards",
+          "decision": "PROPOSED/INFRA",
+          "delivery": "infrastructure",
+          "verification": "documented",
+          "current_status": "Architecture doc",
+          "required_disposition": "Operational telemetry only; not beta-core.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-08",
+          "title": "Object storage/NAS for evidence and attachments",
+          "decision": "PROPOSED/INFRA",
+          "delivery": "infrastructure",
+          "verification": "documented",
+          "current_status": "Architecture spec",
+          "required_disposition": "Define provenance, retention, backup, encryption.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-09",
+          "title": "Companion/mobile app with scanning and queries",
+          "decision": "USER DIRECTION / INFRA",
+          "delivery": "not_present",
+          "verification": "documented",
+          "current_status": "Not present",
+          "required_disposition": "Depends on stable API, identity, events, auth, offline handling.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-10",
+          "title": "Home Assistant bridge",
+          "decision": "PROPOSED/INFRA",
+          "delivery": "not_present",
+          "verification": "documented",
+          "current_status": "Not present",
+          "required_disposition": "Explicit local bridge and permissions; no cloud-reachability assumption.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-11",
+          "title": "Plex bridge",
+          "decision": "PROPOSED/INFRA",
+          "delivery": "not_present",
+          "verification": "documented",
+          "current_status": "Not present",
+          "required_disposition": "Optional local module.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-12",
+          "title": "Voice queries/commands",
+          "decision": "PROPOSED/INFRA",
+          "delivery": "not_present",
+          "verification": "documented",
+          "current_status": "Not present",
+          "required_disposition": "Explicit confirmation for consequential actions.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-13",
+          "title": "NAS/LAN/private-service bridge and VPN access",
+          "decision": "PROPOSED/INFRA",
+          "delivery": "not_present",
+          "verification": "documented",
+          "current_status": "Not present",
+          "required_disposition": "Threat model and explicit network boundary first.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-14",
+          "title": "Family site-to-site VPN/redundancy/failover",
+          "decision": "PROPOSED",
+          "delivery": "not_present",
+          "verification": "documented",
+          "current_status": "Not present",
+          "required_disposition": "Separate infrastructure project, not beta-core Personal Ops Planner.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-15",
+          "title": "Twice-daily incremental, daily cloud, weekly full, rotation, encryption, restore tests",
+          "decision": "REQUIRED backlog",
+          "delivery": "specification",
+          "verification": "documented",
+          "current_status": "Spec-only",
+          "required_disposition": "Define actual data set/RPO/RTO and prove restores before claiming backup.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-16",
+          "title": "Knowledge ingestion with relevant excerpts, timestamps, URL/title/metadata, provenance, relationships, optional full pin",
+          "decision": "REQUIRED/ACCEPTED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable knowledge/provenance core + skill/provider workflow",
+          "required_disposition": "Keep raw source temporary unless pinned; test retrieval/provenance and verify retained Drive objects by readback.",
+          "evidence_paths": [
+            "skill/ops-brief-policy/scripts/inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/asset_evidence.py",
+            "skill/ops-brief-policy/scripts/test_inventory_reconciliation.py",
+            "skill/ops-brief-policy/scripts/test_asset_evidence.py"
+          ]
+        },
+        {
+          "id": "g-17",
+          "title": "Drive organization by domain and searchable metadata",
+          "decision": "ACCEPTED personal behavior",
+          "delivery": "workflow",
+          "verification": "documented",
+          "current_status": "Skill workflow",
+          "required_disposition": "User-specific layout stays private/configurable.",
+          "evidence_paths": []
+        },
+        {
+          "id": "g-18",
+          "title": "Hierarchical machine-readable feature catalog with CI drift enforcement",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable repository release gate",
+          "required_disposition": "Update the forensic ledger, regenerate JSON/Markdown, attach code/test evidence to executable claims, then commit and push every durable feature change.",
+          "evidence_paths": [
+            "scripts/feature_catalog.py",
+            "tests/test_feature_catalog.py"
+          ]
+        },
+        {
+          "id": "g-19",
+          "title": "Machine-enforced production-code inventory and anti-bloat ownership gate",
+          "decision": "CURRENT REQUIRED",
+          "delivery": "executable",
+          "verification": "ci_evidence",
+          "current_status": "Executable repository release gate",
+          "required_disposition": "Every production Python file declares one bounded responsibility, why it is separate, and direct test evidence; unlisted code, debug execution, bare exceptions, wildcard imports, and `shell=True` fail CI.",
+          "evidence_paths": [
+            "docs/code-inventory.json",
+            "tests/test_code_inventory.py"
+          ]
+        }
+      ]
+    }
+  ]
+}

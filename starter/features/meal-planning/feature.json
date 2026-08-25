@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "id": "meal-planning",
+  "version": "0.4.0-beta.1",
+  "summary": "Adaptive meal, recipe, leftover and grocery-intent planning using a structured state authority plus optional Drive evidence.",
+  "portable": true,
+  "delivery_status": "contract-only",
+  "compatibility": {"core": ">=0.1.0-beta.1"},
+  "dependencies": [],
+  "entrypoints": {
+    "references": ["FEATURE.md"],
+    "scripts": [],
+    "schemas": [],
+    "migrations": []
+  },
+  "permissions": {
+    "connectors": ["structured state authority", "Drive/files when enabled"],
+    "network_domains": [],
+    "writes": ["canonical recipe/meal-plan state", "active shopping intent when enabled", "retained recipe evidence when enabled"],
+    "approval_required": ["initial provisioning", "state sharing", "external purchase/contact", "public feature contribution"]
+  },
+  "data_boundary": {
+    "source_contains_personal_data": false,
+    "shared_logs_contain_personal_data": false,
+    "runtime_state": "external-authority",
+    "forbidden_source_data": ["credentials", "private meal history", "mutable shopping exports", "private chat transcripts", "private Drive evidence"]
+  },
+  "runtime_contract": {
+    "failure_domain": "meal-planning",
+    "required_capabilities": ["structured-state-authority"],
+    "optional_capabilities": ["drive-evidence", "shopping-intent", "finance-evidence"],
+    "conditional_capabilities": {
+      "drive-evidence": "required only when the selected recipe/evidence policy stores long bodies or files externally",
+      "shopping-intent": "required only for the shopping-procurement projection selected by an accepted meal plan; meal-plan state commits first",
+      "finance-evidence": "optional cost evidence and never required for basic planning"
+    },
+    "canonical_state_classes": ["recipes", "meal-plans", "pantry-freezer"],
+    "idempotency_scope": "canonical recipe ids plus meal-plan horizon; shopping projection uses meal-plan id plus shopping intent correlation id",
+    "on_required_failure": "block-module-only",
+    "on_optional_failure": "degrade-capability-and-continue",
+    "cross_module_writes": ["shopping-procurement:upsert-meal-plan-intent"]
+  },
+  "config_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": {"type": "boolean"},
+      "canonical_recipe_store": {"type": "string"},
+      "canonical_meal_plan_store": {"type": "string"},
+      "recipe_evidence_store": {"type": "string"},
+      "shopping_intent_enabled": {"type": "boolean"},
+      "planning_horizon_days": {"type": "integer"},
+      "existing_material_import": {"type": "boolean"},
+      "sharing_scope": {"type": "string"}
+    }
+  },
+  "tests": ["tests/contract.md"]
+}
