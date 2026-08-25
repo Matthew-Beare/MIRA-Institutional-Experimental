@@ -1,6 +1,6 @@
 # Capability and Existing-Evidence Discovery
 
-First boot should discover what is already available before asking a user to rebuild their life manually or connect redundant services. Mutable Personal Ops Planner state lives in the selected canonical structured authority, normally Google Sheets or Microsoft Lists/Excel; Google Drive or OneDrive/SharePoint may retain selected evidence/documents; Git or a managed central source versions behavior/config/schema/features.
+First boot should discover what is already available before asking a user to rebuild their life manually or connect redundant services. Mutable Life Planner state lives in the selected canonical structured authority, normally Google Sheets or Microsoft Lists/Excel; Google Drive or OneDrive/SharePoint may retain selected evidence/documents; Git or a managed central source versions behavior/config/schema/features.
 
 Load `platform-capabilities.json` and use `tools/provider_capability_router.py` from the assistant runtime. The human never runs a command. Provider names are labels only: no AI, storage, source-control or scheduler capability is accepted without observed access and the required readback.
 

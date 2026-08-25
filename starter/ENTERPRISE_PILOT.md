@@ -1,6 +1,8 @@
 # Locked-down and regulated enterprise pilot
 
-This lane is for corporate, government, health-care, education, and other managed devices where the end user may have no installation rights and external services may be blocked.
+This lane is for corporate, government, health-care, education, and other managed devices where the end user may have no installation rights and external services may be blocked. After the approval gates, use [`PROVIDER_ONBOARDING.md`](PROVIDER_ONBOARDING.md) for the exact Google, Microsoft 365/OneDrive, Apple/manual or alternative-AI resource setup.
+
+Use the private `Life-Planner-Institutional-Experimental` generated source channel for institutional evaluation. Do not treat its private visibility as permission to store regulated data in Git.
 
 ## Absolute boundary
 
@@ -35,6 +37,8 @@ Record the accountable sponsor, intended users, exact problem, forbidden data, s
 ### Gate 1 — synthetic demonstration
 
 Use synthetic or public data to demonstrate interview continuity, task/brief structure, policy portability, and export formats. Do not connect production mail, calendars, drives, or repositories.
+
+Use generic or synthetic personas and scenarios. Never embed real viewer identities, private disclosures, relationships, or inferred motives in fixtures, prompts, configuration, or presentation material.
 
 ### Gate 2 — approved read-only discovery
 

@@ -1,4 +1,4 @@
-# Personal Ops Planner Profiles and Context Modes
+# Life Planner Profiles and Context Modes
 
 This contract separates **who the system is helping**, **where/how that person is operating right now**, and **which stock services are active**. Do not collapse these into one giant `mode` flag.
 

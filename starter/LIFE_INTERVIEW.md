@@ -1,4 +1,4 @@
-# Personal Ops Planner Adaptive Whole-Life Interview
+# Life Planner Adaptive Whole-Life Interview
 
 Use this after the four kickoff questions in `START_HERE.md`. Its purpose is comprehensive discovery without requiring one uninterrupted setup conversation.
 
@@ -28,7 +28,7 @@ Ask which pattern best describes the user now: working, retired, studying, careg
 - what repeatedly gets forgotten, delayed, misplaced, or done at the last minute;
 - recurring decisions that could use a stable rule or next action;
 - information scattered across email, calendar, notes, photos, documents, apps, chats, or memory;
-- what would feel materially easier if Personal Ops Planner worked well six months from now.
+- what would feel materially easier if Life Planner worked well six months from now.
 
 If retired or not working, do not force job/context machinery. Explore appointments, household/admin, family responsibilities, volunteering, routines, documents, hobbies, travel, projects, and selected health-event organization when useful.
 
@@ -46,7 +46,7 @@ Before designing replacements, inspect what already exists:
 
 Use `CAPABILITY_DISCOVERY.md`. Do not claim arbitrary old ChatGPT conversations are globally searchable. If prior-chat information is inaccessible, provide an ingestion path.
 
-When useful existing data is reachable, dedupe and reconcile approved facts into the selected canonical state authority with provenance. Do not create a second hidden Personal Ops Planner database.
+When useful existing data is reachable, dedupe and reconcile approved facts into the selected canonical state authority with provenance. Do not create a second hidden Life Planner database.
 
 ## 3. Work and context-mode gate
 
@@ -216,6 +216,8 @@ When customization creates a coherent reusable feature, ask exactly: `Do you wan
 ## 16. Brief design and anti-noise rules
 
 Ask what deserves interruption versus digest, preferred length, priority model, what stays visible until done, what disappears after acknowledgement, which sections vary by context, and degraded-module wording.
+
+For every enabled brief service, ask exactly: **Would you like weather included in your briefs?** Do not infer this preference. If yes, resolve selected slots, fixed/manual/verified-current/context location policy, units, detail level, and severe-alert behavior. Require an explicit location, source, units, and forecast valid time; stale or unavailable weather degrades only that section.
 
 Every brief should answer some combination of what changed, what needs action, what is next, and **what to do next**.
 

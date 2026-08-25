@@ -1,8 +1,8 @@
-# Personal Ops Planner Starter Versioning and Personal Deployments
+# Life Planner Starter Versioning and Personal Deployments
 
 ## Repository roles
 
-- This repository is the public Personal Ops Planner upstream and reference implementation.
+- This repository is the public Life Planner upstream and reference implementation.
 - `starter/` is the portable onboarding/distribution boundary.
 - A personal, organization, or managed Git repository preserves source lineage: policy, non-secret configuration, schemas, migrations, enabled features, tests, onboarding, authority references, and custom feature work.
 - Mutable operational state lives in selected canonical authorities, defaulting to Google Sheets/Google Drive for personal deployments or approved Microsoft Lists/Excel and OneDrive/SharePoint candidates in Microsoft 365 deployments.

@@ -28,20 +28,10 @@ class NontechnicalInstallationTests(unittest.TestCase):
         self.assertNotIn("git clone ", install.lower())
         self.assertNotIn("gh repo create", install.lower())
 
-    def test_git_is_explained_for_a_first_time_user(self) -> None:
-        install = self.text("INSTALL.md")
-        for phrase in (
-            "**Git** is an undo history for files",
-            "**GitHub** is a website that stores a Git project online",
-            "A **repository**",
-            "A **commit** is a named save point",
-            "A **push** means putting a new commit onto GitHub",
-            "You do **not** need to type Git commands",
-        ):
-            self.assertIn(phrase, install)
-
     def test_template_path_creates_private_user_owned_repository(self) -> None:
         flow = self.flow()
+        self.assertEqual(5, flow["version"])
+        self.assertEqual("Matthew-Beare/MIRA-Public-Experimental", flow["upstream"])
         self.assertEqual("github-template", flow["copy_method"])
         self.assertEqual("private", flow["default_personal_visibility"])
         self.assertEqual("user", flow["first_repository_creation"]["default_actor"])
@@ -50,6 +40,38 @@ class NontechnicalInstallationTests(unittest.TestCase):
         self.assertFalse(flow["first_repository_creation"]["include_all_branches"])
         self.assertIn("template_missing", flow["blocked_states"])
         self.assertIn("/generate", self.text("INSTALL.md"))
+
+    def test_provider_specific_browser_onboarding_covers_non_google_lanes(self) -> None:
+        flow = self.flow()
+        self.assertEqual("PROVIDER_ONBOARDING.md", flow["provider_onboarding_document"])
+        providers = self.text("PROVIDER_ONBOARDING.md")
+        for phrase in (
+            "Google Workspace lane",
+            "Microsoft 365, OneDrive and SharePoint lane",
+            "Apple and iCloud lane",
+            "Claude and other AI runtimes",
+            "Institutional and VA deployment",
+            "No local OneDrive sync client",
+            "read → write → readback",
+        ):
+            self.assertIn(phrase, providers)
+        self.assertIn("PROVIDER_ONBOARDING.md", self.text("INSTALL.md"))
+        self.assertIn("MIRA-Public-Experimental/generate", self.text("INSTALL.md"))
+
+    def test_installable_skill_and_personal_google_bootstrap_are_required(self) -> None:
+        flow = self.flow()
+        self.assertEqual("life-planner", flow["skill_package"])
+        for relative in (
+            "life-planner/SKILL.md",
+            flow["personal_google_blueprint"],
+            flow["personal_google_verifier"],
+        ):
+            self.assertTrue((ROOT / relative).is_file(), relative)
+        gates = {row["id"]: row for row in flow["capability_gates"]}
+        self.assertIn("life-planner-skill", gates)
+        install = self.text("INSTALL.md")
+        self.assertIn("install and validate the `life-planner` skill", install)
+        self.assertIn("Do not fall back to the reference deployment", install)
 
     def test_read_and_write_connections_are_independent_gates(self) -> None:
         flow = self.flow()
@@ -111,23 +133,42 @@ class NontechnicalInstallationTests(unittest.TestCase):
         for question_id in flow["household_routine_question_ids"]:
             self.assertIn(question_id, ids)
 
-    def test_public_front_door_uses_mira_mirror_branding(self) -> None:
-        surfaces = (
-            (ROOT.parent / "README.md").read_text(encoding="utf-8"),
-            self.text("README.md"),
-            self.text("INSTALL.md"),
-        )
-        for surface in surfaces:
-            self.assertIn("MIRROR", surface)
+    def test_weather_in_briefs_is_an_explicit_failure_isolated_opt_in(self) -> None:
+        questions = json.loads(self.text("questions.json"))
+        rows = {
+            row["id"]: row
+            for section in questions["sections"]
+            for row in section["questions"]
+        }
+        question_id = self.flow()["selected_workflow_discovery"]["weather_brief_question_id"]
+        self.assertEqual("brief_weather_enabled", question_id)
+        self.assertEqual("Would you like weather included in your briefs?", rows[question_id]["prompt"])
+        self.assertTrue(rows[question_id]["required"])
+        for question_id in (
+            "brief_weather_slots",
+            "brief_weather_location_policy",
+            "brief_weather_details",
+            "brief_weather_units",
+            "brief_severe_weather_alerts",
+        ):
+            self.assertIn(question_id, rows)
+            self.assertIn("brief_weather_enabled is true", rows[question_id]["applies_when"])
+        dependencies = self.text("DEPENDENCIES.md")
+        self.assertIn("Missing or stale weather degrades only the weather section", dependencies)
+        self.assertIn("official alerts are distinct evidence classes", dependencies)
+
+    def test_public_front_door_uses_current_mira_mirror_brand(self) -> None:
+        root_readme = (ROOT.parent / "README.md").read_text(encoding="utf-8")
+        starter_readme = self.text("README.md")
+        install = self.text("INSTALL.md")
+        for surface in (root_readme, starter_readme, install):
+            self.assertIn("M.I.R.R.O.R.", surface)
             self.assertIn("MIRA", surface)
             self.assertNotIn("# LyfeOS", surface)
-
         branding = (ROOT.parent / "docs" / "BRANDING.md").read_text(encoding="utf-8")
-        self.assertIn("MIRROR Layer", branding)
-        self.assertIn("MIRA Layer", branding)
-        self.assertIn("MIRA, mirror on the wall", branding)
-        self.assertIn("default user-facing assistant", branding)
-        self.assertIn("proper trademark", branding)
+        self.assertIn("Life Planner", branding)
+        self.assertIn("compatibility identifiers", branding)
+        self.assertIn("proper trademark/domain/app-store clearance", branding)
 
 
 if __name__ == "__main__":

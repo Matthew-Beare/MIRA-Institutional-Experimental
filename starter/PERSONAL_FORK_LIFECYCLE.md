@@ -1,13 +1,13 @@
 # Personal Fork Lifecycle
 
-Personal Ops Planner is designed to be inherited, personalized, versioned, and optionally improved upstream without treating Git as the user's live database.
+Life Planner is designed to be inherited, personalized, versioned, and optionally improved upstream without treating Git as the user's live database.
 
 ## Repository lineage
 
 ```text
 public upstream GitHub template
         ↓ personal template copy OR approved organization/managed release
-user-owned, organization-owned, or managed Personal Ops Planner source
+user-owned, organization-owned, or managed Life Planner source
         ↓ first-boot source/config checkpoint
 feature/fix branches + optional experimental integration
         ↓ tested personal release
@@ -15,7 +15,7 @@ feature/fix branches + optional experimental integration
 public upstream PR
 ```
 
-The user's Git repository is the durable source of truth for **behavior and structure**: policy, schemas, migrations, module selection, authority references, non-secret configuration, tests, feature code, onboarding, provenance, and recovery instructions.
+The user's Git repository is the durable source of truth for **behavior and structure**: policy, schemas, migrations, module selection, authority references, non-secret configuration, tests, feature code, onboarding, provenance, recovery instructions, and user-selected recurring brief schedules.
 
 Mutable personal operational state lives in canonical authorities described in `STATE_AUTHORITY_MODEL.md`, normally Google Sheets plus Google Drive evidence for the personal starter or Microsoft Lists/Excel plus OneDrive/SharePoint in an approved Microsoft 365 lane.
 
@@ -32,12 +32,14 @@ After the browser setup and repository capability readback in `INSTALL.md`, then
 3. verify source read, source write and remote readback independently when user-level source mutations are allowed;
 4. create/select the structured state authority and evidence root;
 5. create and verify the `Authority Registry` and `Interview Ledger`;
-6. write non-secret deployment configuration, selected feature IDs/versions, schemas/migrations, and policy;
-7. import approved accessible existing information into the selected canonical state/evidence authorities with provenance;
-8. run applicable validation/privacy/source tests;
-9. commit and push one coherent Git source/config checkpoint;
-10. read back the remote source commit;
-11. read back canonical state/evidence writes before calling initialization complete.
+6. ask whether recurring briefs are wanted and, if so, record only the user's exact local slots, notification mode, and canonical IANA timezone; the product supplies no default brief time;
+7. write non-secret deployment configuration, selected feature IDs/versions, schemas/migrations, policy, and any selected brief schedule;
+8. import approved accessible existing information into the selected canonical state/evidence authorities with provenance;
+9. run applicable validation/privacy/source tests;
+10. commit and push one coherent Git source/config checkpoint;
+11. read back the remote source commit;
+12. project any selected recurring brief schedule into the verified scheduler and read the exact definition back;
+13. read back canonical state/evidence writes before calling initialization complete.
 
 Credentials, OAuth tokens, passwords, raw authentication material, full payment credentials, mutable Sheet/List/Excel exports, and private Drive/OneDrive/SharePoint evidence do not belong in portable Git source.
 
@@ -59,18 +61,21 @@ Examples include accepting a meal plan, recording a workout, adding/revising an 
 
 After standing Git authorization, lasting behavior/configuration/schema/migration/onboarding changes automatically validate, commit, push, and receive remote readback. Several experiments may exist at once on separate feature branches. The stable personal branch stays known-good; incomplete work belongs on feature/experimental branches.
 
+A recurring brief schedule is one of those durable configuration changes. When the user moves, adds, disables, renames, or removes a brief, update the version-controlled schedule first, validate/commit/push/read it back, then reconcile the provider scheduler and verify the live definition. Never leave the live scheduler and Git describing different schedules.
+
 Examples:
 - a new meal-planning rule;
 - an appointment reconciliation policy;
 - a hiking/travel module;
 - a custom work-mode transition;
+- a changed recurring brief time or notification mode;
 - a state-store schema migration;
 - a reusable fitness evidence adapter;
 - a household workflow.
 
 ## Portable feature candidate gate
 
-When a custom feature reaches a coherent tested checkpoint, Personal Ops Planner asks exactly:
+When a custom feature reaches a coherent tested checkpoint, Life Planner asks exactly:
 
 `Do you want to make this feature available to other people?`
 

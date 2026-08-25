@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import string
 import subprocess
 from pathlib import Path
 
@@ -133,6 +134,17 @@ def _luhn(number: str) -> bool:
     return total % 10 == 0
 
 
+def _inside_hex_digest(text: str, start: int, end: int) -> bool:
+    left = start
+    right = end
+    while left and text[left - 1] in string.hexdigits:
+        left -= 1
+    while right < len(text) and text[right] in string.hexdigits:
+        right += 1
+    token = text[left:right]
+    return len(token) in {40, 64} and all(char in string.hexdigits for char in token)
+
+
 def scan_text(text: str, label: str) -> list[str]:
     errors: list[str] = []
     for name, pattern in SECRET_PATTERNS:
@@ -145,7 +157,7 @@ def scan_text(text: str, label: str) -> list[str]:
             errors.append(f"{label}: possible literal secret assignment for {match.group(1)}")
 
     for match in CARD_CANDIDATE.finditer(text):
-        if _luhn(match.group(0)):
+        if _luhn(match.group(0)) and not _inside_hex_digest(text, *match.span()):
             errors.append(f"{label}: possible full payment-card number")
             break
     for match in EMAIL_CANDIDATE.finditer(text):

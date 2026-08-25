@@ -1,8 +1,8 @@
 # Platform portability contract
 
-Personal Ops Planner has a portable policy/data core and platform adapters. It does **not** pretend that ChatGPT, Claude, Microsoft Copilot, Gemini, Google Drive, OneDrive, SharePoint, or Apple/iCloud expose the same tools.
+Life Planner has a portable policy/data core and platform adapters. It does **not** pretend that ChatGPT, Claude, Microsoft Copilot, Gemini, Google Drive, OneDrive, SharePoint, or Apple/iCloud expose the same tools.
 
-The machine-readable catalog is [`platform-capabilities.json`](platform-capabilities.json). The onboarding assistant evaluates observed capabilities with `tools/provider_capability_router.py`; the human never runs that script or opens a terminal.
+The machine-readable catalog is [`platform-capabilities.json`](platform-capabilities.json). The onboarding assistant evaluates observed capabilities with `tools/provider_capability_router.py`; the human never runs that script or opens a terminal. Exact browser-only provider setup is in [`PROVIDER_ONBOARDING.md`](PROVIDER_ONBOARDING.md).
 
 ## Portable core
 

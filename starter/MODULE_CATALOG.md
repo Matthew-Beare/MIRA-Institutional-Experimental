@@ -1,4 +1,4 @@
-# Personal Ops Planner First-Boot Module Catalog
+# Life Planner First-Boot Module Catalog
 
 After the four kickoff questions and adaptive `LIFE_INTERVIEW.md`, present modules conversationally in small groups. Recommend a useful default bundle from problems, existing evidence, and available capabilities, then expose adjacent options so the user can discover workflows they did not know to request. Do not silently enable optional modules.
 
@@ -10,8 +10,12 @@ For new-user starter deployments, structured mutable state uses the selected can
 Ask: **Do you want a recurring brief combining the few things that changed, need action, or should happen next across enabled life domains?**
 Collect cadence, exact local times, canonical timezone, length, priority rules, context differences, and anti-nag rules.
 
+### Weather in briefs
+Ask exactly: **Would you like weather included in your briefs?**
+Keep it disabled until the user answers. If enabled, collect the selected brief slots, location policy (fixed, manual, verified current, or context-based), units, compact/detail preference, and whether authoritative severe-weather alerts should appear independently. Every weather result needs an explicit location, source, units, and forecast valid time. Stale or unavailable weather degrades only the weather section and never blocks the rest of a brief; a forecast is never presented as an official alert.
+
 ### Next-action planner
-Ask: **Do you want Personal Ops Planner to keep a prioritized next-action queue so you can ask “what should I do next?” without rebuilding context?**
+Ask: **Do you want Life Planner to keep a prioritized next-action queue so you can ask “what should I do next?” without rebuilding context?**
 Support deadlines, prerequisites, context/location, available time, user-provided constraints, blocked work, and minimum viable actions. Never infer completion from silence.
 
 ### Durable interview completion
@@ -89,7 +93,7 @@ Morning-of intervals are calculated using the event's IANA timezone, not a stati
 Offer medication reminders independently and default them off. An active schedule requires explicit owner, prescription-label, pharmacy, or clinician evidence plus user confirmation. Never infer dose/timing, give missed-dose advice, or share sensitive reminders with a caregiver without explicit opt-in and an exact recipient identity. Project approved reminders through the configured provider and verify readback; do not create one ChatGPT automation per dose.
 
 ### Calendar Projection
-Ask: **Which verified Personal Ops Planner facts, if any, should also appear on Calendar?**
+Ask: **Which verified Life Planner facts, if any, should also appear on Calendar?**
 Offer independently appointments/reservations, deliveries, work travel, deadlines, bills/trials, routine/study sessions, maintenance/warranty deadlines, selected tasks, and user-defined types. Revisions update linked events instead of creating duplicates.
 
 ### Important-mail triage

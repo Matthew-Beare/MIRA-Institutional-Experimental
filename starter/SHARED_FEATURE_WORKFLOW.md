@@ -1,16 +1,39 @@
-# Shared Personal Ops Planner Feature Workflow
+# Shared M.I.R.R.O.R. Skill and Feature Workflow
 
-## Decision
+M.I.R.R.O.R. is designed to learn new repeatable behaviors without turning one person's private life into somebody else's source code. The normal path is **design privately → test → version → optionally sanitize → share**.
 
-Personal Ops Planner is an ecosystem of personal deployments built from a stable **public upstream**. Git versions portable behavior/config/schema/tests/features. Mutable operational state stays in the deployment's selected canonical authorities, normally Sheets + Drive for the starter.
+## For a non-technical user
+
+You can ask MIRA to create a new skill in ordinary language. Describe the outcome, not the implementation.
+
+Example:
+
+`Design a skill that tracks maintenance for my equipment, links receipts and manuals, and reminds me when service is due.`
+
+MIRA should then:
+
+1. **Inspect before building.** Check the current feature catalog, installed skills, connected providers, schemas, and existing behavior so the new work does not duplicate or contradict something already present.
+2. **Define the contract.** State what the skill does, what evidence it reads, which authority owns mutable state, what permissions/connectors it needs, what it may write, how failure is isolated, and what counts as success.
+3. **Create a feature branch.** Implement the change away from `main`. Reusable modules normally live under `starter/features/<feature-id>/`; deployment-specific behavior stays in the private deployment boundary.
+4. **Make the data boundary explicit.** Put behavior, schemas, migrations, non-secret configuration, and tests in Git. Keep credentials, live authority IDs, private email/receipt bodies, health records, and mutable personal state out of portable source.
+5. **Add tests and synthetic fixtures.** A reusable skill must be testable without copying the user's real data into public or portable source.
+6. **Verify the private version.** Run the relevant feature tests and provider readbacks, then commit and push a coherent checkpoint. A half-working experiment is not silently promoted.
+7. **Keep it private by default.** Finishing a useful personal skill does not imply permission to publish it.
+8. **Ask before sharing.** When coherent, ask exactly: **Do you want to make this feature available to other people?**
+
+If the answer is **no**, stop at the private, versioned implementation.
+
+If the answer is **yes**, continue through the portability gate below. A yes authorizes preparation for a public contribution, not publication of private data and not an automatic merge. **Publication authority** remains separate and requires explicit approval of the sanitized public diff.
+
+## Source and state surfaces
 
 | Surface | Contents | Rule |
 |---|---|---|
-| Public upstream | portable core/starter/features/tests/reference implementation | no secrets or mutable personal data |
-| User Git repository | policy/config/schema/tests/personal features/provenance | source/version lineage |
+| Public upstream | portable core, starter, features, tests, reference implementation | no secrets or mutable personal data |
+| User Git repository | policy, config, schema, tests, personal features, provenance | source/version lineage |
 | Structured state authority | tasks, interview ledger, appointments, routines, meal plans, shopping, indexes | canonical mutable state |
-| Drive/evidence authority | retained documents/images/receipt/manual/recipe bodies when selected | evidence/documents |
-| Calendar/email/finance/wearable/maps | evidence/projection/action/current inputs | optional adapters |
+| Drive/evidence authority | retained documents, images, receipts, manuals, recipe bodies when selected | evidence/documents |
+| Calendar/email/finance/wearable/maps | evidence, projection, action, current inputs | optional adapters |
 
 ## Non-compromise invariants
 
@@ -19,51 +42,46 @@ Personal Ops Planner is an ecosystem of personal deployments built from a stable
 - Public contributions contain no credentials, secrets, mutable Sheet/database exports, private Drive evidence, Calendar history, receipt/mail bodies, account/medical/school records, or unintended personal information.
 - If portability extraction would destabilize a working deployment, preserve the deployment and extract reusable behavior separately.
 - Dependencies and permissions are declared rather than assumed from the author's connected apps.
-
-## Personal feature lifecycle
-
-1. User identifies a problem or Personal Ops Planner discovers a useful workflow opportunity.
-2. Create/modify the feature on a feature branch.
-3. Add/update policy, configuration schema, state-store schema/migrations, and tests as needed.
-4. Test against synthetic fixtures plus the deployment interfaces without copying live state into portable source.
-5. Commit/push a coherent feature checkpoint under standing Git authorization.
-6. Integrate with other experiments on `experimental` when useful.
-7. When coherent, ask exactly: **Do you want to make this feature available to other people?**
-
-If no, keep it personal. If yes, continue through the portability gate.
+- Standing permission to commit and push a private deployment is never permission to publish upstream.
 
 ## Portability gate
 
 Before an upstream contribution:
-1. state the reusable problem/behavior without personal assumptions;
+
+1. state the reusable problem and behavior without personal assumptions;
 2. replace user identifiers, authority IDs, provider IDs, and deployment-specific constants with configuration;
-3. remove real Sheet/database rows, Drive evidence, Calendar events, private provider references, and local configuration;
-4. create synthetic fixtures;
-5. minimize dependencies and declare optional/required connectors;
+3. remove real database rows, Drive evidence, Calendar events, private provider references, and local configuration;
+4. create synthetic fixtures that demonstrate the behavior without exposing the user;
+5. minimize dependencies and declare optional and required connectors;
 6. define permissions, authority/state schemas, migrations, and adapter boundaries;
 7. make migrations idempotent and reversible when practical;
-8. add feature version/manifest and compatibility range;
-9. run feature tests, repository validation, starter privacy audit, and public-source history/current-tree audit;
-10. show the exact public contribution diff and what becomes public;
-11. under explicit publication authority, create or use a sanitized contribution branch in the upstream contribution network and open an upstream PR. A private template copy is not assumed to be a fork and cannot itself prove PR compatibility.
+8. add or update feature version, manifest, compatibility range, and tests;
+9. run feature tests, repository validation, starter privacy audit, and public-source current-tree/history audit;
+10. show the user the exact sanitized diff and clearly identify what becomes public;
+11. obtain explicit publication approval; and
+12. create or use a sanitized contribution branch in the upstream contribution network and open an upstream pull request.
 
-Never interpret permission to auto-version a personal source repository as permission to publish upstream.
+Publication is complete only after the upstream review/merge process and required CI succeed. Never treat a private template copy as proof that a public PR is safe.
 
 ## Portable feature boundary
 
 Portable modules live under `starter/features/<feature-id>/` when useful. Their source describes behavior, schema/migrations, configuration, tests, and optional provider adapters. It never contains a real user's mutable authority data.
 
+If a new capability genuinely requires its own installable skill package instead of a feature module, use the same branch, authority, test, sanitization, permission, and publication rules.
+
 ## Bidirectional exchange
 
 ```text
 public upstream template/release
-        ↓ private template copy + pinned provenance
+        ↓ reviewed private adoption
 personal source repository + selected state authorities
-        ↓ customization
-personal feature
-        ↓ opt-in sanitization + contribution branch/fork + PR
+        ↓ customization on feature branch
+personal skill/feature
+        ↓ explicit opt-in + sanitization + synthetic fixtures
+sanitized contribution branch
+        ↓ reviewed pull request
 public upstream
-        ↓ review/release
+        ↓ release
 other deployments
 ```
 

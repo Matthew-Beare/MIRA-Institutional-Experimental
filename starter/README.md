@@ -1,87 +1,63 @@
-# MIRROR First-Boot Starter
+# MIRA | M.I.R.R.O.R. First-Boot Starter
 
-This reusable onboarding kit builds a new user's **MIRROR** deployment without copying the reference deployment's mutable state. **MIRA** is the default assistant identity.
+**M.I.R.R.O.R.** means **Memory, Integration, Reality, Reconciliation, Observation, and Record**. **MIRA** is the **MIRROR Intelligence and Reasoning Assistant**. This starter builds a new user's M.I.R.R.O.R. reality layer with MIRA as the default assistant, without copying another deployment's mutable state.
 
-The non-technical human entry point is [`INSTALL.md`](INSTALL.md). It is deliberately browser-only and explains Git/GitHub in plain language before asking the user to touch anything. [`START_HERE.md`](START_HERE.md) begins only after deployment-lane capability verification.
+M.I.R.R.O.R. **holds the durable reflection of reality**. With user-approved integrations, that reflection can connect assets, finances, calendars, email, orders and receipts, appointments, tasks, medication reminder schedules, documents and knowledge, travel/work context, meals, and new custom domains.
 
-## What the names mean
+Start with [`QUICK_START.md`](QUICK_START.md). It is the default non-technical browser path. [`INSTALL.md`](INSTALL.md) is the detailed capability/troubleshooting reference, and [`START_HERE.md`](START_HERE.md) is the deeper interview contract.
 
-- **MIRROR Layer**: memory/state, integrations, Reality Record, reconciliation, observed evidence, and provenance.
-- **MIRA Layer**: conversation, reasoning, planning, recommendations, approved execution, and verification back into MIRROR.
+The former **Life Planner** name and the `life-planner` skill/package path remain compatibility identifiers during migration.
 
-A user may choose a private nickname, but the upstream product remains MIRROR and the default assistant remains MIRA. See [`../docs/BRANDING.md`](../docs/BRANDING.md).
+## What goes where
 
-## Public distribution boundary
+- **Git or approved managed source**: policy, schemas, migrations, tests, onboarding, non-secret configuration, reusable features, and version lineage.
+- **Google Sheets / Microsoft Lists or Excel / another approved structured provider**: mutable personal records and canonical structured state.
+- **Google Drive / OneDrive or SharePoint / another approved evidence store**: retained evidence and documents where useful.
+- **Calendar**: optional projection and reminders, not automatically the sole state database.
 
-`starter/` is the portable surface of the public upstream. The personal default uses GitHub's browser template flow to create a private user-owned repository from the audited default branch. Enterprise users may use approved organization Git or managed central source without personal Git accounts. Local Git is developer-only and never a non-technical fallback.
+Git is not the default database for mutable personal records.
 
-Git carries portable behavior, schemas, migrations, configuration, tests, onboarding, and feature lineage. Mutable personal records stay in selected state/evidence authorities.
+## Default identity
 
-The supported starter candidates are:
+M.I.R.R.O.R. is the system. MIRA is the assistant.
 
-1. Google Sheets or Microsoft Lists/Excel for structured mutable state;
-2. Google Drive or OneDrive/SharePoint for retained evidence/documents when useful;
-3. personal/organization Git or managed central source for source/version lineage;
-4. Google Calendar or Outlook Calendar as an optional projection/reminder surface;
-5. other integrations only when selected modules need them.
-
-Apple/iCloud is supported through browser/mobile use and manual import/export unless a verified adapter proves more. ChatGPT, Claude, Microsoft/VA AI environments, Gemini, and other runtimes use the portable core only after exact capabilities are observed. Read `PLATFORM_PORTABILITY.md` and `ENTERPRISE_PILOT.md`.
+First boot must not make a non-technical user invent those names. A private assistant alias can be chosen later and stored as mutable profile state without renaming upstream.
 
 ## Durable interview
 
-First boot creates an `Interview Ledger` in canonical structured state. Every question ID in `questions.json` remains tracked until it is `Answered`, `Resolved from evidence`, or `Not applicable`. `Deferred` and `Unresolved` remain open.
-
-If the user changes subjects, MIRA answers the immediate request first, records any incidental answers, and later resumes the next useful unresolved interview item. The point is to survive normal human topic-jumping without quietly dropping half the setup.
+First boot creates an `Authority Registry` and an `Interview Ledger` in canonical structured state. Questions stay open until they are answered, resolved from evidence, not applicable, or explicitly deferred. A conversational detour does not silently abandon onboarding.
 
 ## Built-in discovery
 
-First boot can discover/configure, when useful:
+The starter can discover and configure, when useful:
 
-- concise briefs and prioritized next actions;
-- working, self-employed, retired, nonworking, parent/guardian, caregiver, household-manager, student, dependent, and custom roles;
-- accountability/routines and exercise with optional wearable evidence;
-- household routines and pickup/drop-off reminders without per-chore task sprawl;
-- education/study planning and context-aware variants;
-- work/context modes for travel/overnight/field roles;
-- meal planning, recipes, grocery intent, leftovers/pantry/freezer workflows;
-- hobbies, outdoor preparation, vacations, and trip planning;
-- appointments/reservations with verified evidence and Calendar reconciliation;
-- separately opt-in medication reminders from explicit supported schedules;
-- orders, receipts, shopping, cancellation/replacement/refund/payment reconciliation;
-- assets, manuals, technical knowledge, reimbursement, and optional finance workflows;
-- capability/plugin discovery so existing connected tools are reused before redundant setup is requested;
-- explicit personal/household/scoped state sharing.
+- briefs and next actions;
+- work, study, household, retirement, caregiving, and family contexts;
+- meal planning, recipes, groceries, pantry/freezer, and leftovers;
+- appointments and reminders;
+- orders, receipts, shopping, refunds, and payment reconciliation;
+- assets, manuals, identifiers, specifications, warranties, and maintenance;
+- travel/work context modes and mileage;
+- optional finance and medication-reminder workflows;
+- actionable email and retained knowledge; and
+- reusable custom skills and features.
 
-Accounts, exact schedules, taxonomy, authority IDs, repository visibility, and selected features are never inherited from the reference deployment.
+Existing connected evidence should be inspected before asking the user to rebuild information manually.
 
-## First-boot workflow
+## Create and share a skill
 
-1. Complete `INSTALL.md` and verify the exact runtime/source/state/evidence capabilities.
-2. Record the observed upstream commit/provenance.
-3. Apply the MIRA/MIRROR identity contract from `../docs/BRANDING.md`.
-4. Ask only the kickoff questions in `START_HERE.md`.
-5. Discover existing capabilities/evidence before creating duplicates.
-6. Create/select the structured state authority and evidence root.
-7. Create the `Authority Registry` and `Interview Ledger`.
-8. Conduct `LIFE_INTERVIEW.md` in small related batches, using evidence and branch logic where appropriate.
-9. Recommend a Minimum Useful Setup and adjacent capabilities the user may not know to request.
-10. Verify only dependencies required by selected modules; optional connector failures are module-scoped.
-11. Obtain bounded provisioning approval and create/verify state/evidence resources.
-12. Generate, validate, commit, push, and read back source changes when the source lane has standing write authorization.
-13. Continue unresolved Interview Ledger items across later conversations until coverage is complete.
-14. Never treat green CI as proof of live scheduler/provider behavior without required readback or observed execution.
+A user can describe a recurring problem to MIRA in ordinary language. MIRA should inspect existing capabilities, design the behavior and data boundaries, implement it on a feature branch, add tests and synthetic fixtures, verify it, and commit a coherent checkpoint.
+
+Personal skills stay private by default. When a skill is coherent, MIRA asks exactly: **Do you want to make this feature available to other people?** A yes starts the sanitization and public-contribution gate; it does not itself publish anything.
+
+See [`SHARED_FEATURE_WORKFLOW.md`](SHARED_FEATURE_WORKFLOW.md).
+
+## Same code across release channels
+
+M.I.R.R.O.R. Personal-Production, Personal-Experimental, and Institutional-Experimental are all public onboarding repositories using the same portable application code from one canonical source revision. Channel-specific feature forks are forbidden. Only deployment policy, approved provider/runtime configuration, data classification, and external mutable state differ.
 
 ## Boundaries
 
-- Never inherit another user's timezone, schedule, accounts, assets, receipts, authority IDs, or mutable records.
-- Never route a non-technical onboarding user to Command Prompt, PowerShell, Terminal, local Git, GitHub CLI, Codespaces, tokens, or SSH keys.
-- Never create a personal account or external connector to bypass organization policy.
-- Never infer runtime feature parity or regulated-data approval from a product name.
-- Never treat a read-only GitHub connection as proof of source write capability.
-- Never claim arbitrary old chats are globally searchable.
-- Never create one automation per order, appointment, routine, or assignment when Calendar/consolidated dispatch can handle it.
-- Never request or commit passwords, tokens, keys, full card data, private message/receipt bodies, account exports, medical records, school submissions, or mutable operational exports to portable Git.
-- Automatic Git push does not imply merge, release, publication, force-push, or visibility-change authority.
-- Completion comes from the user or reliable connected evidence, never silence.
+Never inherit another deployment's accounts, IDs, timezone, schedules, assets, receipts, tasks, or mutable records. Never treat ChatGPT GitHub read access as proof of Codex write access. Never send email automatically. Never claim a provider write before readback.
 
-See `STATE_AUTHORITY_MODEL.md`, `INTERVIEW_LEDGER.md`, `VERSIONING.md`, `PERSONAL_FORK_LIFECYCLE.md`, `CAPABILITY_DISCOVERY.md`, `PLATFORM_PORTABILITY.md`, `ENTERPRISE_PILOT.md`, and `DEPENDENCIES.md`.
+The `life-planner` package name is retained until a bounded compatibility migration proves every dependent path and test.

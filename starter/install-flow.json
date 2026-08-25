@@ -1,14 +1,28 @@
 {
-  "version": 2,
+  "version": 5,
   "audience": "nontechnical-browser-only",
-  "entry_document": "INSTALL.md",
+  "brand_product_name": "MIRROR",
+  "assistant_default_name": "MIRA",
+  "entry_document": "QUICK_START.md",
+  "detailed_install_document": "INSTALL.md",
   "portability_document": "PLATFORM_PORTABILITY.md",
   "enterprise_document": "ENTERPRISE_PILOT.md",
   "capability_manifest": "platform-capabilities.json",
   "capability_router": "tools/provider_capability_router.py",
-  "upstream": "Matthew-Beare/Daily-Ops-Brief",
+  "provider_onboarding_document": "PROVIDER_ONBOARDING.md",
+  "upstream": "Matthew-Beare/MIRA-Public-Experimental",
+  "upstream_status": "current-public-onboarding-template",
+  "skill_package": "life-planner",
+  "personal_google_blueprint": "life-planner/assets/personal-google-blueprint.json",
+  "personal_google_verifier": "life-planner/scripts/google_bootstrap.py",
   "copy_method": "github-template",
   "default_personal_visibility": "private",
+  "first_boot_defaults": {
+    "system_name": "MIRROR",
+    "assistant_name": "MIRA",
+    "ask_system_name_on_first_boot": false,
+    "private_assistant_alias_allowed": true
+  },
   "deployment_lanes": {
     "personal_browser": {
       "user_git": "github-template",
@@ -44,7 +58,7 @@
     {
       "id": "personal-repository",
       "pass_evidence": ["observed owner/name", "private visibility", "observed default branch", "observed head commit"],
-      "blocked_action": "use the upstream GitHub template to create one private repository"
+      "blocked_action": "use MIRA-Public-Experimental as the upstream GitHub template to create one private repository"
     },
     {
       "id": "chatgpt-github-read",
@@ -55,6 +69,11 @@
       "id": "codex-github-write",
       "pass_evidence": ["exact personal repository authorized in Codex", "remote write and readback succeed during bounded provisioning"],
       "blocked_action": "connect or authorize the repository in Codex; do not substitute the read-only ChatGPT GitHub app"
+    },
+    {
+      "id": "life-planner-skill",
+      "pass_evidence": ["life-planner skill installed from the exact private repository", "SKILL.md and Personal Google blueprint/verifier validated"],
+      "blocked_action": "install and validate starter/life-planner through Codex; do not install the reference deployment skill"
     },
     {
       "id": "runtime-and-data-approval",
@@ -73,56 +92,32 @@
     }
   ],
   "assistant_readback_fields": [
-    "repository",
-    "visibility",
-    "default_branch",
-    "starter_commit",
-    "chatgpt_read",
-    "codex_write",
-    "local_command_line_required",
-    "deployment_lane",
-    "ai_runtime",
-    "data_classification",
-    "source_mode",
-    "structured_state_provider",
-    "evidence_provider",
-    "organization_approval",
+    "repository", "visibility", "default_branch", "starter_commit", "chatgpt_read", "codex_write",
+    "life_planner_skill", "local_command_line_required", "deployment_lane", "ai_runtime",
+    "data_classification", "source_mode", "structured_state_provider", "evidence_provider",
+    "mail_provider", "calendar_provider", "scheduling_provider", "organization_approval",
     "organization_approval_reference"
   ],
   "nontechnical_forbidden_actions": [
-    "open-command-prompt",
-    "open-powershell",
-    "open-terminal",
-    "install-git",
-    "install-github-cli",
-    "git-clone",
-    "use-codespace-as-installer",
-    "request-password",
-    "request-one-time-code",
-    "request-token",
-    "request-ssh-key",
-    "claim-read-access-proves-write-access",
-    "claim-provider-name-proves-capability",
-    "claim-ai-runtime-feature-parity",
-    "create-personal-account-to-bypass-organization-policy",
-    "put-regulated-sensitive-data-in-unapproved-runtime",
-    "claim-success-before-remote-readback"
+    "open-command-prompt", "open-powershell", "open-terminal", "install-git", "install-github-cli",
+    "git-clone", "use-codespace-as-installer", "request-password", "request-one-time-code", "request-token",
+    "request-ssh-key", "claim-read-access-proves-write-access", "claim-provider-name-proves-capability",
+    "claim-ai-runtime-feature-parity", "create-personal-account-to-bypass-organization-policy",
+    "put-regulated-sensitive-data-in-unapproved-runtime", "claim-success-before-remote-readback"
   ],
   "blocked_states": {
-    "template_missing": "Starter blocked — upstream is not enabled as a GitHub template.",
+    "template_missing": "Starter blocked — MIRA-Public-Experimental is not enabled as a GitHub template.",
     "read_missing": "Source setup blocked — the exact personal repository is not readable through the ChatGPT GitHub app.",
     "write_missing": "Source setup blocked — ChatGPT can read the repository, but no verified Codex GitHub write capability is available.",
+    "skill_missing": "Runtime setup blocked — the Life Planner compatibility skill package cannot be installed or verified in this ChatGPT/Codex deployment.",
     "organization_approval": "Source setup blocked — the GitHub organization administrator must approve repository access.",
     "regulated_data_approval": "Enterprise setup blocked — use synthetic/non-sensitive data until the exact AI runtime, storage, purpose and connector actions have a current organization approval-evidence reference.",
     "state_write_missing": "State setup blocked — no verified structured-state write and provider readback capability is available.",
     "manual_only": "Portable manual mode — import/export is available, but unattended synchronization and write automation are not installed."
   },
   "selected_workflow_discovery": {
+    "weather_brief_question_id": "brief_weather_enabled",
     "meal_planning_question_id": "meal_planning_help",
-    "household_routine_question_ids": [
-      "household_routine_help",
-      "laundry_workflow",
-      "dropoff_pickup_reminders"
-    ]
+    "household_routine_question_ids": ["household_routine_help", "laundry_workflow", "dropoff_pickup_reminders"]
   }
 }

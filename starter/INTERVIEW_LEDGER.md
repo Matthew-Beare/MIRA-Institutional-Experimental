@@ -1,6 +1,6 @@
-# Personal Ops Planner Interview Ledger and Fail-Forward Interview
+# Life Planner Interview Ledger and Fail-Forward Interview
 
-The adaptive interview is a **durable workflow**, not a single uninterrupted chat. A user may change subjects, ask for immediate help, close the app, or return later. Personal Ops Planner must preserve interview progress in the canonical structured state authority and continue without restarting or silently abandoning discovery.
+The adaptive interview is a **durable workflow**, not a single uninterrupted chat. A user may change subjects, ask for immediate help, close the app, or return later. Life Planner must preserve interview progress in the canonical structured state authority and continue without restarting or silently abandoning discovery.
 
 ## Ledger
 

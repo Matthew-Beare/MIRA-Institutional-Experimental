@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "provider": "google-workspace",
+  "required_modules": ["core"],
+  "modules": {
+    "core": {
+      "title": "Life Planner - {deployment_label} - Core",
+      "failure_domain": "core",
+      "folders": ["Admin & Recovery"],
+      "tabs": {
+        "Deployment": ["Deployment UUID", "Deployment Label", "Schema Version", "Canonical Timezone", "Source Repository", "Source Commit", "Created At", "Status"],
+        "Authority Registry": ["Authority UUID", "Logical Resource ID", "Data Class", "Provider", "Resource Type", "Resource ID", "Resource URL", "Failure Domain", "Owner UUID", "Scope", "Capability Status", "Sharing Policy", "Last Verified", "Recovery Policy", "Notes"],
+        "Interview Ledger": ["Question ID", "Section ID", "Section Title", "Required", "Prompt", "Applies When", "Status", "Answer", "Evidence Type", "Evidence Reference", "Answered At", "Notes"],
+        "Integration Registry": ["Module ID", "Capability ID", "Role", "Provider", "Resource ID", "Failure Domain", "Health", "Circuit State", "Last Verified", "Last Error", "Next Action"],
+        "People": ["Person UUID", "Display Name", "Relationship", "Roles", "Canonical Timezone", "Active", "Created At", "Updated At", "Notes"],
+        "Services": ["Service ID", "Service Name", "State", "Cadence", "Slots", "Timezone", "Notification Mode", "Configuration", "Last Verified", "Notes"],
+        "Run Log": ["Run ID", "Deployment UUID", "Canonical Date", "Slot", "Started At", "Completed At", "Status", "Module Results", "Error", "Next Action"]
+      }
+    },
+    "planning": {
+      "title": "Life Planner - {deployment_label} - Planning",
+      "failure_domain": "planning",
+      "folders": ["Planning"],
+      "tabs": {
+        "Tasks & Projects": ["Item UUID", "Parent UUID", "Type", "Title", "Description", "Person UUID", "Priority", "Status", "Context", "Due At", "Source Type", "Source ID", "Created At", "Updated At", "Completion Evidence", "Notes"],
+        "Routines & Accountability": ["Routine UUID", "Person UUID", "Title", "Stages", "Cadence", "Context", "Status", "Next Due At", "Last Completed At", "Evidence Reference", "Notes"]
+      }
+    },
+    "appointments": {
+      "title": "Life Planner - {deployment_label} - Appointments",
+      "failure_domain": "appointments",
+      "folders": ["Appointments & Admin"],
+      "tabs": {
+        "Appointments": ["Appointment UUID", "Person UUID", "Type", "Provider", "Title", "Start At", "End At", "Timezone", "Location", "Status", "Source Type", "Source ID", "Confidence", "Reminder Profile", "Updated At", "Notes"],
+        "Calendar Projection": ["Projection UUID", "Appointment UUID", "Calendar Provider", "Calendar ID", "Event ID", "Event URL", "Source Revision", "Projection Status", "Last Verified", "Last Error", "Notes"]
+      }
+    },
+    "meal-planning": {
+      "title": "Life Planner - {deployment_label} - Meals",
+      "failure_domain": "meals",
+      "folders": ["Recipes & Meals"],
+      "tabs": {
+        "Recipes": ["Recipe UUID", "Title", "Source Type", "Source URL", "Evidence File ID", "Tags", "Servings", "Prep Minutes", "Cook Minutes", "Status", "Last Verified", "Notes"],
+        "Meal Plans": ["Plan UUID", "Person Or Household UUID", "Start Date", "End Date", "Status", "Meals", "Accepted At", "Notes"],
+        "Pantry & Freezer": ["Item UUID", "Name", "Quantity", "Unit", "Location", "Best By", "Status", "Updated At", "Evidence Reference", "Notes"],
+        "Shopping & Procurement": ["Intent UUID", "Person Or Household UUID", "Item", "Quantity", "Unit", "Priority", "Status", "Satisfied By Receipt UUID", "Created At", "Updated At", "Notes"]
+      }
+    },
+    "commerce": {
+      "title": "Life Planner - {deployment_label} - Commerce",
+      "failure_domain": "commerce",
+      "folders": ["Receipts & Purchases"],
+      "tabs": {
+        "Orders": ["Order UUID", "Receipt UUID", "Merchant", "Merchant Order ID", "Ordered At", "Status", "Currency", "Supported Total", "Latest Event At", "Evidence Reference", "Notes"],
+        "Order Events": ["Event UUID", "Order UUID", "Event Type", "Occurred At", "Source Type", "Source ID", "Carrier", "Tracking Number", "Details", "Recorded At"],
+        "Shipments": ["Shipment UUID", "Order UUID", "Package Key", "Carrier", "Tracking Number", "Status", "ETA", "Delivered At", "Last Evidence At", "Last Reported Run ID", "Notes"],
+        "Receipts": ["Receipt UUID", "Merchant", "Transaction At", "Currency", "Subtotal", "Tax", "Shipping", "Discount", "Supported Total", "Payment Reference", "Status", "Evidence Reference", "Created At", "Updated At", "Notes"],
+        "Receipt Lines": ["Receipt Line UUID", "Receipt UUID", "Line Number", "Description", "Quantity", "Unit Price", "Line Total", "Category", "Manufacturer", "Part Or Model", "Identifier Namespace", "Identifier Value", "Asset UUID", "Status", "Notes"],
+        "Payment Reconciliation": ["Case UUID", "Receipt UUID", "Expected Amount", "Posted Amount", "Currency", "Settlement Status", "Posted Transaction ID", "Due At", "Resolved At", "Evidence Reference", "Notes"]
+      }
+    },
+    "assets": {
+      "title": "Life Planner - {deployment_label} - Assets",
+      "failure_domain": "assets",
+      "folders": ["Assets", "Manuals & Reference"],
+      "tabs": {
+        "Assets": ["Asset UUID", "Friendly ID", "Name", "Asset Type", "Manufacturer", "Model", "Part Number", "Serial Number", "Quantity", "Owner UUID", "Status", "Acquired At", "Receipt Line UUID", "Location UUID", "Created At", "Updated At", "Notes"],
+        "Asset Relationships": ["Relationship UUID", "From Asset UUID", "Relationship Type", "To Entity UUID", "Effective At", "Ended At", "Source Type", "Source ID", "Status", "Notes"],
+        "Evidence Index": ["Evidence UUID", "Evidence Type", "Provider File ID", "Provider URL", "Title", "Source URL", "Captured At", "Hash", "Status", "Notes"],
+        "Asset Identifiers": ["Identifier UUID", "Asset UUID", "Namespace", "Value", "Normalized Value", "Check Digit Status", "Source Evidence UUID", "Status", "Notes"],
+        "Knowledge Index": ["Knowledge UUID", "Title", "Knowledge Type", "Provider File ID", "Provider URL", "Source URL", "Revision", "Captured At", "Status", "Notes"],
+        "Knowledge Relationships": ["Relationship UUID", "Knowledge UUID", "Relationship Type", "Entity UUID", "Source Evidence UUID", "Status", "Notes"],
+        "Technical Specifications": ["Specification UUID", "Subject Entity UUID", "Name", "Value", "Unit", "Applicability", "Source Tier", "Knowledge UUID", "Page Or Section", "Revision", "Verification Status", "Verified At", "Notes"]
+      }
+    },
+    "job-watch": {
+      "title": "Life Planner - {deployment_label} - Job Watch",
+      "failure_domain": "job-watch",
+      "folders": ["Career"],
+      "tabs": {
+        "Job Watch": ["Job UUID", "Source", "Source Job ID", "Title", "Employer", "Location", "URL", "Posted At", "Fit Status", "Fit Reasons", "Exclusion Reasons", "First Seen At", "Last Seen At", "Reported Run ID", "Notes"],
+        "Job Watch Settings": ["Setting", "Value", "Source", "Updated At", "Notes"]
+      }
+    },
+    "work-travel": {
+      "title": "Life Planner - {deployment_label} - Work & Travel",
+      "failure_domain": "work-travel",
+      "folders": ["Work & Travel"],
+      "tabs": {
+        "Routes": ["Route UUID", "Origin", "Destination", "Paid Units", "Paid Value", "Directionality", "Source Type", "Source ID", "Status", "Updated At", "Notes"],
+        "Trips": ["Trip UUID", "Route UUID", "Person UUID", "Origin", "Destination", "Start At", "End At", "Status", "Current Location", "ETA", "Context", "Updated At", "Notes"],
+        "Mileage & Pay": ["Record UUID", "Trip UUID", "Pay Period", "Paid Miles", "Rate Per Mile", "Gross Estimate", "Status", "Source Type", "Source ID", "Recorded At", "Notes"]
+      }
+    }
+  }
+}

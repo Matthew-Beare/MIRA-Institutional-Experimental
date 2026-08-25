@@ -1,0 +1,4 @@
+interface:
+  display_name: "MIRA | M.I.R.R.O.R."
+  short_description: "MIRA for a provider-backed M.I.R.R.O.R. life system"
+  default_prompt: "Use $life-planner as MIRA, the MIRROR Intelligence and Reasoning Assistant for my M.I.R.R.O.R. system."

@@ -1,5 +1,5 @@
 {
-  "version": 9,
+  "version": 10,
   "instructions": "Create and maintain the Interview Ledger described in INTERVIEW_LEDGER.md. Ask only unresolved applicable questions after the four-question kickoff. Ask no more than four related questions at a time. Factual evidence may resolve a question; preference, consent, sharing, and destructive-action questions require the user. If the conversation detours, answer the immediate request and later resume the next useful unresolved question. Mutable life state uses one selected canonical structured authority, such as Google Sheets or Microsoft Lists/Excel, plus an optional evidence store such as Google Drive or OneDrive/SharePoint. Apple/iCloud and portable files use deliberate import/export unless a verified adapter proves more. Personal or organization Git, or managed central source, versions behavior/config/schema/features rather than routine personal records. Runtime/provider names never prove capabilities, data approval, writes, scheduling, or readback.",
   "sections": [
     {
@@ -16,11 +16,17 @@
         {"id":"canonical_timezone","required":true,"prompt":"Which IANA timezone is permanently authoritative for scheduled routines even while you travel?"},
         {"id":"day_boundary","required":false,"prompt":"Does your operational day use a non-midnight boundary because of night work or another schedule?"},
         {"id":"brief_slots","required":false,"prompt":"Which recurring briefs or updates do you want, if any, and at what exact local times?"},
+        {"id":"brief_weather_enabled","required":true,"prompt":"Would you like weather included in your briefs?","applies_when":"brief_slots is not empty"},
+        {"id":"brief_weather_slots","required":false,"prompt":"If yes, which brief slots should include weather: morning, evening, both, or selected custom slots?","applies_when":"brief_weather_enabled is true"},
+        {"id":"brief_weather_location_policy","required":false,"prompt":"If yes, which location should each weather section use: one fixed place, a manually supplied place, a verified current location, or the active HOME/away context?","applies_when":"brief_weather_enabled is true"},
+        {"id":"brief_weather_details","required":false,"prompt":"Which weather details are useful: current conditions, high/low, precipitation, wind, severe alerts, or a compact summary?","applies_when":"brief_weather_enabled is true"},
+        {"id":"brief_weather_units","required":false,"prompt":"Which weather units do you prefer: US customary, metric, or provider/local defaults?","applies_when":"brief_weather_enabled is true"},
+        {"id":"brief_severe_weather_alerts","required":false,"prompt":"Should authoritative severe-weather alerts appear even when the normal forecast is omitted from that brief?","applies_when":"brief_weather_enabled is true"},
         {"id":"slot_names","required":false,"prompt":"Do AM/PM labels fit your sleep schedule, or should recurring slots have custom names?"},
         {"id":"timezone_travel_rule","required":true,"prompt":"Confirm that travel/device timezone must never silently replace the canonical scheduling timezone."},
         {"id":"canonical_clock_guard","required":true,"prompt":"Should every scheduled runtime convert the current instant into the canonical IANA timezone and verify that canonical local clock against the intended slot instead of trusting device time or a static UTC offset?"},
-        {"id":"repository_visibility","required":true,"prompt":"Confirm the observed Personal Ops Planner repository visibility. The non-technical installer defaults to private; any different visibility requires an explicit owner decision. Mutable personal state remains outside portable Git source."},
-        {"id":"upstream_provenance","required":true,"prompt":"Should setup pin and record the exact public Personal Ops Planner release/commit/tree your deployment descends from?"},
+        {"id":"repository_visibility","required":true,"prompt":"Confirm the observed Life Planner repository visibility. The non-technical installer defaults to private; any different visibility requires an explicit owner decision. Mutable personal state remains outside portable Git source."},
+        {"id":"upstream_provenance","required":true,"prompt":"Should setup pin and record the exact public Life Planner release/commit/tree your deployment descends from?"},
         {"id":"git_state_commit_policy","required":true,"prompt":"After standing Git authorization, may lasting behavior/config/schema/feature changes validate, commit and push automatically while routine mutable state stays in the canonical state authority?"}
       ]
     },
@@ -33,7 +39,7 @@
         {"id":"existing_store","required":false,"prompt":"Does an existing Sheet, List, Excel table, database, Drive/OneDrive/SharePoint folder, iCloud export, or app already contain state/evidence that should be reused instead of replaced?"},
         {"id":"authority_registry","required":true,"prompt":"Should setup create an Authority Registry recording each data class, provider resource, owner, scope and last verification?"},
         {"id":"interview_ledger","required":true,"prompt":"Should setup create a durable Interview Ledger so onboarding can survive topic changes and future conversations?"},
-        {"id":"interview_resume_policy","required":true,"prompt":"When onboarding is incomplete and you ask about something else, should Personal Ops Planner answer that first and then resume with the next useful unresolved interview question when reasonable?"},
+        {"id":"interview_resume_policy","required":true,"prompt":"When onboarding is incomplete and you ask about something else, should Life Planner answer that first and then resume with the next useful unresolved interview question when reasonable?"},
         {"id":"shared_authority","required":false,"prompt":"Do any life domains need to be shared with another person through either a whole shared workbook/folder or a separate scoped shared authority?"},
         {"id":"shared_authority_scope","required":false,"prompt":"Which exact data should be shared, with whom, and read-only or read/write?","applies_when":"shared_authority is true"},
         {"id":"history_rule","required":true,"prompt":"Which completed/removed/event history should be retained instead of overwritten or deleted?"},
@@ -169,11 +175,11 @@
         {"id":"medical_event_tracking","required":false,"prompt":"Do you want medical appointment dates/reminders organized, without diagnosis or treatment inference?"},
         {"id":"appointment_email_auto_update","required":false,"prompt":"Should approved classes of appointment email automatically reconcile into canonical appointment state and a linked Calendar event?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
         {"id":"appointment_evidence_classes","required":false,"prompt":"Which senders/domains or appointment classes may be reconciled automatically?","applies_when":"appointment_email_auto_update is true"},
-        {"id":"appointment_provider_type_research","required":false,"prompt":"If an appointment identifies a provider but not the provider type, may Personal Ops Planner research official/reliable public sources to label the appointment as cardiology, endocrinology, audiology, primary care, dental, or another supported specialty?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
+        {"id":"appointment_provider_type_research","required":false,"prompt":"If an appointment identifies a provider but not the provider type, may Life Planner research official/reliable public sources to label the appointment as cardiology, endocrinology, audiology, primary care, dental, or another supported specialty?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
         {"id":"appointment_reminder_day_before","required":false,"prompt":"Do you want a day-before reminder by default, and should it vary by person or appointment class?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
         {"id":"appointment_reminder_morning_of","required":false,"prompt":"Do you want a morning-of reminder? If yes, what local clock time should count as morning, and what should happen for appointments earlier than that?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
         {"id":"appointment_reminder_relative","required":false,"prompt":"Do you want a relative reminder such as 60 minutes before, and should the interval vary by person or appointment class?","applies_when":"appointments_renewals is true or medical_event_tracking is true"},
-        {"id":"medication_reminders","required":false,"prompt":"Do you want medication reminders? This is separate from appointments and defaults off; Personal Ops Planner never infers dose or timing."},
+        {"id":"medication_reminders","required":false,"prompt":"Do you want medication reminders? This is separate from appointments and defaults off; Life Planner never infers dose or timing."},
         {"id":"medication_schedule_evidence","required":false,"prompt":"Which explicit owner, prescription-label, pharmacy, or clinician evidence may establish each medication schedule, and who must confirm it?","applies_when":"medication_reminders is true"},
         {"id":"medication_sensitive_details","required":false,"prompt":"How much medication detail may appear in reminder text and on lock-screen/provider notifications?","applies_when":"medication_reminders is true"},
         {"id":"caregiver_reminder_sharing","required":false,"prompt":"Should any appointment or medication reminders be shared with an exact caregiver identity? Default is no, and this does not grant broader health access.","applies_when":"medication_reminders is true or medical_event_tracking is true"},
@@ -192,7 +198,7 @@
         {"id":"assets","required":false,"prompt":"Which vehicles, tools, electronics, appliances, equipment, or other assets need searchable identity, receipts, warranty, or maintenance records?"},
         {"id":"asset_identifier_capture","required":false,"prompt":"Should receipt, product, barcode, model/serial-label, and Gmail evidence enrich namespaced UPC/GTIN/SKU/part/model/serial identifiers for those assets?","applies_when":"assets is not empty or receipt_tracking is true"},
         {"id":"manuals","required":false,"prompt":"Should manuals, service documents, datasheets, and references be retained and linked to assets/models/parts?"},
-        {"id":"manual_discovery","required":false,"prompt":"When an exact asset or part is identified, may Personal Ops Planner search authoritative manufacturer/OEM sources for its manual, retain the file in Drive, and link it to the asset?","applies_when":"manuals is true"},
+        {"id":"manual_discovery","required":false,"prompt":"When an exact asset or part is identified, may Life Planner search authoritative manufacturer/OEM sources for its manual, retain the file in Drive, and link it to the asset?","applies_when":"manuals is true"},
         {"id":"technical_specifications","required":false,"prompt":"Which authoritative specifications—such as torque, tire pressure, capacities, alignment, dimensions, or load limits—should be indexed with exact applicability and page/section provenance?","applies_when":"assets is not empty or manuals is true"},
         {"id":"knowledge_search","required":false,"prompt":"What facts, procedures, specs, or documents do you repeatedly need to find again?"},
         {"id":"document_retention","required":false,"prompt":"Which documents need durable retention, searchable metadata, or expiration/renewal tracking?"},
@@ -236,7 +242,7 @@
         {"id":"destructive_actions","required":true,"prompt":"Which deletes, archives, sends, invites, shares, or overwrites require confirmation?"},
         {"id":"failure_policy","required":true,"prompt":"What should happen if a required connector, scheduler, or state authority is unavailable?"},
         {"id":"rollback","required":true,"prompt":"Which scheduled-task or non-atomic mutations require snapshot, readback, or rollback?"},
-        {"id":"success_metrics","required":false,"prompt":"How will you judge whether Personal Ops Planner is saving time, improving consistency, and catching the right things?"}
+        {"id":"success_metrics","required":false,"prompt":"How will you judge whether Life Planner is saving time, improving consistency, and catching the right things?"}
       ]
     }
   ]
