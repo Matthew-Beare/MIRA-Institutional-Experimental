@@ -1,0 +1,1607 @@
+{
+  "assignments": {
+    "a-01": {
+      "profiles": [
+        "ops-state",
+        "run-log",
+        "scheduler-delivery",
+        "clock-gate",
+        "policy-source"
+      ]
+    },
+    "a-02": {
+      "profiles": [
+        "policy-source",
+        "scheduler-delivery",
+        "clock-gate"
+      ]
+    },
+    "a-03": {
+      "profiles": [
+        "policy-source",
+        "clock-gate"
+      ]
+    },
+    "a-04": {
+      "profiles": [
+        "run-log",
+        "scheduler-delivery",
+        "clock-gate",
+        "policy-source"
+      ]
+    },
+    "a-05": {
+      "profiles": [
+        "ops-state",
+        "policy-source"
+      ]
+    },
+    "a-06": {
+      "profiles": [
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "a-07": {
+      "profiles": [
+        "profile-state",
+        "interview-state",
+        "policy-source"
+      ]
+    },
+    "a-08": {
+      "profiles": [
+        "ops-state",
+        "policy-source"
+      ]
+    },
+    "a-09": {
+      "profiles": [
+        "ops-state",
+        "policy-source",
+        "location-read-optional",
+        "web-research-optional"
+      ]
+    },
+    "a-10": {
+      "profiles": [
+        "ops-state",
+        "weather-read",
+        "location-read-optional",
+        "policy-source"
+      ]
+    },
+    "a-11": {
+      "profiles": [
+        "ops-state",
+        "mileage-state",
+        "policy-source"
+      ]
+    },
+    "a-12": {
+      "profiles": [
+        "mileage-state",
+        "policy-source"
+      ]
+    },
+    "a-13": {
+      "profiles": [
+        "task-state",
+        "policy-source"
+      ]
+    },
+    "a-14": {
+      "profiles": [
+        "task-state",
+        "policy-source"
+      ]
+    },
+    "a-15": {
+      "profiles": [
+        "run-log",
+        "ops-state",
+        "policy-source"
+      ]
+    },
+    "a-16": {
+      "profiles": [
+        "integration-registry",
+        "run-log",
+        "policy-source"
+      ]
+    },
+    "b-01": {
+      "profiles": [
+        "appointment-state",
+        "calendar-read",
+        "ops-state",
+        "policy-source"
+      ]
+    },
+    "b-02": {
+      "profiles": [
+        "appointment-state",
+        "scheduler-delivery",
+        "notification-delivery",
+        "calendar-projection-optional",
+        "policy-source"
+      ]
+    },
+    "b-03": {
+      "profiles": [
+        "appointment-state",
+        "scheduler-delivery",
+        "notification-delivery",
+        "calendar-projection-optional",
+        "policy-source"
+      ]
+    },
+    "b-04": {
+      "profiles": [
+        "medication-state",
+        "scheduler-delivery",
+        "notification-delivery",
+        "policy-source"
+      ]
+    },
+    "b-05": {
+      "profiles": [
+        "medication-state",
+        "identity-state",
+        "notification-delivery",
+        "policy-source"
+      ]
+    },
+    "b-06": {
+      "profiles": [
+        "appointment-state",
+        "ops-state",
+        "calendar-read",
+        "policy-source"
+      ]
+    },
+    "b-07": {
+      "profiles": [
+        "email-read",
+        "task-state",
+        "policy-source"
+      ]
+    },
+    "b-08": {
+      "profiles": [
+        "policy-source"
+      ]
+    },
+    "b-09": {
+      "profiles": [
+        "email-read",
+        "task-state",
+        "policy-source"
+      ]
+    },
+    "b-10": {
+      "profiles": [
+        "job-watch-state",
+        "job-search",
+        "scheduler-delivery",
+        "policy-source"
+      ]
+    },
+    "c-01": {
+      "profiles": [
+        "purchase-state",
+        "email-read",
+        "policy-source"
+      ]
+    },
+    "c-02": {
+      "profiles": [
+        "purchase-state",
+        "email-read-optional",
+        "policy-source"
+      ]
+    },
+    "c-03": {
+      "profiles": [
+        "purchase-state",
+        "finance-read-optional",
+        "policy-source"
+      ]
+    },
+    "c-04": {
+      "profiles": [
+        "purchase-state",
+        "policy-source"
+      ]
+    },
+    "c-05": {
+      "profiles": [
+        "purchase-state",
+        "scheduler-delivery",
+        "policy-source"
+      ]
+    },
+    "c-06": {
+      "profiles": [
+        "purchase-state",
+        "evidence-store-rw",
+        "email-read-optional",
+        "file-import-optional",
+        "image-intake-optional",
+        "policy-source"
+      ]
+    },
+    "c-07": {
+      "profiles": [
+        "purchase-state",
+        "asset-state",
+        "policy-source"
+      ]
+    },
+    "c-08": {
+      "profiles": [
+        "purchase-state",
+        "finance-read-optional",
+        "email-read",
+        "policy-source"
+      ]
+    },
+    "c-09": {
+      "profiles": [
+        "policy-source"
+      ]
+    },
+    "c-10": {
+      "profiles": [
+        "purchase-state",
+        "finance-read",
+        "policy-source"
+      ]
+    },
+    "c-11": {
+      "profiles": [
+        "finance-read-optional",
+        "email-read-optional",
+        "scheduler-delivery",
+        "task-state",
+        "policy-source"
+      ]
+    },
+    "c-12": {
+      "profiles": [
+        "finance-read",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "d-01": {
+      "profiles": [
+        "asset-state",
+        "purchase-state",
+        "policy-source"
+      ]
+    },
+    "d-02": {
+      "profiles": [
+        "asset-state",
+        "evidence-store-rw",
+        "web-research-optional",
+        "policy-source"
+      ]
+    },
+    "d-03": {
+      "profiles": [
+        "asset-state",
+        "purchase-state",
+        "policy-source"
+      ]
+    },
+    "d-04": {
+      "profiles": [
+        "asset-state",
+        "policy-source"
+      ]
+    },
+    "d-05": {
+      "profiles": [
+        "asset-state",
+        "evidence-store-rw",
+        "email-read-optional",
+        "image-intake-optional",
+        "policy-source"
+      ]
+    },
+    "d-06": {
+      "profiles": [
+        "asset-state",
+        "knowledge-state",
+        "evidence-store-rw",
+        "web-research",
+        "policy-source"
+      ]
+    },
+    "d-07": {
+      "profiles": [
+        "asset-state",
+        "knowledge-state",
+        "web-research",
+        "policy-source"
+      ]
+    },
+    "d-08": {
+      "profiles": [
+        "shopping-state",
+        "purchase-state",
+        "policy-source"
+      ]
+    },
+    "d-09": {
+      "profiles": [
+        "inventory-state",
+        "policy-source"
+      ]
+    },
+    "d-10": {
+      "profiles": [
+        "inventory-state",
+        "policy-source"
+      ]
+    },
+    "d-11": {
+      "profiles": [
+        "inventory-state",
+        "barcode-scan",
+        "policy-source"
+      ]
+    },
+    "d-12": {
+      "profiles": [
+        "inventory-state",
+        "policy-source"
+      ]
+    },
+    "d-13": {
+      "profiles": [
+        "inventory-state",
+        "scheduler-delivery",
+        "notification-delivery",
+        "policy-source"
+      ]
+    },
+    "d-14": {
+      "profiles": [
+        "inventory-state",
+        "home-assistant",
+        "policy-source"
+      ]
+    },
+    "d-15": {
+      "profiles": [
+        "meal-state",
+        "inventory-state",
+        "shopping-state",
+        "policy-source"
+      ]
+    },
+    "d-16": {
+      "profiles": [
+        "meal-state",
+        "shopping-state",
+        "inventory-state",
+        "calendar-projection-optional",
+        "policy-source"
+      ]
+    },
+    "e-01": {
+      "profiles": [
+        "policy-source"
+      ]
+    },
+    "e-02": {
+      "profiles": [
+        "profile-state",
+        "interview-state",
+        "authority-registry",
+        "policy-source"
+      ]
+    },
+    "e-03": {
+      "profiles": [
+        "profile-state",
+        "interview-state",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "e-04": {
+      "profiles": [
+        "interview-state",
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "e-05": {
+      "profiles": [
+        "profile-state",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "e-06": {
+      "profiles": [
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "e-07": {
+      "profiles": [
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "e-08": {
+      "profiles": [
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "e-09": {
+      "profiles": [
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "e-10": {
+      "profiles": [
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "e-11": {
+      "profiles": [
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "e-12": {
+      "profiles": [
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "e-13": {
+      "profiles": [
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "e-14": {
+      "profiles": [
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "e-15": {
+      "profiles": [
+        "profile-state",
+        "policy-source"
+      ]
+    },
+    "e-16": {
+      "profiles": [
+        "identity-state",
+        "policy-source"
+      ]
+    },
+    "e-17": {
+      "profiles": [
+        "source-mutation",
+        "policy-source"
+      ]
+    },
+    "e-18": {
+      "profiles": [
+        "policy-source"
+      ]
+    },
+    "e-19": {
+      "profiles": [
+        "source-mutation",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "e-20": {
+      "profiles": [
+        "source-mutation",
+        "policy-source"
+      ]
+    },
+    "e-21": {
+      "profiles": [
+        "template-repository",
+        "policy-source"
+      ]
+    },
+    "e-22": {
+      "profiles": [
+        "source-mutation",
+        "policy-source"
+      ]
+    },
+    "e-23": {
+      "profiles": [
+        "integration-registry",
+        "provider-readback-optional",
+        "policy-source"
+      ]
+    },
+    "e-24": {
+      "profiles": [
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "e-25": {
+      "profiles": [
+        "integration-registry",
+        "provider-readback",
+        "policy-source"
+      ]
+    },
+    "e-26": {
+      "profiles": [
+        "runtime-skill-install",
+        "authority-registry",
+        "interview-state",
+        "integration-registry",
+        "provider-readback",
+        "policy-source"
+      ]
+    },
+    "f-01": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "a-01",
+        "a-03",
+        "a-04",
+        "a-15",
+        "a-16"
+      ]
+    },
+    "f-02": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "a-13",
+        "a-14"
+      ]
+    },
+    "f-03": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "b-07",
+        "b-08",
+        "b-09"
+      ]
+    },
+    "f-04": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "c-01",
+        "c-02",
+        "c-03",
+        "c-05"
+      ]
+    },
+    "f-05": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "c-06",
+        "c-07",
+        "c-09"
+      ]
+    },
+    "f-06": {
+      "optional_behaviors": [
+        "c-12"
+      ],
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "c-10"
+      ]
+    },
+    "f-07": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "b-01",
+        "b-02",
+        "b-03",
+        "b-06"
+      ]
+    },
+    "f-08": {
+      "optional_behaviors": [
+        "b-05"
+      ],
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "b-04"
+      ]
+    },
+    "f-09": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "d-08"
+      ]
+    },
+    "f-10": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "d-15",
+        "d-16"
+      ]
+    },
+    "f-11": {
+      "profiles": [
+        "task-state",
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "a-13",
+        "a-14"
+      ]
+    },
+    "f-12": {
+      "profiles": [
+        "task-state",
+        "scheduler-delivery",
+        "notification-delivery",
+        "calendar-projection-optional",
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "f-11"
+      ]
+    },
+    "f-13": {
+      "profiles": [
+        "task-state",
+        "wearable-optional",
+        "policy-source"
+      ]
+    },
+    "f-14": {
+      "profiles": [
+        "task-state",
+        "calendar-projection-optional",
+        "evidence-store-rw",
+        "policy-source"
+      ]
+    },
+    "f-15": {
+      "profiles": [
+        "identity-state",
+        "calendar-projection-optional",
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "e-09",
+        "e-10",
+        "e-16"
+      ]
+    },
+    "f-16": {
+      "profiles": [
+        "calendar-projection-optional",
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "a-08",
+        "a-09"
+      ]
+    },
+    "f-17": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "a-08",
+        "a-09",
+        "a-11",
+        "a-12"
+      ]
+    },
+    "f-18": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "d-01",
+        "d-02",
+        "d-03",
+        "d-04",
+        "d-05",
+        "d-06",
+        "d-07"
+      ]
+    },
+    "f-19": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "g-17",
+        "g-18"
+      ]
+    },
+    "f-20": {
+      "profiles": [
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "g-16"
+      ]
+    },
+    "f-21": {
+      "profiles": [
+        "source-mutation",
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "e-17",
+        "e-19"
+      ]
+    },
+    "f-22": {
+      "profiles": [
+        "wearable",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "f-23": {
+      "profiles": [
+        "weather-read",
+        "scheduler-delivery",
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "a-10"
+      ]
+    },
+    "g-01": {
+      "profiles": [
+        "authority-registry",
+        "integration-registry",
+        "evidence-store-rw",
+        "source-mutation",
+        "policy-source"
+      ]
+    },
+    "g-02": {
+      "profiles": [
+        "integration-registry",
+        "provider-readback-optional",
+        "policy-source"
+      ]
+    },
+    "g-03": {
+      "profiles": [
+        "manual-file-exchange",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "g-04": {
+      "profiles": [
+        "organization-approval",
+        "integration-registry",
+        "provider-readback",
+        "policy-source"
+      ]
+    },
+    "g-05": {
+      "profiles": [
+        "source-mutation",
+        "policy-source"
+      ]
+    },
+    "g-06": {
+      "profiles": [
+        "sql-service",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "g-07": {
+      "profiles": [
+        "api-service",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "g-08": {
+      "profiles": [
+        "observability",
+        "policy-source"
+      ]
+    },
+    "g-09": {
+      "profiles": [
+        "object-storage",
+        "evidence-store-rw",
+        "policy-source"
+      ]
+    },
+    "g-10": {
+      "profiles": [
+        "mobile-client",
+        "api-service",
+        "identity-state",
+        "policy-source"
+      ],
+      "requires_behaviors": [
+        "g-07"
+      ]
+    },
+    "g-11": {
+      "profiles": [
+        "home-assistant",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "g-12": {
+      "profiles": [
+        "plex",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "g-13": {
+      "profiles": [
+        "voice",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "g-14": {
+      "profiles": [
+        "network-bridge",
+        "integration-registry",
+        "policy-source"
+      ]
+    },
+    "g-15": {
+      "profiles": [
+        "vpn",
+        "network-bridge",
+        "policy-source"
+      ]
+    },
+    "g-16": {
+      "profiles": [
+        "backup",
+        "policy-source"
+      ]
+    },
+    "g-17": {
+      "profiles": [
+        "knowledge-state",
+        "evidence-store-rw",
+        "web-research-optional",
+        "policy-source"
+      ]
+    },
+    "g-18": {
+      "profiles": [
+        "knowledge-state",
+        "evidence-store-rw",
+        "policy-source"
+      ]
+    },
+    "g-19": {
+      "profiles": [
+        "source-mutation",
+        "policy-source"
+      ]
+    },
+    "g-20": {
+      "profiles": [
+        "source-mutation",
+        "policy-source"
+      ]
+    }
+  },
+  "authority_labels": {
+    "appointment-state": "canonical appointment state",
+    "asset-registry": "canonical asset registry",
+    "authority-registry": "Authority Registry",
+    "backup-catalog": "the backup/restore catalog",
+    "calendar": "the approved calendar",
+    "email": "the approved mailbox",
+    "evidence-store": "the selected evidence/document store",
+    "finance-ledger": "the approved financial ledger/source",
+    "household-identity": "canonical people/relationship/permission state",
+    "integration-registry": "Integration Registry",
+    "interview-ledger": "Interview Ledger",
+    "inventory-state": "canonical inventory/location state",
+    "job-watch-state": "canonical job-watch state",
+    "knowledge-index": "canonical knowledge index",
+    "meal-state": "canonical meal/recipe/grocery state",
+    "medication-reminder-state": "canonical medication-reminder state",
+    "mileage-pay": "Mileage & Pay Tracker",
+    "ops-status-register": "Ops Status Register",
+    "profile-state": "canonical profile/service-preference state",
+    "purchase-receipt-archive": "Purchase & Receipt Archive",
+    "run-log": "Run Log",
+    "scheduler": "the deployment scheduler",
+    "shopping-state": "canonical shopping-intent state",
+    "source-repository": "the deployment's source repository",
+    "task-state": "canonical task state"
+  },
+  "capability_labels": {
+    "api_service": "an authenticated M.I.R.R.O.R. API service",
+    "backup_target": "an approved backup target",
+    "barcode_scan": "barcode or QR scanning",
+    "calendar_read": "read access to the approved calendar",
+    "calendar_readback": "calendar readback after a write",
+    "calendar_write": "write access to the approved calendar",
+    "canonical_clock_gate": "the deployment's timezone-aware clock gate",
+    "email_read": "read access to the approved mailbox, such as Gmail or Outlook",
+    "evidence_read": "read access to the selected evidence/document store",
+    "evidence_readback": "readback after an evidence/document write",
+    "evidence_write": "write access to the selected evidence/document store",
+    "file_import": "file import for user-supplied documents or records",
+    "finance_read": "read access to the approved financial-data source",
+    "home_assistant_read": "an approved Home Assistant connection",
+    "image_evidence_read": "image/photo/screenshot evidence intake",
+    "job_search": "an approved job-search or vacancy-discovery source",
+    "location_read": "approved current-location or route-location evidence",
+    "manual_file_exchange": "deliberate CSV/JSON/ICS/document import or export",
+    "mobile_client": "a supported companion/mobile client",
+    "network_bridge": "an approved private-network bridge",
+    "notification_delivery": "an approved notification-delivery path",
+    "object_storage": "approved object storage for evidence and attachments",
+    "observability": "an approved operational telemetry/observability path",
+    "observed_scheduled_firing": "evidence from at least one real scheduled firing",
+    "ocr_candidate_extraction": "text extraction from image evidence when needed",
+    "organization_approval": "current organization approval for the selected runtime, data class, and actions",
+    "plex_read": "an approved Plex connection",
+    "provider_readback": "provider readback proving the requested provider action actually succeeded",
+    "restore_test": "a verified restore-test path",
+    "runtime_skill_install": "the AI runtime's ability to install and verify the MIRA skill package",
+    "scheduled_dispatch": "a working scheduler for this deployment",
+    "source_read": "read access to the deployment's version-controlled source",
+    "source_remote_readback": "remote readback after a source change",
+    "source_write": "write access to the deployment's version-controlled source",
+    "sql_service": "an approved SQL service",
+    "structured_state_read": "read access to the selected structured state provider",
+    "structured_state_readback": "readback after a structured-state write",
+    "structured_state_write": "write access to the selected structured state provider",
+    "template_repository": "a GitHub template repository for browser-only copying",
+    "voice_input": "an approved voice-input/command surface",
+    "vpn_connectivity": "approved VPN connectivity for the required private service",
+    "wearable_read": "an approved wearable/activity-data connection",
+    "weather_read": "an approved weather data source",
+    "web_research": "approved web or reference research access"
+  },
+  "policy": {
+    "automatic_behavior_enablement": false,
+    "automatic_dependency_install": false,
+    "coverage": "every feature-catalog behavior must have exactly one dependency assignment",
+    "default_dependency_failure": "block-only-affected-behavior",
+    "missing_dependency_prompt_required": true,
+    "optional_dependency_failure": "degrade-only-affected-behavior",
+    "rollback_policy": "source-changing dependency remediation uses the existing checkpoint-before-change reconciliation contract",
+    "user_in_the_loop": true
+  },
+  "profiles": {
+    "api-service": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "api_service"
+      ]
+    },
+    "appointment-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "appointment-state"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "asset-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "asset-registry"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "authority-registry": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "authority-registry"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "backup": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "backup-catalog"
+      ],
+      "required_capabilities": [
+        "backup_target",
+        "restore_test"
+      ]
+    },
+    "barcode-scan": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "barcode_scan"
+      ]
+    },
+    "calendar-projection": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "calendar"
+      ],
+      "required_capabilities": [
+        "calendar_read",
+        "calendar_write",
+        "calendar_readback"
+      ]
+    },
+    "calendar-projection-optional": {
+      "optional_authorities": [
+        "calendar"
+      ],
+      "optional_capabilities": [
+        "calendar_read",
+        "calendar_write",
+        "calendar_readback"
+      ],
+      "required_authorities": [],
+      "required_capabilities": []
+    },
+    "calendar-read": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "calendar"
+      ],
+      "required_capabilities": [
+        "calendar_read"
+      ]
+    },
+    "clock-gate": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "canonical_clock_gate"
+      ]
+    },
+    "email-read": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "email"
+      ],
+      "required_capabilities": [
+        "email_read"
+      ]
+    },
+    "email-read-optional": {
+      "optional_authorities": [
+        "email"
+      ],
+      "optional_capabilities": [
+        "email_read"
+      ],
+      "required_authorities": [],
+      "required_capabilities": []
+    },
+    "evidence-store-rw": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "evidence-store"
+      ],
+      "required_capabilities": [
+        "evidence_read",
+        "evidence_write",
+        "evidence_readback"
+      ]
+    },
+    "file-import-optional": {
+      "optional_authorities": [],
+      "optional_capabilities": [
+        "file_import"
+      ],
+      "required_authorities": [],
+      "required_capabilities": []
+    },
+    "finance-read": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "finance-ledger"
+      ],
+      "required_capabilities": [
+        "finance_read"
+      ]
+    },
+    "finance-read-optional": {
+      "optional_authorities": [
+        "finance-ledger"
+      ],
+      "optional_capabilities": [
+        "finance_read"
+      ],
+      "required_authorities": [],
+      "required_capabilities": []
+    },
+    "home-assistant": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "home_assistant_read"
+      ]
+    },
+    "identity-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "household-identity"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "image-intake-optional": {
+      "optional_authorities": [],
+      "optional_capabilities": [
+        "image_evidence_read",
+        "ocr_candidate_extraction"
+      ],
+      "required_authorities": [],
+      "required_capabilities": []
+    },
+    "integration-registry": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "integration-registry"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "interview-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "interview-ledger"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "inventory-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "inventory-state"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "job-search": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "job_search"
+      ]
+    },
+    "job-watch-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "job-watch-state"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "knowledge-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "knowledge-index"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "location-read-optional": {
+      "optional_authorities": [],
+      "optional_capabilities": [
+        "location_read"
+      ],
+      "required_authorities": [],
+      "required_capabilities": []
+    },
+    "manual-file-exchange": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "manual_file_exchange"
+      ]
+    },
+    "meal-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "meal-state"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "medication-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "medication-reminder-state"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "mileage-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "mileage-pay"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "mobile-client": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "mobile_client"
+      ]
+    },
+    "network-bridge": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "network_bridge"
+      ]
+    },
+    "notification-delivery": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "notification_delivery"
+      ]
+    },
+    "object-storage": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "object_storage"
+      ]
+    },
+    "observability": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "observability"
+      ]
+    },
+    "ops-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "ops-status-register"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "policy-source": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "source-repository"
+      ],
+      "required_capabilities": [
+        "source_read"
+      ]
+    },
+    "profile-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "profile-state"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "provider-readback": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "provider_readback"
+      ]
+    },
+    "provider-readback-optional": {
+      "optional_authorities": [],
+      "optional_capabilities": [
+        "provider_readback"
+      ],
+      "required_authorities": [],
+      "required_capabilities": []
+    },
+    "purchase-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "purchase-receipt-archive"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "run-log": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "run-log"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "runtime-skill-install": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "runtime_skill_install"
+      ]
+    },
+    "scheduler-delivery": {
+      "optional_authorities": [],
+      "optional_capabilities": [
+        "observed_scheduled_firing"
+      ],
+      "required_authorities": [
+        "scheduler"
+      ],
+      "required_capabilities": [
+        "scheduled_dispatch",
+        "canonical_clock_gate"
+      ]
+    },
+    "shopping-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "shopping-state"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "source-mutation": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "source-repository"
+      ],
+      "required_capabilities": [
+        "source_read",
+        "source_write",
+        "source_remote_readback"
+      ]
+    },
+    "sql-service": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "sql_service"
+      ]
+    },
+    "structured-state-read": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "structured_state_read"
+      ]
+    },
+    "structured-state-rw": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "task-state": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "task-state"
+      ],
+      "required_capabilities": [
+        "structured_state_read",
+        "structured_state_write",
+        "structured_state_readback"
+      ]
+    },
+    "template-repository": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [
+        "source-repository"
+      ],
+      "required_capabilities": [
+        "template_repository"
+      ]
+    },
+    "voice": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "voice_input"
+      ]
+    },
+    "vpn": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "vpn_connectivity"
+      ]
+    },
+    "wearable": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "wearable_read"
+      ]
+    },
+    "wearable-optional": {
+      "optional_authorities": [],
+      "optional_capabilities": [
+        "wearable_read"
+      ],
+      "required_authorities": [],
+      "required_capabilities": []
+    },
+    "weather-read": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "weather_read"
+      ]
+    },
+    "weather-read-optional": {
+      "optional_authorities": [],
+      "optional_capabilities": [
+        "weather_read"
+      ],
+      "required_authorities": [],
+      "required_capabilities": []
+    },
+    "web-research": {
+      "optional_authorities": [],
+      "optional_capabilities": [],
+      "required_authorities": [],
+      "required_capabilities": [
+        "web_research"
+      ]
+    },
+    "web-research-optional": {
+      "optional_authorities": [],
+      "optional_capabilities": [
+        "web_research"
+      ],
+      "required_authorities": [],
+      "required_capabilities": []
+    }
+  },
+  "schema_version": 1
+}

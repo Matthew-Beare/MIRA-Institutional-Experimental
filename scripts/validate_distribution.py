@@ -23,7 +23,7 @@ CHANNELS: dict[str, dict[str, Any]] = {
     "institutional-experimental": {
         "repository": "Matthew-Beare/MIRA-Institutional-Experimental",
         "visibility": "public",
-        "template": False,
+        "template": True,
         "title": "M.I.R.R.O.R. Institutional-Experimental",
     },
 }

@@ -10,7 +10,7 @@ The former **Life Planner** name and the `life-planner` skill/package path remai
 
 ## What goes where
 
-- **Git or approved managed source**: policy, schemas, migrations, tests, onboarding, non-secret configuration, reusable features, and version lineage.
+- **Git or approved managed source**: policy, schemas, migrations, tests, onboarding, non-secret configuration, reusable features, dependency contracts, and version lineage.
 - **Google Sheets / Microsoft Lists or Excel / another approved structured provider**: mutable personal records and canonical structured state.
 - **Google Drive / OneDrive or SharePoint / another approved evidence store**: retained evidence and documents where useful.
 - **Calendar**: optional projection and reminders, not automatically the sole state database.
@@ -44,6 +44,19 @@ The starter can discover and configure, when useful:
 
 Existing connected evidence should be inspected before asking the user to rebuild information manually.
 
+## Two dependency maps, for two different problems
+
+M.I.R.R.O.R. does not treat every behavior as an installable package. It therefore keeps two related dependency models:
+
+1. `features.lock.json` plus `feature-dependency-map.json` track installable/customizable feature packages, ownership, upstream lineage, local revisions, and package dependencies.
+2. `behavior-dependencies.json` tracks **every cataloged operational behavior or gesture**, including receipts, scheduling, briefs, reminders, orders, shipments, mileage, assets, provider onboarding, household services, knowledge, and infrastructure contracts.
+
+The canonical forensic catalog currently contains **123 behaviors and 123 dependency assignments**. Canonical CI cross-checks them. A new catalog behavior cannot pass release CI until its dependencies are mapped.
+
+Before an enabled behavior executes, MIRA should run the behavior dependency preflight against the capabilities and authorities actually observed in that deployment. A missing required dependency blocks only that behavior and dependent behaviors. A missing optional dependency degrades only that optional path. The checker never installs a connector, creates an authority, enables a behavior, or grants itself permission.
+
+For the full contract and receipt/scheduling examples, see [`BEHAVIOR_DEPENDENCIES.md`](BEHAVIOR_DEPENDENCIES.md).
+
 ## Create and share a skill
 
 A user can describe a recurring problem to MIRA in ordinary language. MIRA should inspect existing capabilities, design the behavior and data boundaries, implement it on a feature branch, add tests and synthetic fixtures, verify it, and commit a coherent checkpoint.
@@ -64,7 +77,7 @@ See [`FEATURE_RECONCILIATION.md`](FEATURE_RECONCILIATION.md).
 
 ## Same code across release channels
 
-M.I.R.R.O.R. Personal-Production, Personal-Experimental, and Institutional-Experimental are all public onboarding repositories using the same portable application code from one canonical source revision. Channel-specific feature forks are forbidden. Only deployment policy, approved provider/runtime configuration, data classification, and external mutable state differ.
+M.I.R.R.O.R. Personal-Production, Personal-Experimental, and Institutional-Experimental are all public onboarding repositories using the same portable application code from one canonical source revision. All three repositories are configured as GitHub template repositories. Channel-specific feature forks are forbidden. Only deployment policy, approved provider/runtime configuration, data classification, and external mutable state differ.
 
 ## Boundaries
 
