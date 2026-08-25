@@ -20,6 +20,16 @@ Each behavior selects one or more reusable dependency profiles. A profile can de
 
 Required dependency failure blocks **only that behavior and anything that explicitly depends on it**. Optional dependency failure degrades only the optional path. The checker never installs a connector, creates an authority, enables a behavior, or changes source.
 
+## Behavior requirements versus user integrations
+
+The dependency database describes what a behavior requires. A deployment's Integration Registry describes what that particular user currently has.
+
+Connecting or disconnecting an integration does not normally rewrite `behavior-dependencies.json`. Instead MIRA refreshes the Integration Registry and recalculates behavior readiness. Only **verified capabilities** count. An app can be connected while still lacking the permission, action, history coverage, or readback needed by the behavior.
+
+`tools/integration_dependency_router.py` bridges those two layers. It accepts an observed Integration Registry snapshot, contributes verified capabilities from connected integrations to the dependency environment, runs the existing behavior checker, attaches user-facing remediation for missing required dependencies, and proposes goal-matched workflows from `integration-workflow-catalog.json`.
+
+Provider labels are never proof. A Google connection does not automatically prove Drive creation or Sheets write/readback. A smartwatch connection does not automatically prove wearable data can be read. A financial connection does not prove complete transaction history or a requested account scope.
+
 ## Receipt example
 
 Catalog behavior `c-06`, receipt intake from email, files, photos/screenshots, and manual entry, explicitly depends on:
@@ -47,18 +57,18 @@ Observed evidence from a real scheduled firing is an additional optional readine
 
 ## Runtime preflight
 
-Before an enabled behavior executes, MIRA should build an observed environment containing:
+Before an enabled behavior executes, MIRA builds an observed environment containing:
 
 - enabled behavior IDs;
 - behavior implementations actually available in this deployment;
-- observed capabilities; and
+- verified capabilities; and
 - observed canonical authorities.
 
-`tools/behavior_dependency_check.py` resolves the dependency graph and returns `ready`, `degraded`, or `blocked` per enabled behavior.
+`tools/behavior_dependency_check.py` resolves the provider-neutral dependency graph and returns `ready`, `degraded`, or `blocked` per enabled behavior. When Integration Registry evidence is available, `tools/integration_dependency_router.py` constructs that environment from verified integrations and adds the nontechnical setup/recommendation layer.
 
 A required dependency failure produces a user-facing explanation such as:
 
-> Receipt intake is not ready yet. It needs the selected evidence/document store. Nothing will be changed automatically, and unrelated workflows stay as they are.
+> Receipt intake is not ready yet. It needs the selected evidence/document store. Nothing will be changed automatically, and unrelated workflows stay as they are. Do you need help setting this up?
 
 An optional dependency failure produces a narrower explanation such as:
 
@@ -66,19 +76,38 @@ An optional dependency failure produces a narrower explanation such as:
 
 Do not expose internal graph terminology unless the user requests technical detail.
 
-## User-in-the-loop dependency remediation
+## Boomer-safe dependency remediation
 
-A dependency check is diagnostic, not permission to repair the environment automatically.
+A dependency check is diagnostic, not permission to repair the environment automatically. When a feature the user wants is blocked:
 
-When a missing dependency could be added, MIRA should explain:
+1. identify the affected feature and missing dependency in ordinary language;
+2. state that unrelated features still work and nothing changes automatically;
+3. ask exactly **Do you need help setting this up?**;
+4. if yes, provide no more than five visible setup steps, prefer an already connected suitable provider, request only the minimum necessary permission, and stop when the user must complete an external action;
+5. after setup, verify the exact required read/write/readback or other capability proof, update the Integration Registry, and rerun dependency readiness for the affected behavior and its dependents only.
 
-1. what behavior is affected;
-2. what is missing in plain language;
-3. what still works without it;
-4. what connecting or creating the dependency would change; and
-5. whether the remediation changes durable source or mutable provider state.
+If the user declines help, use a short closure rather than repeatedly prompting:
 
-If the user approves a lasting source change, use the normal feature-reconciliation checkpoint and rollback contract before changing anything. If the user declines, preserve the existing behavior and state.
+> No problem. This feature will stay unavailable until the required dependency is connected or configured. Tell me when it is ready and I will check it again.
+
+Never mark the dependency fixed merely because a provider appears in a connected-app list. Never silently select a different account or create a duplicate provider resource just to clear a dependency check.
+
+If the user approves a lasting source change, use the normal feature-reconciliation checkpoint and rollback contract before changing anything. If the user approves a provider/account setup action, use the provider's normal bounded permission and readback gate.
+
+## Integration-to-goal workflow discovery
+
+Connected integrations can reveal useful capabilities, but they do not define the user's goals. MIRA may suggest a workflow only when a verified capability intersects with an explicit active user goal.
+
+Examples:
+
+- verified wearable data + stated fitness/activity goal → offer evidence-backed routine/accountability support;
+- verified financial read access + stated budget/saving goal → offer spending/reconciliation support;
+- verified mailbox read + stated receipt/order/admin goal → offer evidence-assisted intake and reconciliation;
+- verified Calendar access + stated appointment/scheduling goal → offer reconciliation and reminder projection;
+- verified Drive/OneDrive/SharePoint evidence write/readback + stated document/receipt/manual goal → offer evidence retention;
+- barcode/QR scan capability + stated asset/inventory goal → offer scan-to-identify/manual-link workflow.
+
+A recommendation is an offer, not activation. `integration-workflow-catalog.json` limits each review to a small set of high-value suggestions, records required versus optional capabilities, and leaves activation behind explicit user confirmation. If the runtime cannot enumerate all connected plugins, MIRA uses the existing Integration Registry plus bounded relevant probes and must not claim a global scan occurred.
 
 ## Behavior-to-behavior dependencies
 
@@ -104,10 +133,12 @@ Every durable new behavior must follow this order:
 7. run repository/privacy/distribution CI; and
 8. only then merge and promote.
 
+A newly connected integration normally updates runtime capability state, not source. If it exposes a reusable capability or workflow contract that is not yet represented in source, that new source behavior must go through the same branch, test, dependency, privacy, CI, and promotion gates.
+
 Canonical CI cross-checks the forensic feature catalog against `behavior-dependencies.json`. Distribution CI validates the portable dependency database even though the private/reference forensic catalog is not shipped as a distribution authority.
 
 ## Standalone application use
 
 A standalone MIRA application can use the same dependency checker without GitHub-specific UI logic. The app supplies its observed capabilities, authorities, installed behaviors, and enabled behaviors; the checker returns the readiness graph. A Linux agent, desktop app, cloud runtime, or institutional deployment can therefore share one dependency contract while exposing different actual capabilities.
 
-The checker remains non-mutating. UI layers may offer approved setup actions, but dependency detection itself never grants permission to perform them.
+The checker and integration router remain non-mutating. UI layers may offer approved setup actions, but dependency detection and workflow recommendation themselves never grant permission to perform them.

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "enabled_behaviors": [
+    "c-06",
+    "f-13"
+  ],
+  "available_behaviors": [
+    "c-06",
+    "f-13",
+    "f-22"
+  ],
+  "available_authorities": [
+    "purchase-receipt-archive",
+    "evidence-store",
+    "source-repository"
+  ],
+  "direct_verified_capabilities": [
+    "source_read",
+    "structured_state_read",
+    "structured_state_write",
+    "structured_state_readback"
+  ],
+  "integrations": [
+    {
+      "id": "example-drive",
+      "display_name": "Example document store",
+      "connection_state": "connected",
+      "advertised_capabilities": [
+        "evidence_read",
+        "evidence_write",
+        "evidence_readback"
+      ],
+      "verified_capabilities": [
+        "evidence_read",
+        "evidence_write",
+        "evidence_readback"
+      ]
+    },
+    {
+      "id": "example-wearable",
+      "display_name": "Example smartwatch",
+      "connection_state": "connected",
+      "advertised_capabilities": [
+        "wearable_read"
+      ],
+      "verified_capabilities": []
+    }
+  ],
+  "goals": [
+    {
+      "id": "example-fitness-goal",
+      "label": "improve my fitness consistency",
+      "active": true,
+      "tags": [
+        "fitness",
+        "activity"
+      ]
+    }
+  ],
+  "active_workflow_ids": [],
+  "dismissed_workflow_ids": []
+}

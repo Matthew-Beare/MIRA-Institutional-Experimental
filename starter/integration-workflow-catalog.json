@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "automatic_enablement": false,
+    "automatic_goal_inference": false,
+    "connected_provider_is_not_capability_proof": true,
+    "verified_capabilities_only": true,
+    "user_confirmation_required": true,
+    "max_recommendations_per_review": 5
+  },
+  "workflows": [
+    {
+      "id": "wearable-fitness-support",
+      "title": "Wearable-assisted fitness and activity support",
+      "required_capabilities": ["wearable_read"],
+      "goal_tags": ["fitness", "activity", "training", "sleep", "wellbeing"],
+      "behavior_ids": ["f-13", "f-22"],
+      "why": "Use user-approved wearable evidence as optional input to routines, accountability, activity trends, and goal review without inferring diagnosis or changing goals automatically.",
+      "prompt": "I can use data from {integrations} to help with your {goal}. Nothing changes automatically. Do you want help setting that up?"
+    },
+    {
+      "id": "finance-spending-support",
+      "title": "Financial activity and spending support",
+      "required_capabilities": ["finance_read"],
+      "goal_tags": ["budget", "saving", "spending", "debt", "finance", "subscriptions"],
+      "behavior_ids": ["c-03", "c-10", "c-12", "f-06"],
+      "why": "Use a verified read-only financial connection to reconcile spending, charges, subscriptions, and user-selected financial goals without treating every transaction as income or purchase evidence.",
+      "prompt": "I can use your connected {integrations} data to help with {goal}. Nothing changes automatically. Do you want help setting that up?"
+    },
+    {
+      "id": "email-evidence-support",
+      "title": "Email evidence for orders, receipts, appointments, and admin",
+      "required_capabilities": ["email_read"],
+      "goal_tags": ["orders", "receipts", "appointments", "admin", "school", "work", "inbox"],
+      "behavior_ids": ["b-07", "b-09", "c-01", "c-02", "f-03", "f-04", "f-05"],
+      "why": "Use approved mailbox read access as evidence while preserving canonical state outside email and never sending mail automatically.",
+      "prompt": "Your connected {integrations} can reduce manual entry for {goal}. Nothing will be sent automatically. Do you want help using it for that?"
+    },
+    {
+      "id": "calendar-reminder-support",
+      "title": "Calendar-aware appointments and reminder projection",
+      "required_capabilities": ["calendar_read"],
+      "optional_capabilities": ["calendar_write", "calendar_readback", "notification_delivery"],
+      "goal_tags": ["appointments", "schedule", "calendar", "reminders", "school", "work"],
+      "behavior_ids": ["b-01", "b-02", "b-03", "f-07"],
+      "why": "Use calendar evidence for awareness and, only when write/readback is verified, project user-approved reminders without creating one automation per event.",
+      "prompt": "I can use {integrations} to help with {goal}. If reminder write access is available, I can also verify projections. Do you want help setting that up?"
+    },
+    {
+      "id": "evidence-archive-support",
+      "title": "Document and evidence archive",
+      "required_capabilities": ["evidence_read", "evidence_write", "evidence_readback"],
+      "goal_tags": ["receipts", "manuals", "documents", "warranties", "assets", "organization", "records"],
+      "behavior_ids": ["c-06", "d-02", "d-05", "d-06", "g-17", "g-18"],
+      "why": "Retain receipts, manuals, documents, and provenance in a verified evidence store such as Google Drive, OneDrive, or SharePoint.",
+      "prompt": "I can use {integrations} as the document store for {goal}. Nothing will be moved or created until you approve the workflow. Do you want help setting that up?"
+    },
+    {
+      "id": "location-travel-support",
+      "title": "Location-aware travel and mileage support",
+      "required_capabilities": ["location_read"],
+      "goal_tags": ["travel", "mileage", "routes", "work", "commute", "outdoors"],
+      "behavior_ids": ["a-09", "f-16", "f-17"],
+      "why": "Use approved location evidence only for user-selected route, travel, context, or mileage workflows and never as an undeclared background tracker.",
+      "prompt": "I can use {integrations} to reduce manual updates for {goal}. Do you want help setting that up?"
+    },
+    {
+      "id": "home-automation-support",
+      "title": "Home Assistant context and household workflows",
+      "required_capabilities": ["home_assistant_read"],
+      "goal_tags": ["home", "maintenance", "energy", "household", "inventory"],
+      "behavior_ids": ["d-14", "g-11"],
+      "why": "Use explicitly approved Home Assistant state as an optional evidence source for household workflows without assuming cloud reachability or write authority.",
+      "prompt": "I can use {integrations} as optional evidence for {goal}. Do you want help designing a workflow around it?"
+    },
+    {
+      "id": "barcode-asset-support",
+      "title": "Barcode and QR assisted asset intake",
+      "required_capabilities": ["barcode_scan"],
+      "optional_capabilities": ["web_research", "evidence_write", "evidence_readback"],
+      "goal_tags": ["inventory", "assets", "tools", "household", "organization"],
+      "behavior_ids": ["d-05", "d-06", "d-11", "g-10"],
+      "why": "Decode identifiers locally when possible, then corroborate product/model identity, retrieve authoritative manuals, and link evidence to immutable asset UUIDs.",
+      "prompt": "I can use barcode or QR scanning to speed up {goal}. Do you want help setting up scan-to-identify, manual lookup, and database population?"
+    },
+    {
+      "id": "source-customization-support",
+      "title": "Versioned custom workflow development",
+      "required_capabilities": ["source_read"],
+      "optional_capabilities": ["source_write", "source_remote_readback"],
+      "goal_tags": ["automation", "customization", "workflow", "development", "school", "it"],
+      "behavior_ids": ["e-17", "e-19", "f-21"],
+      "why": "Use an approved Git provider for durable policy, tests, and custom features while keeping mutable personal state out of source control.",
+      "prompt": "Your connected {integrations} can support versioned custom workflows for {goal}. Do you want help designing one?"
+    }
+  ]
+}
