@@ -16,10 +16,11 @@ MIRA should then:
 2. **Define the contract.** State what the skill does, what evidence it reads, which authority owns mutable state, what permissions/connectors it needs, what it may write, how failure is isolated, and what counts as success.
 3. **Create a feature branch.** Implement the change away from `main`. Reusable modules normally live under `starter/features/<feature-id>/`; deployment-specific behavior stays in the private deployment boundary.
 4. **Make the data boundary explicit.** Put behavior, schemas, migrations, non-secret configuration, and tests in Git. Keep credentials, live authority IDs, private email/receipt bodies, health records, and mutable personal state out of portable source.
-5. **Add tests and synthetic fixtures.** A reusable skill must be testable without copying the user's real data into public or portable source.
-6. **Verify the private version.** Run the relevant feature tests and provider readbacks, then commit and push a coherent checkpoint. A half-working experiment is not silently promoted.
-7. **Keep it private by default.** Finishing a useful personal skill does not imply permission to publish it.
-8. **Ask before sharing.** When coherent, ask exactly: **Do you want to make this feature available to other people?**
+5. **Record ownership and dependencies.** Add/update the feature in `features.lock.json`, declare feature and capability dependencies in its manifest, regenerate `feature-dependency-map.json`, and keep the user's feature owner/lineage intact. A new personal feature is `owner: user` and is never silently converted to upstream ownership.
+6. **Add tests and synthetic fixtures.** A reusable skill must be testable without copying the user's real data into public or portable source.
+7. **Verify the private version.** Run the relevant feature tests, dependency-map freshness check, capability audit, and provider readbacks, then commit and push a coherent checkpoint. A half-working experiment is not silently promoted.
+8. **Keep it private by default.** Finishing a useful personal skill does not imply permission to publish it.
+9. **Ask before sharing.** When coherent, ask exactly: **Do you want to make this feature available to other people?**
 
 If the answer is **no**, stop at the private, versioned implementation.
 
@@ -43,6 +44,8 @@ If the answer is **yes**, continue through the portability gate below. A yes aut
 - If portability extraction would destabilize a working deployment, preserve the deployment and extract reusable behavior separately.
 - Dependencies and permissions are declared rather than assumed from the author's connected apps.
 - Standing permission to commit and push a private deployment is never permission to publish upstream.
+- User-owned behavior is preserved by default during upstream reconciliation. AI may propose consolidation but may not delete, replace, or re-own a local feature without explicit approval.
+- Every approved upgrade creates a rollback checkpoint before source or state migrations are applied.
 
 ## Portability gate
 
@@ -92,11 +95,14 @@ other deployments
 3. Supply configuration/authority references from the receiving deployment.
 4. Run synthetic tests and dependency checks before writes.
 5. Apply state-store migrations transactionally/idempotently and verify readback.
-6. Record installed version/commit/migration in `features.lock.json`.
-7. Preserve local overrides and never silently overwrite canonical state with upstream defaults.
+6. Record installed version/commit/migration plus owner/origin/lineage in `features.lock.json`.
+7. Regenerate and commit `feature-dependency-map.json`.
+8. Preserve local overrides and never silently overwrite canonical state with upstream defaults.
 
 ## Dependency minimization
 
 Portable modules depend on the smallest state-authority interface and optional capabilities they actually need. Exercise accountability can work with the structured state authority and optionally consume wearable evidence. Appointment reconciliation can work with canonical appointment state, while email evidence and Calendar projection are optional adapters.
 
-A missing optional dependency fails that adapter path only. Avoid central middleware whose failure disables unrelated life domains.
+A missing required dependency blocks only the affected feature and prompts the user to connect/configure it. A missing optional dependency fails that adapter path only and MIRA explains the degraded behavior. Avoid central middleware whose failure disables unrelated life domains.
+
+For upstream update behavior and the plain-language user decision flow, see [`FEATURE_RECONCILIATION.md`](FEATURE_RECONCILIATION.md).

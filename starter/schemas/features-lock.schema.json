@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirror.invalid/starter/schemas/features-lock.schema.json",
+  "title": "M.I.R.R.O.R. Feature Ownership and Lineage Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "default_conflict_policy",
+    "default_rollback_policy",
+    "features"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "default_conflict_policy": {"const": "preserve-local-and-ask"},
+    "default_rollback_policy": {"const": "checkpoint-before-change"},
+    "features": {
+      "type": "object",
+      "propertyNames": {"pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+      "additionalProperties": {"$ref": "#/$defs/feature"}
+    }
+  },
+  "$defs": {
+    "feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "origin",
+        "installed_version",
+        "upstream_feature_id",
+        "upstream_base_version",
+        "upstream_base_revision",
+        "local_revision",
+        "owned_paths",
+        "conflict_policy",
+        "rollback_policy"
+      ],
+      "properties": {
+        "owner": {"enum": ["mirror", "user", "organization"]},
+        "origin": {"enum": ["mirror", "user", "organization"]},
+        "installed_version": {"type": "string", "minLength": 1},
+        "upstream_feature_id": {"type": ["string", "null"]},
+        "upstream_base_version": {"type": ["string", "null"]},
+        "upstream_base_revision": {"type": ["string", "null"]},
+        "local_revision": {"type": "integer", "minimum": 0},
+        "owned_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "conflict_policy": {"const": "preserve-local-and-ask"},
+        "rollback_policy": {"const": "checkpoint-before-change"}
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirror.invalid/starter/schemas/feature-dependency-map.schema.json",
+  "title": "M.I.R.R.O.R. Feature Dependency Map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy", "features", "edges"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_behavior_default",
+        "user_in_the_loop",
+        "rollback_before_change",
+        "automatic_local_feature_deletion"
+      ],
+      "properties": {
+        "local_behavior_default": {"const": "keep-current"},
+        "user_in_the_loop": {"const": true},
+        "rollback_before_change": {"const": true},
+        "automatic_local_feature_deletion": {"const": false}
+      }
+    },
+    "features": {
+      "type": "object",
+      "propertyNames": {"pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+      "additionalProperties": {"type": "object"}
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to", "kind"],
+        "properties": {
+          "from": {"type": "string", "minLength": 1},
+          "to": {"type": "string", "minLength": 1},
+          "kind": {
+            "enum": [
+              "feature-required",
+              "capability-required",
+              "capability-optional"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,13 +1,13 @@
 # Personal Fork Lifecycle
 
-Life Planner is designed to be inherited, personalized, versioned, and optionally improved upstream without treating Git as the user's live database.
+M.I.R.R.O.R. is designed to be inherited, personalized, versioned, and optionally improved upstream without treating Git as the user's live database.
 
 ## Repository lineage
 
 ```text
 public upstream GitHub template
         ↓ personal template copy OR approved organization/managed release
-user-owned, organization-owned, or managed Life Planner source
+user-owned, organization-owned, or managed M.I.R.R.O.R. source
         ↓ first-boot source/config checkpoint
 feature/fix branches + optional experimental integration
         ↓ tested personal release
@@ -15,7 +15,7 @@ feature/fix branches + optional experimental integration
 public upstream PR
 ```
 
-The user's Git repository is the durable source of truth for **behavior and structure**: policy, schemas, migrations, module selection, authority references, non-secret configuration, tests, feature code, onboarding, provenance, recovery instructions, and user-selected recurring brief schedules.
+The user's Git repository is the durable source of truth for **behavior and structure**: policy, schemas, migrations, module selection, authority references, non-secret configuration, tests, feature code, onboarding, provenance, recovery instructions, feature ownership/lineage, dependency maps, and user-selected recurring brief schedules.
 
 Mutable personal operational state lives in canonical authorities described in `STATE_AUTHORITY_MODEL.md`, normally Google Sheets plus Google Drive evidence for the personal starter or Microsoft Lists/Excel plus OneDrive/SharePoint in an approved Microsoft 365 lane.
 
@@ -33,9 +33,9 @@ After the browser setup and repository capability readback in `INSTALL.md`, then
 4. create/select the structured state authority and evidence root;
 5. create and verify the `Authority Registry` and `Interview Ledger`;
 6. ask whether recurring briefs are wanted and, if so, record only the user's exact local slots, notification mode, and canonical IANA timezone; the product supplies no default brief time;
-7. write non-secret deployment configuration, selected feature IDs/versions, schemas/migrations, policy, and any selected brief schedule;
+7. write non-secret deployment configuration, selected feature IDs/versions, schemas/migrations, policy, feature ownership/lineage, dependency map, and any selected brief schedule;
 8. import approved accessible existing information into the selected canonical state/evidence authorities with provenance;
-9. run applicable validation/privacy/source tests;
+9. run applicable validation/privacy/source/dependency tests;
 10. commit and push one coherent Git source/config checkpoint;
 11. read back the remote source commit;
 12. project any selected recurring brief schedule into the verified scheduler and read the exact definition back;
@@ -61,6 +61,8 @@ Examples include accepting a meal plan, recording a workout, adding/revising an 
 
 After standing Git authorization, lasting behavior/configuration/schema/migration/onboarding changes automatically validate, commit, push, and receive remote readback. Several experiments may exist at once on separate feature branches. The stable personal branch stays known-good; incomplete work belongs on feature/experimental branches.
 
+Every created or changed feature must have an ownership/lineage entry in `features.lock.json`. MIRA regenerates `feature-dependency-map.json` from the feature manifests and lock registry before committing. CI rejects an unowned feature or stale dependency map. User-created features remain `owner: user`; an upstream contribution does not silently transfer ownership of the user's private implementation.
+
 A recurring brief schedule is one of those durable configuration changes. When the user moves, adds, disables, renames, or removes a brief, update the version-controlled schedule first, validate/commit/push/read it back, then reconcile the provider scheduler and verify the live definition. Never leave the live scheduler and Git describing different schedules.
 
 Examples:
@@ -75,7 +77,7 @@ Examples:
 
 ## Portable feature candidate gate
 
-When a custom feature reaches a coherent tested checkpoint, Life Planner asks exactly:
+When a custom feature reaches a coherent tested checkpoint, MIRA asks exactly:
 
 `Do you want to make this feature available to other people?`
 
@@ -88,23 +90,28 @@ If yes:
 4. create synthetic fixtures;
 5. declare dependencies and permissions;
 6. add migrations/rollback behavior when needed;
-7. run feature tests, starter privacy audit, and public-source audit;
+7. run feature tests, starter privacy audit, dependency-map audit, and public-source audit;
 8. generate a portable feature manifest/version;
 9. show the exact public contribution diff;
 10. publish/open the upstream PR only under configured publication authority.
 
 ## Upstream synchronization
 
-User deployments pin known-good upstream versions. Updating is deliberate:
-- compare the next release with recorded provenance;
-- review migrations and feature conflicts;
-- test against the user's configuration/state schemas;
-- apply compatible source and bounded state-store migrations;
-- preserve canonical state and local features;
-- apply the audited source delta under the user's policy; a private template copy may not share a Git merge base with upstream;
-- verify remote source commit and state migration readback.
+User deployments pin known-good upstream versions. Updating is deliberate and user-in-the-loop.
+
+For every candidate release MIRA compares three views: the upstream state originally adopted, the deployment's current state, and the new upstream state. It builds the current dependency/capability graph before proposing any change.
+
+The user-facing update review hides Git mechanics and explains what the user has now, what would change, what dependency is missing or degraded, and the choices **keep mine**, **use the new version**, or **show more detail**. The default is always **keep mine/current** until the user explicitly chooses otherwise.
+
+User-owned or locally modified features are never deleted, overwritten, consolidated, or re-owned automatically. AI may propose consolidation when upstream and local behavior overlap, but it is advisory only.
+
+Before applying any approved upgrade MIRA creates and verifies a rollback checkpoint and reminds the user that the prior working workflow can be restored. The candidate is applied away from the known-good branch, migrations and dependency checks run, all applicable stock/local tests run, CI must be green, and the remote source/state readback must succeed before promotion.
+
+A missing required dependency blocks only the affected proposed feature/update and prompts the user to connect/configure it. A missing optional dependency leaves the feature available in degraded mode and explains what functionality is unavailable.
 
 Never assume template history is a fork, force unrelated histories together, reset a user's deployment to upstream, or discard local state/features merely because public upstream advanced.
+
+See `FEATURE_RECONCILIATION.md` for the machine and Boomer-mode contracts.
 
 ## Failure isolation
 

@@ -1,0 +1,115 @@
+{
+  "edges": [
+    {
+      "from": "appointment-reconciliation",
+      "kind": "capability-optional",
+      "to": "calendar-projection"
+    },
+    {
+      "from": "appointment-reconciliation",
+      "kind": "capability-optional",
+      "to": "email-evidence"
+    },
+    {
+      "from": "appointment-reconciliation",
+      "kind": "capability-optional",
+      "to": "public-provider-research"
+    },
+    {
+      "from": "appointment-reconciliation",
+      "kind": "capability-required",
+      "to": "structured-state-authority"
+    },
+    {
+      "from": "meal-planning",
+      "kind": "capability-optional",
+      "to": "drive-evidence"
+    },
+    {
+      "from": "meal-planning",
+      "kind": "capability-optional",
+      "to": "finance-evidence"
+    },
+    {
+      "from": "meal-planning",
+      "kind": "capability-optional",
+      "to": "shopping-intent"
+    },
+    {
+      "from": "meal-planning",
+      "kind": "capability-required",
+      "to": "structured-state-authority"
+    }
+  ],
+  "features": {
+    "appointment-reconciliation": {
+      "conditional_capabilities": {
+        "calendar-projection": "required only for transactions whose selected policy enables Calendar projection",
+        "email-evidence": "required only for email-driven ingestion; manual appointment state remains available without it",
+        "public-provider-research": "best-effort enrichment when selected; unresolved provider type asks or remains unresolved"
+      },
+      "conflict_policy": "preserve-local-and-ask",
+      "failure_domain": "appointments",
+      "feature_dependencies": [],
+      "id": "appointment-reconciliation",
+      "local_revision": 0,
+      "optional_capabilities": [
+        "calendar-projection",
+        "email-evidence",
+        "public-provider-research"
+      ],
+      "origin": "mirror",
+      "owned_paths": [
+        "starter/features/appointment-reconciliation/**"
+      ],
+      "owner": "mirror",
+      "required_capabilities": [
+        "structured-state-authority"
+      ],
+      "rollback_policy": "checkpoint-before-change",
+      "summary": "Evidence-backed appointment reconciliation with structured canonical state, provider-type enrichment, configurable reminders, and verified Calendar projection.",
+      "upstream_base_revision": "template",
+      "upstream_base_version": "0.4.0-beta.1",
+      "upstream_feature_id": "appointment-reconciliation",
+      "version": "0.4.0-beta.1"
+    },
+    "meal-planning": {
+      "conditional_capabilities": {
+        "drive-evidence": "required only when the selected recipe/evidence policy stores long bodies or files externally",
+        "finance-evidence": "optional cost evidence and never required for basic planning",
+        "shopping-intent": "required only for the shopping-procurement projection selected by an accepted meal plan; meal-plan state commits first"
+      },
+      "conflict_policy": "preserve-local-and-ask",
+      "failure_domain": "meal-planning",
+      "feature_dependencies": [],
+      "id": "meal-planning",
+      "local_revision": 0,
+      "optional_capabilities": [
+        "drive-evidence",
+        "finance-evidence",
+        "shopping-intent"
+      ],
+      "origin": "mirror",
+      "owned_paths": [
+        "starter/features/meal-planning/**"
+      ],
+      "owner": "mirror",
+      "required_capabilities": [
+        "structured-state-authority"
+      ],
+      "rollback_policy": "checkpoint-before-change",
+      "summary": "Adaptive meal, recipe, leftover and grocery-intent planning using a structured state authority plus optional Drive evidence.",
+      "upstream_base_revision": "template",
+      "upstream_base_version": "0.4.0-beta.1",
+      "upstream_feature_id": "meal-planning",
+      "version": "0.4.0-beta.1"
+    }
+  },
+  "policy": {
+    "automatic_local_feature_deletion": false,
+    "local_behavior_default": "keep-current",
+    "rollback_before_change": true,
+    "user_in_the_loop": true
+  },
+  "schema_version": 1
+}

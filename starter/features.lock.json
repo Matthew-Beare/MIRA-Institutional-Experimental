@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "default_conflict_policy": "preserve-local-and-ask",
+  "default_rollback_policy": "checkpoint-before-change",
+  "features": {
+    "appointment-reconciliation": {
+      "owner": "mirror",
+      "origin": "mirror",
+      "installed_version": "0.4.0-beta.1",
+      "upstream_feature_id": "appointment-reconciliation",
+      "upstream_base_version": "0.4.0-beta.1",
+      "upstream_base_revision": "template",
+      "local_revision": 0,
+      "owned_paths": [
+        "starter/features/appointment-reconciliation/**"
+      ],
+      "conflict_policy": "preserve-local-and-ask",
+      "rollback_policy": "checkpoint-before-change"
+    },
+    "meal-planning": {
+      "owner": "mirror",
+      "origin": "mirror",
+      "installed_version": "0.4.0-beta.1",
+      "upstream_feature_id": "meal-planning",
+      "upstream_base_version": "0.4.0-beta.1",
+      "upstream_base_revision": "template",
+      "local_revision": 0,
+      "owned_paths": [
+        "starter/features/meal-planning/**"
+      ],
+      "conflict_policy": "preserve-local-and-ask",
+      "rollback_policy": "checkpoint-before-change"
+    }
+  }
+}

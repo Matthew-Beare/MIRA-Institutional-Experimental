@@ -52,6 +52,16 @@ Personal skills stay private by default. When a skill is coherent, MIRA asks exa
 
 See [`SHARED_FEATURE_WORKFLOW.md`](SHARED_FEATURE_WORKFLOW.md).
 
+## Safe upgrades and user-owned features
+
+Every installed feature has durable ownership and lineage in `features.lock.json`. `feature-dependency-map.json` records its feature and capability dependencies and is regenerated/checked whenever feature source changes. CI fails if a feature is added or changed without updating that map.
+
+Upstream updates never replace a user's repository wholesale. MIRA compares the originally adopted upstream state, the user's current state, and the candidate release. User-owned and locally modified behavior is preserved by default. The plain-language update screen explains what the user has, what would change, what dependency is missing if anything, and offers **keep mine**, **use the new version**, or **show more detail**. Nothing changes until the user approves it.
+
+Before any approved change MIRA creates a rollback checkpoint and reminds the user they can return to the previous working setup. AI may recommend consolidation when a local feature overlaps a new upstream feature, but it may not delete or replace local behavior without explicit user approval and full regression validation.
+
+See [`FEATURE_RECONCILIATION.md`](FEATURE_RECONCILIATION.md).
+
 ## Same code across release channels
 
 M.I.R.R.O.R. Personal-Production, Personal-Experimental, and Institutional-Experimental are all public onboarding repositories using the same portable application code from one canonical source revision. Channel-specific feature forks are forbidden. Only deployment policy, approved provider/runtime configuration, data classification, and external mutable state differ.

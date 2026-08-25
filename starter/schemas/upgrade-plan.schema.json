@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirror.invalid/starter/schemas/upgrade-plan.schema.json",
+  "title": "MIRA User-in-the-Loop Upgrade Proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "default_action",
+    "user_in_the_loop",
+    "automatic_apply",
+    "automatic_local_feature_deletion",
+    "rollback",
+    "capability_audit",
+    "changes",
+    "consolidation_candidates"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "proposal-only"},
+    "default_action": {"const": "keep-current"},
+    "user_in_the_loop": {"const": true},
+    "automatic_apply": {"const": false},
+    "automatic_local_feature_deletion": {"const": false},
+    "rollback": {
+      "type": "object",
+      "required": ["required_before_any_change", "message"],
+      "properties": {
+        "required_before_any_change": {"const": true},
+        "message": {"type": "string", "minLength": 1}
+      }
+    },
+    "capability_audit": {"type": "object"},
+    "changes": {"type": "array", "items": {"type": "object"}},
+    "consolidation_candidates": {"type": "array", "items": {"type": "object"}}
+  }
+}

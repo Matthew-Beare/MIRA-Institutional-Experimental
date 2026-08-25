@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "observed_capabilities": [
+    "structured-state-authority"
+  ],
+  "capability_sources": {
+    "structured-state-authority": "verified structured state provider",
+    "email-evidence": "optional Gmail, Outlook, or other approved email read connection",
+    "calendar-projection": "optional Google Calendar, Outlook Calendar, or approved calendar write connection",
+    "drive-evidence": "optional Google Drive, OneDrive, SharePoint, or approved evidence store",
+    "public-provider-research": "optional public research capability",
+    "shopping-intent": "optional shopping/procurement feature",
+    "finance-evidence": "optional finance evidence capability"
+  }
+}
