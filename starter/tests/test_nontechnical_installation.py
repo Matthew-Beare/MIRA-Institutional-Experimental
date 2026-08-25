@@ -28,6 +28,18 @@ class NontechnicalInstallationTests(unittest.TestCase):
         self.assertNotIn("git clone ", install.lower())
         self.assertNotIn("gh repo create", install.lower())
 
+    def test_git_is_explained_for_a_first_time_user(self) -> None:
+        install = self.text("INSTALL.md")
+        for phrase in (
+            "**Git** is an undo history for files",
+            "**GitHub** is a website that stores a Git project online",
+            "A **repository**",
+            "A **commit** is a named save point",
+            "A **push** means putting a new commit onto GitHub",
+            "You do **not** need to type Git commands",
+        ):
+            self.assertIn(phrase, install)
+
     def test_template_path_creates_private_user_owned_repository(self) -> None:
         flow = self.flow()
         self.assertEqual("github-template", flow["copy_method"])
@@ -99,20 +111,23 @@ class NontechnicalInstallationTests(unittest.TestCase):
         for question_id in flow["household_routine_question_ids"]:
             self.assertIn(question_id, ids)
 
-    def test_public_front_door_uses_current_working_name(self) -> None:
+    def test_public_front_door_uses_mira_mirror_branding(self) -> None:
         surfaces = (
             (ROOT.parent / "README.md").read_text(encoding="utf-8"),
             self.text("README.md"),
-            self.text("START_HERE.md"),
             self.text("INSTALL.md"),
         )
         for surface in surfaces:
-            self.assertIn("Personal Ops Planner", surface)
+            self.assertIn("MIRROR", surface)
+            self.assertIn("MIRA", surface)
             self.assertNotIn("# LyfeOS", surface)
+
         branding = (ROOT.parent / "docs" / "BRANDING.md").read_text(encoding="utf-8")
-        self.assertIn("neutral working name", branding)
-        self.assertIn("compatibility identifiers", branding)
-        self.assertIn("proper trademark/domain/app-store clearance", branding)
+        self.assertIn("MIRROR Layer", branding)
+        self.assertIn("MIRA Layer", branding)
+        self.assertIn("MIRA, mirror on the wall", branding)
+        self.assertIn("default user-facing assistant", branding)
+        self.assertIn("proper trademark", branding)
 
 
 if __name__ == "__main__":
