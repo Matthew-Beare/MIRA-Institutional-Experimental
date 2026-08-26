@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "policy_id": "mira-model-routing-v1",
+  "default_path": "deterministic",
+  "tiers": {
+    "deterministic": {
+      "uses_model": false,
+      "allowed_tasks": [
+        "time_and_timezone_logic",
+        "dependency_graph_resolution",
+        "identifier_validation",
+        "barcode_decode",
+        "database_mutation_validation",
+        "deduplication_keys",
+        "financial_arithmetic",
+        "scheduler_projection",
+        "permission_and_capability_checks",
+        "migration_and_readback_validation"
+      ]
+    },
+    "local_semantic": {
+      "uses_model": true,
+      "risk_class": "low",
+      "allowed_tasks": [
+        "noncritical_text_classification",
+        "bounded_field_extraction",
+        "summarization",
+        "candidate_entity_matching"
+      ],
+      "requires": [
+        "local_model_capability",
+        "typed_output_schema",
+        "deterministic_validation"
+      ]
+    },
+    "economical_hosted": {
+      "uses_model": true,
+      "risk_class": "ordinary",
+      "allowed_tasks": [
+        "semantic_research_synthesis",
+        "moderate_ambiguity_resolution",
+        "ordinary_user_facing_generation",
+        "code_or_policy_assistance_with_tests"
+      ],
+      "requires": [
+        "hosted_model_allowed_for_data_class",
+        "typed_output_or_bounded_generation",
+        "post_validation"
+      ]
+    },
+    "strong_hosted": {
+      "uses_model": true,
+      "risk_class": "elevated_reasoning",
+      "allowed_tasks": [
+        "conflicting_evidence_reconciliation",
+        "complex_feature_upgrade_analysis",
+        "difficult_code_repair",
+        "high_ambiguity_entity_resolution",
+        "multi_source_research_with_provenance"
+      ],
+      "requires": [
+        "hosted_model_allowed_for_data_class",
+        "strong_model_capability",
+        "post_validation",
+        "user_approval_for_material_mutation"
+      ]
+    }
+  },
+  "escalation_triggers": [
+    "required_validator_failed",
+    "output_schema_invalid",
+    "confidence_below_task_threshold",
+    "conflicting_authoritative_evidence",
+    "candidate_identity_not_unique",
+    "material_code_or_policy_change_with_unresolved_tests",
+    "user_requests_deeper_reasoning"
+  ],
+  "non_escalation_rules": [
+    "do_not_escalate_merely_because_a_model_requests_another_attempt",
+    "do_not_mutate_canonical_state_from_an_unvalidated_lower_tier_result",
+    "do_not_send_data_to_a_hosted_model_when_the_data_class_or_user_policy_disallows_it"
+  ],
+  "cost_rule": "Choose the lowest-cost tier that satisfies capability, privacy, validation, and quality requirements. Deterministic code outranks all models when it can decide safely."
+}

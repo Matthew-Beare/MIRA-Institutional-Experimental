@@ -149,8 +149,12 @@ class PersonalForkLifecycleTests(unittest.TestCase):
         for phrase in ("Claude", "Microsoft Lists/Excel", "OneDrive/SharePoint", "regulated-sensitive"):
             self.assertIn(phrase, questions)
         for surface in (lifecycle, state):
-            self.assertIn("managed central source", surface.lower())
-            self.assertIn("organization", surface.lower())
+            lower = surface.lower()
+            self.assertTrue(
+                "managed central source" in lower or "managed central repository" in lower,
+                "portable source model must expose an organization-managed central source/repository",
+            )
+            self.assertIn("organization", lower)
 
     def test_profile_context_and_stock_service_extension_is_installed(self) -> None:
         guide = self.text("START_HERE.md")

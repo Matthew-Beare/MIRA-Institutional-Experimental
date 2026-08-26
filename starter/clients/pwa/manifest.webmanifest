@@ -1,0 +1,19 @@
+{
+  "name": "MIRA Capture",
+  "short_name": "MIRA",
+  "description": "Cross-platform M.I.R.R.O.R. capture client for barcode, QR, evidence and future device workflows.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "categories": ["utilities", "productivity"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

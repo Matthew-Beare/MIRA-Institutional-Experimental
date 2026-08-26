@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#12151b">
+  <title>MIRA</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <style>
+    :root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: Canvas; color: CanvasText; }
+    header { padding: 1.25rem max(1rem, calc((100vw - 1120px)/2)); border-bottom: 1px solid color-mix(in srgb, CanvasText 15%, transparent); }
+    header h1 { margin: 0; font-size: 1.55rem; }
+    header p { margin: .3rem 0 0; opacity: .7; }
+    main { max-width: 1120px; margin: 0 auto; padding: 1rem; display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: 1rem; }
+    .card { border: 1px solid color-mix(in srgb, CanvasText 15%, transparent); border-radius: 14px; padding: 1rem; background: color-mix(in srgb, Canvas 96%, CanvasText 4%); box-shadow: 0 8px 24px color-mix(in srgb, CanvasText 8%, transparent); }
+    .wide { grid-column: 1 / -1; }
+    h2 { font-size: 1.05rem; margin: 0 0 .75rem; }
+    .row { display: grid; gap: .65rem; margin: .65rem 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: .55rem; }
+    label { display: grid; gap: .3rem; font-size: .9rem; }
+    input, button, select { font: inherit; padding: .72rem; border-radius: 9px; border: 1px solid color-mix(in srgb, CanvasText 22%, transparent); }
+    button { cursor: pointer; font-weight: 600; }
+    video, #photoPreview { width: 100%; max-height: 360px; object-fit: contain; background: #000; border-radius: 10px; }
+    #photoPreview[hidden], video[hidden] { display: none; }
+    .muted { opacity: .7; }
+    #status { min-height: 3rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+    #assetResult { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .85rem; max-height: 260px; overflow: auto; }
+    .photos { display: grid; grid-template-columns: repeat(auto-fill,minmax(120px,1fr)); gap: .5rem; margin-top: .5rem; }
+    .photos img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; border: 1px solid color-mix(in srgb, CanvasText 15%, transparent); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MIRA</h1>
+    <p>M.I.R.R.O.R. capture and asset client. Same API on web, Windows, Linux and Android.</p>
+  </header>
+  <main>
+    <section class="card">
+      <h2>Connection</h2>
+      <div class="row">
+        <label>API base URL<input id="apiBase" inputmode="url" placeholder="https://mirror.example/api"></label>
+        <label>Session access token<input id="token" type="password" autocomplete="off" placeholder="Not stored persistently"></label>
+        <button id="saveSettings" type="button">Save API address</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Barcode / QR</h2>
+      <video id="camera" playsinline muted hidden></video>
+      <div class="actions">
+        <button id="startCamera" type="button">Start camera scanner</button>
+        <button id="stopCamera" type="button" disabled>Stop camera</button>
+      </div>
+      <form id="scanForm" class="row">
+        <label>Scan or type identifier<input id="scanValue" autocomplete="off" autofocus placeholder="USB/Bluetooth scanner can type here"></label>
+        <label>Symbology<select id="symbology"><option value="UNKNOWN">Unknown / manual</option><option value="QR_CODE">QR</option><option value="UPC_A">UPC-A</option><option value="EAN_13">EAN-13</option><option value="EAN_8">EAN-8</option><option value="CODE_128">Code 128</option></select></label>
+        <button type="submit">Queue / submit scan</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Asset photo</h2>
+      <div class="row">
+        <label>Asset UUID<input id="photoAssetUuid" autocomplete="off" placeholder="Immutable asset UUID"></label>
+        <label>Photo role<select id="photoRole"><option value="primary">Primary</option><option value="gallery">Gallery</option><option value="serial_or_model_label">Serial / model label</option><option value="condition">Condition</option><option value="location_context">Location context</option></select></label>
+        <label>Image<input id="photoFile" type="file" accept="image/*" capture="environment"></label>
+        <img id="photoPreview" alt="Selected asset preview" hidden>
+        <button id="uploadPhoto" type="button">Upload and link photo</button>
+        <small class="muted">The image becomes evidence linked to the asset UUID. Storage may be Drive today or object storage later without changing asset identity.</small>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Asset lookup</h2>
+      <div class="row">
+        <label>Asset UUID<input id="assetLookupUuid" autocomplete="off" placeholder="Immutable asset UUID"></label>
+        <button id="loadAsset" type="button">Load asset</button>
+      </div>
+      <div id="assetPhotos" class="photos"></div>
+      <pre id="assetResult"></pre>
+    </section>
+
+    <section class="card">
+      <h2>Spoken reminder test</h2>
+      <div class="row">
+        <label>Foreground speech preview<input id="speechText" value="You have an appointment in one hour."></label>
+        <button id="speakTest" type="button">Speak test on this device</button>
+        <small class="muted">Preview only. Reliable background spoken reminders require the native Android companion.</small>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Pending captures</h2>
+      <div class="actions"><button id="syncPending" type="button">Sync pending captures</button><button id="exportPending" type="button">Export pending JSON</button></div>
+      <p id="queueCount" class="muted"></p>
+    </section>
+
+    <section class="card wide"><h2>Status</h2><pre id="status" role="status" aria-live="polite"></pre></section>
+  </main>
+  <script src="app.js" defer></script>
+</body>
+</html>

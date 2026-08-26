@@ -6,9 +6,9 @@
     "appointment-reconciliation": {
       "owner": "mirror",
       "origin": "mirror",
-      "installed_version": "0.4.0-beta.1",
+      "installed_version": "0.5.0-beta.1",
       "upstream_feature_id": "appointment-reconciliation",
-      "upstream_base_version": "0.4.0-beta.1",
+      "upstream_base_version": "0.5.0-beta.1",
       "upstream_base_revision": "template",
       "local_revision": 0,
       "owned_paths": [

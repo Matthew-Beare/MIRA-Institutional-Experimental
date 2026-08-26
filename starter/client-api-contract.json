@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "contract_id": "mirror-client-api-v1",
+  "transport": {
+    "preferred_remote": "HTTPS_JSON",
+    "local_equivalents_allowed": ["HTTPS_JSON", "local_loopback_or_unix_socket_adapter"],
+    "database_protocol_is_not_client_api": true
+  },
+  "versioning": {
+    "path_or_header_version_required": true,
+    "backward_compatible_read_models_preferred": true,
+    "breaking_changes_require_versioned_migration": true
+  },
+  "command_envelope": {
+    "required_fields": ["command_id", "command_type", "actor_id", "submitted_at", "idempotency_key", "payload"],
+    "server_responsibilities": ["authenticate", "authorize", "dependency_preflight", "validate_schema", "validate_idempotency", "write_canonical_authority", "readback_verify", "append_audit_event"]
+  },
+  "query_surface": [
+    "system_health",
+    "dependency_health",
+    "integration_registry",
+    "tasks_and_projects",
+    "appointments_and_reminders",
+    "commerce_and_receipts",
+    "assets_inventory_locations_and_knowledge",
+    "asset_media",
+    "financial_views_when_enabled",
+    "feature_versions_and_rollback_status"
+  ],
+  "capture_surface": [
+    "evidence_upload",
+    "asset_photo_evidence",
+    "barcode_qr_scan_event",
+    "rfid_presence_observation",
+    "owner_correction",
+    "manual_appointment_or_receipt_entry"
+  ],
+  "http_reference": {
+    "health": "GET /v1/health",
+    "commands": "POST /v1/commands",
+    "asset_read_model": "GET /v1/assets/{asset_uuid}",
+    "evidence_upload": "POST /v1/evidence",
+    "evidence_read": "GET /v1/evidence/{evidence_uuid}",
+    "evidence_upload_encoding": "multipart/form-data preferred for GUI/desktop; another bounded adapter encoding may be negotiated by CLI/service",
+    "asset_photo_relationship": "successful evidence upload returns Evidence UUID and verified asset relationship; clients never write evidence-store locators directly"
+  },
+  "asset_read_model": {
+    "photo_collection_field": "photo_evidence",
+    "photo_fields": ["evidence_uuid", "media_role", "mime_type", "content_hash", "caption", "captured_at", "provenance", "thumbnail_url_when_available", "content_url_when_authorized"]
+  },
+  "sync": {
+    "cursor_based_event_feed": true,
+    "client_offline_queue_requires_idempotency_keys": true,
+    "server_is_conflict_authority": true,
+    "client_clock_is_not_canonical_scheduler_clock": true
+  },
+  "security": {
+    "scoped_access_tokens": true,
+    "database_credentials_in_clients_prohibited": true,
+    "server_side_authorization": true,
+    "remote_tls_required": true,
+    "sensitive_payload_logging_disabled_by_default": true,
+    "client_must_not_persist_long_lived_bearer_token_without_os_secret_store_adapter": true
+  }
+}

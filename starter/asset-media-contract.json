@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "contract_id": "mirror-asset-media-v1",
+  "identity": {
+    "asset_identity": "immutable asset UUID",
+    "media_identity": "immutable Evidence UUID",
+    "storage_locator_is_not_identity": true,
+    "backend_migration_preserves_both_ids": true
+  },
+  "roles": [
+    "primary",
+    "gallery",
+    "serial_or_model_label",
+    "condition",
+    "receipt_or_packaging",
+    "location_context"
+  ],
+  "capture_sources": [
+    "android_or_web_camera",
+    "desktop_or_mobile_file_picker",
+    "email_or_receipt_evidence",
+    "document_or_photo_ingestion",
+    "approved_import"
+  ],
+  "write_contract": {
+    "endpoint": "/v1/evidence",
+    "preferred_encoding": "multipart/form-data",
+    "required_fields": ["asset_uuid", "media_role", "file"],
+    "server_responsibilities": [
+      "authenticate_and_authorize",
+      "validate_media_type_and_size",
+      "hash_content",
+      "dedupe_or_retain_deliberate_distinct_evidence",
+      "write_through_selected_evidence_adapter",
+      "link_evidence_uuid_to_asset_uuid",
+      "readback_verify_binary_metadata_and_relationship",
+      "return_evidence_uuid_hash_mime_type_and_safe_read_locator"
+    ]
+  },
+  "read_contract": {
+    "asset_read_model_includes": ["photo_evidence"],
+    "photo_fields": ["evidence_uuid", "media_role", "mime_type", "content_hash", "caption", "captured_at", "provenance", "thumbnail_url_when_available", "content_url_when_authorized"],
+    "binary_endpoint": "/v1/evidence/{evidence_uuid}",
+    "thumbnail_variant": "adapter_or_service_may_supply_thumbnail_without_changing_evidence_identity"
+  },
+  "client_behavior": {
+    "gui": "show thumbnails/previews and full authorized images",
+    "cli": "show metadata and Evidence UUIDs; download binary only on explicit command",
+    "offline": "metadata commands may queue idempotently; binary media requires an adapter capable of durable local queueing or explicit retry"
+  },
+  "storage_adapters": [
+    "google_drive",
+    "onedrive_or_sharepoint",
+    "local_or_managed_filesystem_behind_service",
+    "s3_compatible_object_storage"
+  ],
+  "safety": {
+    "database_credentials_in_client_prohibited": true,
+    "raw_private_storage_locator_need_not_be_exposed_to_client": true,
+    "content_hash_required": true,
+    "image_metadata_may_be_normalized_or_stripped_by_policy": true,
+    "deleting_one_gui_thumbnail_never_implies_asset_deletion": true
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "contract_id": "mirror-barcode-qr-v1",
+  "scan_classes": {
+    "product_identifier": {
+      "examples": ["UPC", "EAN", "GTIN", "retailer_sku_when_namespaced"],
+      "identity_rule": "Preserve raw value and symbology; validate check digits when applicable; resolve against cached identifiers before research."
+    },
+    "asset_tag": {
+      "identity_rule": "A preprinted user label is assigned once to an immutable Entity UUID and remains an identifier alias, not the sole canonical identity."
+    },
+    "location_tag": {
+      "identity_rule": "A preprinted user label is assigned once to an immutable Location UUID representing room, shelf, bin, vehicle, container, or another configured location."
+    },
+    "evidence_reference": {
+      "identity_rule": "Optional tag may point to a canonical Evidence or Knowledge UUID but never embeds secrets."
+    }
+  },
+  "capture": {
+    "decode_preference": "client_local",
+    "baseline_client": "installable_pwa",
+    "supported_clients": ["android", "web_camera_when_supported", "windows_desktop", "linux_desktop"],
+    "input_adapters": [
+      "pwa_camera_barcode_detector_when_supported",
+      "usb_or_bluetooth_keyboard_wedge_scanner",
+      "manual_entry",
+      "future_native_camera_decoder"
+    ],
+    "secure_context_required_for_camera": true,
+    "submit_fields": [
+      "scan_uuid",
+      "captured_at",
+      "raw_value",
+      "symbology",
+      "client_id",
+      "scan_class_candidate",
+      "optional_photo_evidence_uuid"
+    ]
+  },
+  "product_resolution_order": [
+    "canonical_identifier_cache",
+    "existing_asset_and_purchase_graph",
+    "namespaced_retailer_or_manufacturer_source",
+    "authoritative_manufacturer_source",
+    "bounded_public_product_research",
+    "photo_or_label_extraction",
+    "user_confirmation_or_classification_queue"
+  ],
+  "product_resolution_output": [
+    "manufacturer",
+    "product_name",
+    "model",
+    "manufacturer_part_number",
+    "validated_gtin_or_other_identifier",
+    "confidence",
+    "provenance",
+    "manual_candidate"
+  ],
+  "manual_ingestion": {
+    "preferred_source": "manufacturer_or_authoritative_publisher",
+    "retain_once": true,
+    "dedupe_by": ["source_identity", "content_hash", "manufacturer_model_revision"],
+    "link_to_asset_by_uuid": true
+  },
+  "location_workflow": {
+    "assign_location_label": "scan unassigned location tag, create/select location, bind printed code to Location UUID",
+    "assign_asset_label": "scan unassigned asset tag, create/select asset, bind printed code to Entity UUID",
+    "move_item": "scan destination location then asset tag or product/asset identifier; write one location relationship event with readback",
+    "bulk_mode": "destination location remains active only for the explicit bounded scan session"
+  },
+  "rfid_boundary": {
+    "contract": "rfid-asset-tracking-contract.json",
+    "rule": "RFID/NFC presence observations use the same immutable asset/location identities but are not silently converted into barcode-style explicit move events."
+  },
+  "safety": {
+    "unresolved_identity_never_invented": true,
+    "printed_code_never_recycled_across_live_entities": true,
+    "secrets_in_qr_prohibited": true,
+    "manual_or_model_data_requires_provenance": true,
+    "canonical_uuid_preserved_across_storage_migration": true
+  }
+}

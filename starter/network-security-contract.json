@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "contract_id": "mirror-network-security-v1",
+  "homelab": {
+    "database_public_exposure": "prohibited",
+    "object_store_public_exposure": "prohibited_by_default",
+    "local_access": "private_LAN",
+    "remote_preference": ["WireGuard_or_Tailscale_private_overlay", "authenticated_HTTPS_API"],
+    "public_api_when_needed": {
+      "reverse_proxy_or_equivalent": true,
+      "TLS": true,
+      "strong_identity_authentication": true,
+      "MFA_or_passkey_preferred": true,
+      "scoped_short_lived_tokens": true,
+      "server_side_authorization": true,
+      "rate_limiting": true,
+      "audit_logging": true
+    }
+  },
+  "service_identity": {
+    "least_privilege": true,
+    "separate_client_and_worker_scopes": true,
+    "database_role_scoped_to_service": true,
+    "read_only_analytics_role_separate": true,
+    "mTLS_optional_for_service_to_service": true
+  },
+  "secrets": {
+    "git_storage_prohibited": true,
+    "client_embedded_database_passwords_prohibited": true,
+    "use_platform_secret_store_or_secret_manager": true,
+    "rotation_supported": true
+  },
+  "cloud_native": {
+    "same_client_API_contract": true,
+    "managed_database_private_network_preferred": true,
+    "managed_object_storage_private_by_default": true,
+    "identity_and_secret_manager_required": true,
+    "vendor_specific_networking_must_remain_adapter_or_deployment_code": true
+  }
+}

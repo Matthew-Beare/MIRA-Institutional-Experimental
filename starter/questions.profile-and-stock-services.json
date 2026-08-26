@@ -1,7 +1,7 @@
 {
-  "version": 4,
+  "version": 5,
   "extends": "questions.json",
-  "instructions": "Merge these IDs into the same durable Interview Ledger as questions.json. Preference and activation questions require explicit user answers; do not infer consent from evidence.",
+  "instructions": "Merge these IDs into the same durable Interview Ledger as questions.json. Preference and activation questions require explicit user answers; do not infer consent from evidence. Capability discovery may inspect only integrations/devices/accounts the runtime is actually allowed to observe. A provider name or connection button is never capability proof.",
   "sections": [
     {
       "id": "profile_ai_discovery",
@@ -43,6 +43,69 @@
           "id": "automation_opportunities",
           "required": false,
           "prompt": "Which repeated workflows would be worth automating or partially automating if the required apps, evidence, and permissions are actually available?"
+        }
+      ]
+    },
+    {
+      "id": "integrations_devices",
+      "title": "Connected accounts, devices, and useful capabilities",
+      "questions": [
+        {
+          "id": "integration_discovery_consent",
+          "required": true,
+          "prompt": "May MIRA inspect the connected apps/accounts/devices this runtime is actually allowed to see so it can record verified capabilities and suggest useful workflows? Nothing is enabled or changed merely because an integration exists."
+        },
+        {
+          "id": "connected_accounts_user_report",
+          "required": false,
+          "prompt": "Are there important accounts or services you already use that MIRA may not be able to enumerate automatically, such as email, calendar, cloud storage, financial accounts, smart-home services, fitness/wearable platforms, school/work systems, or another service? List only what you want considered.",
+          "applies_when": "integration_discovery_consent is true"
+        },
+        {
+          "id": "connected_devices_user_report",
+          "required": false,
+          "prompt": "Which devices could help with your goals, such as an Android phone, smartwatch/fitness tracker, hearing aids or other audio devices, Windows/Linux computers, home server, scanner/camera, smart-home equipment, or something else?",
+          "applies_when": "integration_discovery_consent is true"
+        },
+        {
+          "id": "workflow_suggestion_consent",
+          "required": true,
+          "prompt": "When a verified connected capability matches a goal you already told MIRA about, may MIRA occasionally suggest a workflow that could help? Suggestions never activate the workflow automatically.",
+          "applies_when": "integration_discovery_consent is true"
+        }
+      ]
+    },
+    {
+      "id": "finance_inventory",
+      "title": "Financial help and physical inventory",
+      "questions": [
+        {
+          "id": "financial_assistance_enabled",
+          "required": false,
+          "prompt": "Would you like help with personal finances such as spending visibility, budgeting, saving goals, debt reduction, recurring bills, or another financial goal? Financial data is used only through explicitly connected and permitted sources."
+        },
+        {
+          "id": "financial_goals",
+          "required": false,
+          "prompt": "Which financial goals should MIRA help with: understand spending, reduce debt, build savings, manage recurring bills, plan purchases, monitor cash flow, or something else?",
+          "applies_when": "financial_assistance_enabled is true"
+        },
+        {
+          "id": "financial_accounts_scope",
+          "required": false,
+          "prompt": "Which connected financial accounts are in scope? MIRA must treat credit-card payments/transfers separately from purchases so the same money is not counted as spending twice.",
+          "applies_when": "financial_assistance_enabled is true"
+        },
+        {
+          "id": "inventory_capture_enabled",
+          "required": false,
+          "prompt": "Would barcode/QR scanning, receipt/photo intake, or both be useful for building and maintaining a searchable inventory of your belongings and storage locations?"
+        },
+        {
+          "id": "inventory_label_mode",
+          "required": false,
+          "prompt": "If you want inventory scanning, do you want to use existing product barcodes, preprinted M.I.R.R.O.R. asset/location labels, or both?",
+          "applies_when": "inventory_capture_enabled is true"
         }
       ]
     },
@@ -98,6 +161,12 @@
           "id": "appointment_reminders_enabled",
           "required": false,
           "prompt": "Enable appointment reminders? If yes, confirm or change the day-before, morning-of local time, and 60-minute-before defaults. This does not create one automation per appointment."
+        },
+        {
+          "id": "appointment_spoken_delivery",
+          "required": false,
+          "prompt": "If appointment reminders are enabled, should MIRA try spoken reminders on a verified phone/audio device? The default protects appointment details; full appointment titles are spoken only if you explicitly choose that.",
+          "applies_when": "appointment_reminders_enabled is true"
         },
         {
           "id": "medication_reminders_enabled",

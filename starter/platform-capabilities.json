@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "verified_on": "2026-08-25",
   "claim_policy": {
     "provider_name_is_not_capability_proof": true,
@@ -7,7 +7,8 @@
     "live_write_and_readback_required_for_write_claims": true,
     "organization_approval_required_for_regulated_sensitive_data": true,
     "organization_approval_evidence_required_for_regulated_sensitive_data": true,
-    "recheck_at_onboarding": true
+    "recheck_at_onboarding": true,
+    "client_or_server_presence_is_not_capability_proof": true
   },
   "capability_ids": [
     "source_read",
@@ -17,16 +18,32 @@
     "structured_state_read",
     "structured_state_write",
     "structured_state_readback",
+    "structured_state_transactions",
+    "structured_state_migration_export",
     "evidence_read",
     "evidence_write",
     "evidence_readback",
+    "evidence_content_hash",
     "email_read",
     "calendar_read",
     "calendar_write",
     "calendar_readback",
     "scheduled_dispatch",
     "canonical_clock_gate",
-    "observed_scheduled_firing"
+    "observed_scheduled_firing",
+    "client_api_read",
+    "client_api_command",
+    "client_sync",
+    "local_agent",
+    "visual_notification",
+    "spoken_notification",
+    "barcode_decode",
+    "camera_capture",
+    "local_model",
+    "hosted_model",
+    "strong_hosted_model",
+    "private_overlay_network",
+    "authenticated_https_api"
   ],
   "ai_runtimes": [
     {
@@ -58,6 +75,13 @@
       "notes": "No feature parity is assumed; discover the exact runtime and Workspace permissions."
     },
     {
+      "id": "local-model-runtime",
+      "family": "local",
+      "delivery": "local-agent-or-server",
+      "documented_connections": ["typed-local-model-adapter"],
+      "notes": "Local inference never bypasses task-class, privacy, validation, or escalation policy."
+    },
+    {
       "id": "generic-mcp-capable-ai",
       "family": "portable",
       "delivery": "contract-only-until-proven",
@@ -83,13 +107,30 @@
       "approval_boundary": "entra-consent-resource-permission-and-tenant-policy"
     },
     {
+      "id": "self-hosted-linux",
+      "structured_candidates": ["postgresql"],
+      "evidence_candidates": ["s3-compatible-object-storage", "local-filesystem-behind-evidence-adapter"],
+      "projection_candidates": ["provider-calendar-adapter"],
+      "automation_tier": "systemd-service-and-timers",
+      "approval_boundary": "deployment-owner-service-identity-and-network-policy",
+      "notes": "Clients and AI runtimes use the bounded API. PostgreSQL is not exposed directly to remote clients."
+    },
+    {
+      "id": "cloud-native",
+      "structured_candidates": ["managed-postgresql-or-compatible-relational-store"],
+      "evidence_candidates": ["managed-object-storage"],
+      "projection_candidates": ["provider-calendar-adapter"],
+      "automation_tier": "managed-scheduler-queue-or-container-worker",
+      "approval_boundary": "deployment-identity-secret-manager-network-and-data-policy"
+    },
+    {
       "id": "apple-icloud",
       "structured_candidates": [],
       "evidence_candidates": ["icloud-drive-manual-import-export"],
       "projection_candidates": ["ics-import-export"],
       "automation_tier": "manual-bridge",
       "approval_boundary": "user-mediated-file-exchange",
-      "notes": "Do not claim general automated access to a user's iCloud Drive. CloudKit is app-container scoped."
+      "notes": "Do not claim general automated access to a user's iCloud Drive. CloudKit app containers are not equivalent to arbitrary iCloud Drive access."
     },
     {
       "id": "portable-files",
@@ -100,31 +141,33 @@
       "approval_boundary": "user-mediated-file-exchange"
     }
   ],
+  "client_surfaces": [
+    {
+      "id": "web",
+      "capabilities": ["client_api_read", "client_api_command", "client_sync"],
+      "notes": "Camera/barcode support is browser/platform dependent and must be observed."
+    },
+    {
+      "id": "windows-desktop",
+      "capabilities": ["client_api_read", "client_api_command", "client_sync", "visual_notification"],
+      "notes": "Additional filesystem, camera, TTS, or local-model capabilities require explicit adapter proof."
+    },
+    {
+      "id": "linux-desktop",
+      "capabilities": ["client_api_read", "client_api_command", "client_sync", "visual_notification"],
+      "notes": "May pair with the optional Linux agent; agent capabilities remain separately authorized."
+    },
+    {
+      "id": "android",
+      "capabilities": ["client_api_read", "client_api_command", "client_sync", "visual_notification", "camera_capture"],
+      "notes": "Barcode decode, spoken notification, background delivery, and Bluetooth-routed audio are separately verified device capabilities."
+    }
+  ],
   "source_backends": [
-    {
-      "id": "github-personal",
-      "user_git_required": true,
-      "browser_onboarding": true,
-      "organization_managed": false
-    },
-    {
-      "id": "github-enterprise",
-      "user_git_required": false,
-      "browser_onboarding": true,
-      "organization_managed": true
-    },
-    {
-      "id": "gitlab",
-      "user_git_required": false,
-      "browser_onboarding": true,
-      "organization_managed": "possible"
-    },
-    {
-      "id": "azure-repos",
-      "user_git_required": false,
-      "browser_onboarding": true,
-      "organization_managed": true
-    },
+    {"id": "github-personal", "user_git_required": true, "browser_onboarding": true, "organization_managed": false},
+    {"id": "github-enterprise", "user_git_required": false, "browser_onboarding": true, "organization_managed": true},
+    {"id": "gitlab", "user_git_required": false, "browser_onboarding": true, "organization_managed": "possible"},
+    {"id": "azure-repos", "user_git_required": false, "browser_onboarding": true, "organization_managed": true},
     {
       "id": "managed-central-source",
       "user_git_required": false,
@@ -134,16 +177,10 @@
     }
   ],
   "deployment_lanes": [
-    {
-      "id": "personal-browser",
-      "source_modes": ["user-git"],
-      "data_classes": ["personal", "public", "non-sensitive"]
-    },
-    {
-      "id": "enterprise-managed",
-      "source_modes": ["organization-git", "managed-central"],
-      "data_classes": ["organization-policy-defined"]
-    },
+    {"id": "personal-browser", "source_modes": ["user-git"], "data_classes": ["personal", "public", "non-sensitive"]},
+    {"id": "self-hosted-personal", "source_modes": ["user-git", "managed-central"], "data_classes": ["personal", "public", "non-sensitive"]},
+    {"id": "enterprise-managed", "source_modes": ["organization-git", "managed-central"], "data_classes": ["organization-policy-defined"]},
+    {"id": "cloud-managed", "source_modes": ["organization-git", "managed-central", "user-git"], "data_classes": ["deployment-policy-defined"]},
     {
       "id": "portable-manual",
       "source_modes": ["managed-central", "none"],

@@ -13,7 +13,17 @@
     {
       "from": "appointment-reconciliation",
       "kind": "capability-optional",
+      "to": "notification-delivery"
+    },
+    {
+      "from": "appointment-reconciliation",
+      "kind": "capability-optional",
       "to": "public-provider-research"
+    },
+    {
+      "from": "appointment-reconciliation",
+      "kind": "capability-optional",
+      "to": "spoken-notification"
     },
     {
       "from": "appointment-reconciliation",
@@ -46,7 +56,9 @@
       "conditional_capabilities": {
         "calendar-projection": "required only for transactions whose selected policy enables Calendar projection",
         "email-evidence": "required only for email-driven ingestion; manual appointment state remains available without it",
-        "public-provider-research": "best-effort enrichment when selected; unresolved provider type asks or remains unresolved"
+        "notification-delivery": "required only for native reminder projection",
+        "public-provider-research": "best-effort enrichment when selected; cache and owner correction are preferred before repeat research",
+        "spoken-notification": "requires explicit opt-in plus verified native-client TTS/audio delivery; visual reminder paths remain independent"
       },
       "conflict_policy": "preserve-local-and-ask",
       "failure_domain": "appointments",
@@ -56,7 +68,9 @@
       "optional_capabilities": [
         "calendar-projection",
         "email-evidence",
-        "public-provider-research"
+        "notification-delivery",
+        "public-provider-research",
+        "spoken-notification"
       ],
       "origin": "mirror",
       "owned_paths": [
@@ -67,11 +81,11 @@
         "structured-state-authority"
       ],
       "rollback_policy": "checkpoint-before-change",
-      "summary": "Evidence-backed appointment reconciliation with structured canonical state, provider-type enrichment, configurable reminders, and verified Calendar projection.",
+      "summary": "Evidence-backed appointment reconciliation with durable provider identity caching, configurable reminders, optional Calendar projection, and optional verified native spoken delivery.",
       "upstream_base_revision": "template",
-      "upstream_base_version": "0.4.0-beta.1",
+      "upstream_base_version": "0.5.0-beta.1",
       "upstream_feature_id": "appointment-reconciliation",
-      "version": "0.4.0-beta.1"
+      "version": "0.5.0-beta.1"
     },
     "meal-planning": {
       "conditional_capabilities": {

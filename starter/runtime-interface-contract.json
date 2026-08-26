@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "contract_id": "mirror-runtime-interface-v1",
+  "control_plane": "MIRA",
+  "reality_plane": "M.I.R.R.O.R.",
+  "principles": {
+    "provider_neutral_core": true,
+    "clients_never_write_database_directly": true,
+    "ai_never_receives_unrestricted_sql_credentials": true,
+    "one_canonical_authority_per_data_class": true,
+    "provider_migration_preserves_canonical_ids": true,
+    "dependency_preflight_before_external_or_stateful_behavior": true
+  },
+  "topologies": [
+    "browser_connector",
+    "self_hosted_linux",
+    "cloud_native"
+  ],
+  "interfaces": {
+    "structured_state": {
+      "required_operations": [
+        "health",
+        "schema_version",
+        "get_by_id",
+        "query_bounded",
+        "create_or_upsert_idempotent",
+        "append_event",
+        "atomic_or_compensated_mutation",
+        "readback_verify",
+        "export_for_migration"
+      ],
+      "candidate_adapters": [
+        "google_sheets",
+        "microsoft_lists_or_excel_tables",
+        "postgresql"
+      ]
+    },
+    "evidence_store": {
+      "required_operations": [
+        "health",
+        "put_with_hash",
+        "read",
+        "metadata",
+        "readback_verify",
+        "retention_policy",
+        "export_for_migration"
+      ],
+      "candidate_adapters": [
+        "google_drive",
+        "onedrive_or_sharepoint",
+        "s3_compatible_object_storage"
+      ]
+    },
+    "scheduler": {
+      "required_operations": [
+        "health",
+        "install_or_update",
+        "list_readback",
+        "remove",
+        "record_observed_firing"
+      ],
+      "candidate_adapters": [
+        "hosted_task_scheduler",
+        "systemd_timer",
+        "managed_cloud_scheduler"
+      ]
+    },
+    "notification": {
+      "required_operations": [
+        "health",
+        "visual_notification",
+        "spoken_notification_when_verified",
+        "delivery_readback_when_available"
+      ],
+      "candidate_adapters": [
+        "android_native",
+        "desktop_native",
+        "web_push_or_in_app",
+        "hosted_notification_surface"
+      ]
+    },
+    "client_api": {
+      "required_operations": [
+        "authenticate",
+        "query_read_model",
+        "submit_idempotent_command",
+        "upload_evidence",
+        "register_capabilities",
+        "sync_events",
+        "read_dependency_health",
+        "read_update_and_rollback_status"
+      ]
+    },
+    "model_runtime": {
+      "required_operations": [
+        "health",
+        "invoke_typed_task",
+        "return_structured_result",
+        "report_model_and_policy_tier",
+        "report_validation_status"
+      ],
+      "candidate_adapters": [
+        "local_model",
+        "economical_hosted_model",
+        "strong_hosted_model"
+      ]
+    },
+    "barcode_qr": {
+      "required_operations": [
+        "decode_local_when_available",
+        "preserve_raw_value_and_symbology",
+        "classify_scan_type",
+        "submit_scan_event"
+      ]
+    },
+    "rfid": {
+      "required_operations": [
+        "normalize_reader_observation",
+        "preserve_tag_protocol_reader_and_zone_provenance",
+        "dedupe_repeated_presence_observations",
+        "submit_presence_observation",
+        "promote_to_location_event_only_when_policy_and_readback_allow"
+      ],
+      "candidate_adapters": [
+        "android_nfc",
+        "linux_or_desktop_usb_serial_hid_reader",
+        "network_uhf_epc_gen2_reader"
+      ]
+    }
+  },
+  "client_surfaces": [
+    "web",
+    "windows_desktop",
+    "linux_desktop",
+    "android"
+  ],
+  "security": {
+    "public_database_exposure_prohibited": true,
+    "client_embedded_database_passwords_prohibited": true,
+    "scoped_tokens_required": true,
+    "server_side_authorization_required": true,
+    "tls_required_for_remote_api": true,
+    "private_overlay_preferred_for_homelab": true
+  }
+}

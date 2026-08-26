@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "contract_id": "mirror-appointment-identity-v1",
+  "ingestion_sources": [
+    "email",
+    "calendar",
+    "manual_entry",
+    "document_or_photo",
+    "verified_provider_adapter"
+  ],
+  "extracted_candidate_fields": [
+    "source_authority",
+    "source_record_id",
+    "start_at",
+    "end_at",
+    "raw_title",
+    "person_or_organization_name",
+    "location",
+    "phone",
+    "email",
+    "appointment_type_candidate"
+  ],
+  "resolution_order": [
+    "known_entity_uuid_or_exact_source_binding",
+    "known_alias_and_contact_match",
+    "cached_verified_public_enrichment",
+    "bounded_public_research_when_allowed",
+    "owner_confirmation_or_correction"
+  ],
+  "entity_cache_fields": [
+    "entity_uuid",
+    "display_name",
+    "entity_type",
+    "aliases",
+    "organization",
+    "category_or_specialty",
+    "contact_identifiers",
+    "provenance",
+    "verification_status",
+    "last_verified_at"
+  ],
+  "correction_rule": "Owner correction supersedes the mistaken interpretation, updates the durable alias/source binding, preserves the prior interpretation as history when material, and prevents the same known source/name from requiring repeated research.",
+  "appointment_title_rule": "Generate the human-facing title from canonical entity/category data and user preferences, never from unsupported diagnosis inference.",
+  "reminder_profile": {
+    "supported_triggers": [
+      "day_before",
+      "morning_of",
+      "relative_minutes_before"
+    ],
+    "default_relative_minutes_before": 60,
+    "user_configurable": true,
+    "no_per_event_chat_automation_required": true
+  },
+  "delivery": {
+    "canonical_object": "one reminder intent per trigger after deduplication",
+    "visual_notification": "supported_when_verified",
+    "spoken_notification": "supported_when_verified",
+    "spoken_detail_modes": ["generic", "title"],
+    "privacy_default": "generic",
+    "client_responsibility": "Native client performs TTS/audio routing. Server supplies canonical speech text and timing but does not claim direct control of a Bluetooth hearing aid or speaker route."
+  },
+  "android": {
+    "target_capabilities": [
+      "notification_channel",
+      "spoken_notification",
+      "text_to_speech",
+      "background_delivery_within_android_limits",
+      "bluetooth_audio_routing_as_supported_by_device_and_android"
+    ],
+    "voice_generation": "Use the Android device's selected Text-to-Speech engine locally. The reminder service supplies speech text and timing; the device synthesizes the audio.",
+    "verification_rule": "Mark spoken_notification healthy only after an actual device test/readback or equivalent observed delivery evidence."
+  },
+  "safety": {
+    "no_diagnosis_inference": true,
+    "no_medication_schedule_inference": true,
+    "no_unverified_specialty_claim_promoted_to_verified": true,
+    "owner_correction_is_durable_evidence": true
+  }
+}

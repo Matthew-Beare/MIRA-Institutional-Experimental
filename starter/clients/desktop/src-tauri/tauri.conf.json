@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "MIRA Desktop",
+  "version": "0.1.0",
+  "identifier": "org.mirror.mira.desktop",
+  "build": {
+    "frontendDist": "../../pwa"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "MIRA",
+        "width": 1180,
+        "height": 820,
+        "minWidth": 760,
+        "minHeight": 560,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": false
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "contract_id": "mirror-hardware-capture-v1",
+  "principle": "Hardware produces observations through capability adapters; hardware transport never becomes canonical asset identity or state authority.",
+  "cameras": [
+    {
+      "class": "browser_media_camera",
+      "examples": ["Android rear camera exposed to browser", "laptop camera", "USB UVC webcam exposed to browser/WebView"],
+      "transport": "MediaDevices/getUserMedia",
+      "uses": ["barcode_qr_candidate_decode", "asset_photo", "evidence_photo"],
+      "runtime_verification_required": true
+    },
+    {
+      "class": "android_native_camera",
+      "transport": "Android camera capability/native adapter",
+      "uses": ["barcode_qr_candidate_decode", "asset_photo", "evidence_photo"],
+      "runtime_verification_required": true
+    },
+    {
+      "class": "network_camera_snapshot",
+      "transport": "authenticated snapshot/vendor adapter",
+      "uses": ["asset_or_location_evidence_when_explicitly_configured"],
+      "runtime_verification_required": true
+    }
+  ],
+  "barcode_scanners": [
+    {
+      "class": "camera_decoder",
+      "supported_code_families": ["QR", "UPC", "EAN", "Code128", "other decoder-supported symbologies"],
+      "transport": "local camera decoder"
+    },
+    {
+      "class": "usb_or_bluetooth_hid_keyboard_wedge",
+      "supported_hardware": ["1D laser scanner", "CCD scanner", "2D area imager", "Bluetooth barcode gun"],
+      "transport": "keyboard/HID",
+      "baseline_support": "Windows Linux Android when the OS exposes keyboard input"
+    },
+    {
+      "class": "serial_or_usb_cdc_scanner",
+      "transport": "COM/tty/local-agent adapter",
+      "baseline_support": "Windows Linux local agent"
+    },
+    {
+      "class": "vendor_sdk_or_network_scanner",
+      "transport": "explicit plugin/adapter",
+      "baseline_support": "conditional on verified vendor protocol"
+    }
+  ],
+  "rfid": {
+    "classes": ["Android NFC", "HF reader", "UHF EPC Gen2 handheld", "fixed/network UHF reader"],
+    "contract": "rfid-asset-tracking-contract.json",
+    "passive_observation_never_moves_asset_by_default": true
+  },
+  "printers": [
+    {
+      "class": "normal_os_printer",
+      "transports": ["browser print", "Windows print spooler", "Linux CUPS"],
+      "outputs": ["PDF", "image", "document", "sheet of QR/barcode labels"]
+    },
+    {
+      "class": "thermal_label_printer",
+      "transports": ["Windows print spooler", "Linux CUPS", "USB local-agent", "raw TCP 9100 local-agent"],
+      "languages": ["ZPL when selected adapter supports it", "EPL when selected adapter supports it", "TSPL when selected adapter supports it", "raster/driver output"],
+      "examples": ["Zebra-compatible", "Brother/Dymo or other driver-backed label printer", "generic thermal label printer"]
+    }
+  ],
+  "printing_rules": {
+    "label_generation_is_separate_from_printer_transport": true,
+    "preprinted_tags_supported": true,
+    "generated_tag_contains_nonsecret_identifier_only": true,
+    "printer_adapter_must_readback_job_submission_when_available": true,
+    "failed_print_never_marks_tag_physically_applied": true
+  },
+  "capability_health": {
+    "connection_is_not_proof_of_working_capture": true,
+    "verify_real_sample_before_marking_healthy": true,
+    "missing_optional_hardware_degrades_only_that_capture_path": true
+  }
+}

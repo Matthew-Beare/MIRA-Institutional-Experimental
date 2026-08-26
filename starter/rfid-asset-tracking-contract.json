@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "contract_id": "mirror-rfid-asset-tracking-v1",
+  "purpose": "Accept NFC/HF/UHF RFID observations as identifier and presence evidence without coupling canonical asset identity or location state to a particular reader vendor.",
+  "capture_adapters": {
+    "android_nfc": {
+      "protocols": ["nfc_uid", "hf_uid"],
+      "role": "foreground tap/near-field observation through a native Android companion when enabled"
+    },
+    "desktop_or_linux_reader": {
+      "protocols": ["epc_gen2", "hf_uid", "other"],
+      "role": "USB, serial, HID, SDK, or network reader adapter feeding the bounded M.I.R.R.O.R. service through a local agent"
+    },
+    "network_uhf_reader": {
+      "protocols": ["epc_gen2"],
+      "role": "fixed reader/antenna observations mapped to configured zones through an authenticated local or private-network adapter"
+    }
+  },
+  "canonical_identity": {
+    "asset_identity": "immutable asset UUID",
+    "rfid_tag_role": "identifier alias/evidence only",
+    "reader_identity": "immutable configured reader identity",
+    "zone_identity": "immutable configured Location UUID",
+    "tag_reuse_across_live_assets_prohibited": true
+  },
+  "observation_fields": [
+    "observation_uuid",
+    "tag_id",
+    "protocol",
+    "observed_at",
+    "reader_id",
+    "zone_uuid",
+    "antenna_id",
+    "rssi_dbm"
+  ],
+  "reader_semantics": {
+    "anti_collision_inventory_supported": true,
+    "repeated_reads_expected": true,
+    "dedupe_scope": "tag plus reader/antenna/zone within a configured observation window",
+    "rssi_is_evidence_not_distance_truth": true,
+    "single_observation_is_not_a_location_move": true
+  },
+  "location_promotion": {
+    "default": "presence_evidence_only",
+    "automatic_promotion_default": false,
+    "allowed_only_when": [
+      "deployment has an explicit zone/presence promotion policy",
+      "tag is uniquely bound to one active asset UUID",
+      "reader and zone identity are verified",
+      "configured corroboration/dwell/transition criteria are satisfied",
+      "canonical inventory authority write and readback succeed"
+    ],
+    "manual_scan_override": "A deliberate barcode/QR/NFC location move may outrank passive presence observations according to configured policy and provenance."
+  },
+  "portability": {
+    "reader_vendor_not_canonical": true,
+    "storage_backend_not_canonical": true,
+    "asset_uuid_survives_reader_and_storage_migration": true,
+    "raw_observation_provenance_retained": true
+  },
+  "security": {
+    "reader_credentials_stay_in_adapter_secret_store": true,
+    "clients_never_receive_database_credentials": true,
+    "remote_reader_ingress_requires_authenticated_service_boundary": true,
+    "tag_payloads_must_not_embed_secrets": true
+  }
+}

@@ -24,7 +24,7 @@
       "required_capabilities": ["finance_read"],
       "goal_tags": ["budget", "saving", "spending", "debt", "finance", "subscriptions"],
       "behavior_ids": ["c-03", "c-10", "c-12", "f-06"],
-      "why": "Use a verified read-only financial connection to reconcile spending, charges, subscriptions, and user-selected financial goals without treating every transaction as income or purchase evidence.",
+      "why": "Use a verified read-only financial connection to reconcile spending, charges, subscriptions, and user-selected financial goals. Purchases, transfers, card payments, refunds and reimbursements remain distinct economic events so money is not counted twice.",
       "prompt": "I can use your connected {integrations} data to help with {goal}. Nothing changes automatically. Do you want help setting that up?"
     },
     {
@@ -33,7 +33,7 @@
       "required_capabilities": ["email_read"],
       "goal_tags": ["orders", "receipts", "appointments", "admin", "school", "work", "inbox"],
       "behavior_ids": ["b-07", "b-09", "c-01", "c-02", "f-03", "f-04", "f-05"],
-      "why": "Use approved mailbox read access as evidence while preserving canonical state outside email and never sending mail automatically.",
+      "why": "Use approved mailbox read access as evidence while preserving canonical state outside email and never sending mail automatically. Appointment senders are correlated to the durable provider/entity directory before repeated public research.",
       "prompt": "Your connected {integrations} can reduce manual entry for {goal}. Nothing will be sent automatically. Do you want help using it for that?"
     },
     {
@@ -47,12 +47,21 @@
       "prompt": "I can use {integrations} to help with {goal}. If reminder write access is available, I can also verify projections. Do you want help setting that up?"
     },
     {
+      "id": "spoken-reminder-support",
+      "title": "Spoken appointment reminders on a verified device",
+      "required_capabilities": ["notification_delivery"],
+      "goal_tags": ["appointments", "reminders", "accessibility", "hearing", "schedule"],
+      "behavior_ids": ["b-02", "b-03", "f-07"],
+      "why": "A supported notification integration may also expose a device-specific spoken-notification sub-capability. MIRA tests that sub-capability before enabling Text-to-Speech delivery; ordinary visual notification capability alone is not claimed to prove audio delivery.",
+      "prompt": "Your connected {integrations} may support spoken appointment reminders for {goal}. Nothing changes automatically. Do you want help testing whether spoken delivery actually works on your device?"
+    },
+    {
       "id": "evidence-archive-support",
       "title": "Document and evidence archive",
       "required_capabilities": ["evidence_read", "evidence_write", "evidence_readback"],
       "goal_tags": ["receipts", "manuals", "documents", "warranties", "assets", "organization", "records"],
       "behavior_ids": ["c-06", "d-02", "d-05", "d-06", "g-17", "g-18"],
-      "why": "Retain receipts, manuals, documents, and provenance in a verified evidence store such as Google Drive, OneDrive, or SharePoint.",
+      "why": "Retain receipts, manuals, documents, and provenance in a verified evidence store. The workflow targets the evidence capability rather than a particular Drive/object-storage provider.",
       "prompt": "I can use {integrations} as the document store for {goal}. Nothing will be moved or created until you approve the workflow. Do you want help setting that up?"
     },
     {
@@ -80,8 +89,8 @@
       "optional_capabilities": ["web_research", "evidence_write", "evidence_readback"],
       "goal_tags": ["inventory", "assets", "tools", "household", "organization"],
       "behavior_ids": ["d-05", "d-06", "d-11", "g-10"],
-      "why": "Decode identifiers locally when possible, then corroborate product/model identity, retrieve authoritative manuals, and link evidence to immutable asset UUIDs.",
-      "prompt": "I can use barcode or QR scanning to speed up {goal}. Do you want help setting up scan-to-identify, manual lookup, and database population?"
+      "why": "Decode identifiers locally when possible, then corroborate product/model identity, retrieve authoritative manuals, and link evidence to immutable asset/location UUIDs. Preprinted tags can be bound to assets or storage locations.",
+      "prompt": "I can use barcode or QR scanning to speed up {goal}. Do you want help setting up product identification, asset/location labels, manual lookup, and database population?"
     },
     {
       "id": "source-customization-support",
@@ -92,6 +101,16 @@
       "behavior_ids": ["e-17", "e-19", "f-21"],
       "why": "Use an approved Git provider for durable policy, tests, and custom features while keeping mutable personal state out of source control.",
       "prompt": "Your connected {integrations} can support versioned custom workflows for {goal}. Do you want help designing one?"
+    },
+    {
+      "id": "self-hosted-runtime-support",
+      "title": "Self-hosted M.I.R.R.O.R. runtime",
+      "required_capabilities": ["api_service", "sql_service"],
+      "optional_capabilities": ["object_storage", "vpn_connectivity"],
+      "goal_tags": ["self hosting", "privacy", "homelab", "server", "local ai", "cloud independence"],
+      "behavior_ids": ["g-06", "g-07", "g-09", "g-14", "g-15", "g-16"],
+      "why": "Move the same provider-neutral behavior contracts behind an authenticated service/API with SQL/object-storage adapters. Local-model inference is an optional separate runtime capability, not a prerequisite for self-hosting.",
+      "prompt": "Your connected {integrations} can support a more self-hosted setup for {goal}. Do you want help planning the migration without changing your current workflows yet?"
     }
   ]
 }

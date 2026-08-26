@@ -64,18 +64,22 @@ class PlatformPortabilityTests(unittest.TestCase):
     def text(self, relative: str) -> str:
         return (ROOT / relative).read_text(encoding="utf-8")
 
-    def test_manifest_has_runtime_storage_source_and_claim_gates(self) -> None:
+    def test_manifest_has_runtime_storage_source_client_and_claim_gates(self) -> None:
         manifest = json.loads(self.text("platform-capabilities.json"))
-        self.assertEqual(1, manifest["schema_version"])
+        self.assertEqual(2, manifest["schema_version"])
         self.assertTrue(manifest["claim_policy"]["provider_name_is_not_capability_proof"])
         self.assertTrue(manifest["claim_policy"]["live_write_and_readback_required_for_write_claims"])
         self.assertEqual(set(manifest["capability_ids"]), ROUTER.CAPABILITY_KEYS)
-        self.assertTrue({"chatgpt", "claude", "microsoft-copilot-or-approved-organizational-ai"}.issubset(
+        self.assertTrue({"chatgpt", "claude", "microsoft-copilot-or-approved-organizational-ai", "local-model-runtime"}.issubset(
             {row["id"] for row in manifest["ai_runtimes"]}
         ))
-        self.assertTrue({"google-workspace", "microsoft-365", "apple-icloud"}.issubset(
+        self.assertTrue({"google-workspace", "microsoft-365", "apple-icloud", "self-hosted-linux", "cloud-native"}.issubset(
             {row["id"] for row in manifest["storage_backends"]}
         ))
+        self.assertEqual(
+            {"web", "windows-desktop", "linux-desktop", "android"},
+            {row["id"] for row in manifest["client_surfaces"]},
+        )
         self.assertTrue({"github-personal", "github-enterprise", "gitlab", "azure-repos", "managed-central-source"}.issubset(
             {row["id"] for row in manifest["source_backends"]}
         ))
@@ -86,6 +90,34 @@ class PlatformPortabilityTests(unittest.TestCase):
         self.assertFalse(result["provider_name_used_as_proof"])
         self.assertTrue(result["verified_claims"]["durable_source_write"])
         self.assertTrue(result["verified_claims"]["scheduled_delivery"])
+
+    def test_new_optional_platform_capabilities_do_not_break_basic_lane(self) -> None:
+        observed = capabilities(
+            source_read=True,
+            source_write=True,
+            source_remote_readback=True,
+            structured_state_read=True,
+            structured_state_write=True,
+            structured_state_readback=True,
+            local_agent=True,
+            client_api_read=True,
+            client_api_command=True,
+            barcode_decode=True,
+            camera_capture=True,
+            spoken_notification=True,
+            local_model=True,
+        )
+        result = ROUTER.evaluate(plan(
+            capabilities=observed,
+            requested={
+                "stateful_modules": True,
+                "retained_evidence": False,
+                "email_evidence": False,
+                "calendar_projection": False,
+                "scheduled_dispatch": False,
+            },
+        ))
+        self.assertEqual("ready", result["decision"])
 
     def test_claude_or_microsoft_brand_does_not_bypass_missing_write(self) -> None:
         for runtime_id in ("claude", "microsoft-copilot-or-approved-organizational-ai"):
@@ -219,6 +251,13 @@ class PlatformPortabilityTests(unittest.TestCase):
         self.assertEqual("manual-bridge", icloud["automation_tier"])
         self.assertEqual([], icloud["structured_candidates"])
         self.assertIn("Do not claim general automated access", icloud["notes"])
+
+    def test_self_hosted_backend_never_exposes_database_to_clients(self) -> None:
+        runtime = json.loads(self.text("runtime-interface-contract.json"))
+        network = json.loads(self.text("network-security-contract.json"))
+        self.assertTrue(runtime["principles"]["clients_never_write_database_directly"])
+        self.assertTrue(runtime["security"]["public_database_exposure_prohibited"])
+        self.assertEqual("prohibited", network["homelab"]["database_public_exposure"])
 
     def test_enterprise_docs_forbid_personal_account_workarounds_and_false_parity(self) -> None:
         enterprise = self.text("ENTERPRISE_PILOT.md")
